@@ -1,0 +1,152 @@
+@import "reset";
+@import "table";
+
+// TODO: Clean up Stylesheets
+
+@keyframes animatedBackgroundTall {
+  from { 
+    transform: scale(1);
+  }
+  to { 
+    transform: scale(1.1); }
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  &>main {
+    padding: 40px;
+    flex-grow: 1;
+  }
+}
+
+.the-bg {
+  position: fixed;
+  z-index: -1;
+  background-image: url('/assets/app-bg.jpg');
+  background-size: cover;
+  top: -10%;
+  left: 0;
+  right: 0;
+  bottom: -10%;
+  animation: animatedBackgroundTall 30s ease-in-out infinite alternate;
+}
+
+
+
+.default-container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+}
+
+.about {
+  padding: 50px;
+  background-color: rgba(255,255,255, .5);
+  border-radius: 5px;
+}
+
+.update-table-panel {
+  padding: 50px;
+  background-color: rgba(255,255,255, .5);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+  table {
+    width: 100%;
+  }
+}
+
+.cell-editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  .cell-edit-box {
+    width: 100%;
+    textarea {
+      width: 100%;
+    }
+  }
+}
+
+.transaction-list {
+  font-family: monospace;
+  list-style-type: decimal-leading-zero;
+  list-style-position: inside;
+  border-radius: 3px;
+  border: 1px solid #000;
+  min-height: 400px;
+  li {
+    padding: 10px;
+    position: relative;
+    .delete {
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: 10px;
+      padding: 10px;
+      font-size: 1.4rem;
+      font-weight: 100;
+      margin-right: -10px;
+    }
+    &:hover {
+      background-color: #ccc;
+      
+      .delete {
+        visibility: visible;
+        color: black;
+        transition-duration: 200ms;
+        &:hover {
+          color: crimson;
+          background-color:rgba(255,255,255, .5)
+        }
+
+
+      }
+    }
+    &::marker {
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+/* 
+  Boilerplate
+*/
+
+header, footer {
+  background-color: rgba(255,255,255, .5);
+  padding: 10px;
+}
+header {
+  margin-bottom: 10px;
+}
+footer {
+  margin-top: 10px
+}
+
+h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  padding-bottom: 10px;
+}
