@@ -11,5 +11,5 @@ const databasesSlice = createSlice({
   }
 })
 
-export const { databasesSliceUpdated } = databasesSlice.actions
+export const { databaseRefreshed } = databasesSlice.actions
 export default databasesSlice.reducer

@@ -9,6 +9,8 @@ import DatabaseList from '../molecules/DatabaseList';
 function TableEditor(props) {
 
   let selectedCell = useSelector(store => store.selectedCell);
+  let table = useSelector(state => state.databases[selectedCell.database]?.tables?.[selectedCell.table]);
+  if (!table) return null;
 
   return (
     <div className="update-table-panel">

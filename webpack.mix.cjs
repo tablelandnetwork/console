@@ -14,7 +14,7 @@ mix
   .webpackConfig(webpackConfig)
   .sass("src/styles/style.scss", "public/styles")
   .js('src/app/app.js', 'public/js')
-  .copy('node_modules/@jlongster/sql.js/dist/sql-wasm.wasm', 'dist/public/js')
+  .copy('node_modules/@urdeveloper/sql.js/dist/sql-wasm.wasm', 'dist/public/js')
   .copy('src/assets', 'dist/public/assets')
   .copy('src/app/index.html', 'dist/public')
   .react()

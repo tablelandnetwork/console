@@ -1,0 +1,2 @@
+export const REFRESH_DB_STATE = "REFRESH_DB_STATE";
+export const NEW_DB_FROM_FILE = "NEW_DB_FROM_FILE";

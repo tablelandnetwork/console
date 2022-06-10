@@ -12,6 +12,7 @@
   "dependencies": {
     "@jlongster/sql.js": "^1.6.7",
     "@reduxjs/toolkit": "^1.8.2",
+    "@urdeveloper/sql.js": "1.6.1",
     "absurd-sql": "^0.0.53",
     "express": "^4.18.1",
     "laravel-mix": "^6.0.43",
