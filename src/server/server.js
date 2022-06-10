@@ -1,5 +1,5 @@
 import express from "express";
-
+import fs from 'fs';
 const app = express();
 
 const port = process.env.server_port || 3111;
@@ -20,3 +20,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/', express.static('dist/public'));
+
+app.get(['/about', "^/table/:tableId"], (req, res, next) => {
+    res.send(fs.readFileSync('src/app/index.html', 'utf-8'));
+});

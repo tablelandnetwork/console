@@ -10,6 +10,7 @@ function GrandCentral() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/table/:tableId" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
   );
