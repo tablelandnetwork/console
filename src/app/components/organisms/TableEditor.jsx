@@ -8,9 +8,9 @@ import DatabaseList from '../molecules/DatabaseList';
 
 function TableEditor(props) {
 
+  let queryList = useSelector(store => store.queryList);
   let selectedCell = useSelector(store => store.selectedCell);
-  let table = useSelector(state => state.databases[selectedCell.database]?.tables?.[selectedCell.table]);
-  if (!table) return null;
+  let resultSet = useSelector(state => state.latestResultset);
 
   return (
     <div className="update-table-panel">
@@ -23,9 +23,11 @@ function TableEditor(props) {
       <div className="txns-created">
         <h2>Txns</h2>
         <ol className="transaction-list" type="1">
-          <li>Update Rigs_01_15 name = 'Allen' where _row_id_ = 1;<span className="delete">X</span></li>
-          <li>Update Rigs_01_15 name = 'Carson' where _row_id_ = 1;<span className="delete">X</span></li>
-          <li>INSERT INTO Rigs_01_15 (name, type, title) VALUES ('Allen', 'Tumbler', 'Destoryer');<span className="delete">X</span></li>
+          {
+            queryList.map(query => {
+              return <li key={query}>{query}<span className="delete">X</span></li>
+            })
+          }
         </ol>
         <div className="txns-created-actions">
           <button>Clear</button>

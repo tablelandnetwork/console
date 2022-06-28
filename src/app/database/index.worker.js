@@ -66,9 +66,9 @@ async function run() {
 
   let otherTables = db.exec("SELECT * FROM StoredTables;");
 
-  let tableList = [];
+  let dbList = [];
   if (otherTables[0]?.values.length > 0) {
-    tableList = otherTables[0].values.map(table => {
+    dbList = otherTables[0].values.map(table => {
       let innerDb = new SQL.Database(`/sql/${table[1]}`, { filename: true });
       innerDb.exec(`
         PRAGMA journal_mode=MEMORY;
@@ -92,7 +92,31 @@ async function run() {
     }
   });
   
-  tableList = tableList.map(getDatabaseTableList);
+  self.addEventListener('message', (e) => {
+    if(e.data.type=="GENERIC_QUERY") {
+      // Get database object, how? 
+      // let's imagine db is 'db' variable for now.
+      console.log(e);
+      console.log(dbList);
+
+      const innerdb = dbList.find((table) => table.name === e.data.db);
+      console.log(innerdb);
+      let result = innerdb.db.exec(e.data.query)[0];
+      let formattedResult = {
+        query: e.data.query,
+        columns: result.columns,
+        rows: result.values
+      }
+      self.postMessage({
+        type: "GENERIC_QUERY_RESPONSE",
+        responseId: e.data.id,
+        result: formattedResult
+      });  
+      
+    }
+  });
+
+  const tableList = dbList.map(getDatabaseTableList);
 
   self.postMessage({
     type: REFRESH_DB_STATE,

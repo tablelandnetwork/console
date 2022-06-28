@@ -3,12 +3,14 @@ import { useSelector } from 'react-redux';
 import Row from './Row';
 
 function TableBody(props) {
-  let table = useSelector(state => state.databases[props.database].tables[props.table]);
+  const rows = useSelector(store => store.latestResultSet?.rows);
+
+  if (!rows) return null;
 
   return (
     <tbody>
       {
-        table.rows.map((row, rowKey) => {
+        rows.map((row, rowKey) => {
           return <Row key={rowKey} {...props} row={rowKey} />
         })
       }

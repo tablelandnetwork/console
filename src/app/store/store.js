@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import databasesReducer from './databasesSlice.js';
 import selectedCellReducer from './selectedCell.js';
+import queryListReducer from './queryListSlice.js';
+import resultSetReducer from './resultSetSlice.js';
 
 // TODO: Create shared store selector functions
 // TODO: Identifier for tables & dbs that aren't based on position in array
@@ -9,7 +11,9 @@ import selectedCellReducer from './selectedCell.js';
 export const store = configureStore({
   reducer: {
     databases: databasesReducer,
-    selectedCell: selectedCellReducer
+    selectedCell: selectedCellReducer,
+    queryList: queryListReducer,
+    latestResultSet: resultSetReducer,
   }
 });
 

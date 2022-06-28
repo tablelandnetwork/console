@@ -42,7 +42,18 @@ const storeDefaultSelectedCell = {
   column: 0
 };
 
+export const resultSetExample = {
+  query: "SELECT * FROM SOMETHING;",
+  columns: ["first", "Second", "Third"],
+  rows: [
+    ["Sound", "Engineering", "Bob woodershine"]
+  ]
+};
+
+
 export {
   storeDefaultDatabases,
   storeDefaultSelectedCell
 };
+
+

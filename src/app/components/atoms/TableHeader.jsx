@@ -2,7 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 function HeaderRow(props) {
-  let columns = useSelector(state => state.databases[props.database].tables[props.table].columns);
+
+  const columns = useSelector(store => store.latestResultSet?.columns);
+
+  if (!columns) return null;
+
   return (
     <thead>
       <tr>      

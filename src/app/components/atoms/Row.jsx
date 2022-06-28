@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import Cell from './Cell';
 
 function Row(props) {
-  const row = useSelector(state => state.databases[props.database].tables[props.table].rows[props.row]);
+
+  const row = useSelector(store => store.latestResultSet.rows[props.row]);
+
+  if (!row) return null;
 
   return (
     <tr>

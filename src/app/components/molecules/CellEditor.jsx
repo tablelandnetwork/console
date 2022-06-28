@@ -4,20 +4,17 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 function CellEditorWrapper(props) {
   const selectedCell = useSelector(state => state.selectedCell);
-  const cell = useSelector(state => state.databases[selectedCell.database].tables[selectedCell.table].rows[selectedCell.row]?.[selectedCell.column]);
+
   return (
-    <CellEditor {...props} key={`${JSON.stringify(cell)}`} />
+    <CellEditor {...props} key={`${JSON.stringify(selectedCell)}`} />
   )
 }
 
 // TODO: STATIC: Create update statements
 function CellEditor(props) {
   const dispatch = useDispatch();
-  const selectedCell = useSelector(state => state.selectedCell);;
-  const database = useSelector(state => state.databases[selectedCell.database]);
-  const table = database.tables[selectedCell.table];
-  const row = table.rows[selectedCell.row];
-  const cell = row?.[selectedCell.column];
+  const selectedCell = useSelector(state => state.selectedCell);
+  const cell = useSelector(store => store.latestResultSet.rows[selectedCell.row][selectedCell.column]);
   const [textAreaVal, setTextAreaVal] = useState(cell);
   
   if(!cell) return null;

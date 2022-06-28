@@ -6,7 +6,7 @@ const databasesSlice = createSlice({
   initialState: storeDefaultDatabases,
   reducers: {
     databaseRefreshed(state, action) {
-      return  action.payload
+      return action.payload
     },
   }
 })
