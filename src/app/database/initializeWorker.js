@@ -6,11 +6,13 @@ import store from '../store/store.js';
 
 function initializeWorker() {
   let worker = new Worker(new URL('./index.worker.js', import.meta.url));
+
   
   worker.addEventListener('message', async (event) => {
 
     switch(event.data.type) {
       case REFRESH_DB_STATE:
+        console.log("Refreshing DB state");
         store.dispatch(databaseRefreshed(event.data.dbs));
         break;
       case "GENERIC_QUERY_RESPONSE":
@@ -22,7 +24,7 @@ function initializeWorker() {
 
   });
   initBackend(worker);
-  // Zap me
+  // TODO: Zap me
   window.worker = worker;
   return worker;
 }

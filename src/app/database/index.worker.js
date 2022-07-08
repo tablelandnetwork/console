@@ -1,9 +1,10 @@
 import initSqlJs from '@urdeveloper/sql.js';
 import { SQLiteFS } from 'absurd-sql';
 import IndexedDBBackend from 'absurd-sql/dist/indexeddb-backend.js';
-import { NEW_DB_FROM_FILE, REFRESH_DB_STATE } from '../../consts.js';
+import { GENERIC_QUERY, GENERIC_QUERY_RESPONSE, NEW_DB_FROM_FILE, REFRESH_DB_STATE, TABLELAND_IMPORT } from '../../consts.js';
 
 function getDatabaseTableList(database) {
+  console.log("Database", database);
   const { db } = database;
   let databaseTableList = db.exec(`
     SELECT name FROM sqlite_schema
@@ -40,6 +41,8 @@ function getDatabaseTableList(database) {
 }
 
 
+
+
 async function run() {
   let SQL = await initSqlJs({ locateFile: file => file });
   let sqlFS = new SQLiteFS(SQL.FS, new IndexedDBBackend());
@@ -49,22 +52,24 @@ async function run() {
   SQL.FS.mount(sqlFS, {}, '/sql');
 
   const path = '/sql/meta_db.sqlite';
-  if (typeof SharedArrayBuffer === 'undefined') {
-    let stream = SQL.FS.open(path, 'a+');
-    await stream.node.contents.readIfFallback();
-    SQL.FS.close(stream);
-  }
-
   let db = new SQL.Database(path, { filename: true });
-
+  const tblPath = '/sql/tableland';
+  let tablelanddb = new SQL.Database(tblPath, {filename: true});
   db.exec(`
     PRAGMA journal_mode=MEMORY;
     PRAGMA page_size=8192;
   `);
-
-  db.exec("CREATE TABLE IF NOT EXISTS StoredTables (id integer primary key, name text);");
+  tablelanddb.exec(`
+    PRAGMA journal_mode=MEMORY;
+    PRAGMA page_size=8192;
+  `)
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS StoredTables (id integer primary key, name text unique);
+    INSERT INTO StoredTables (name) values ('tableland') ON CONFLICT DO NOTHING;
+  `);
 
   let otherTables = db.exec("SELECT * FROM StoredTables;");
+  console.log(otherTables);
 
   let dbList = [];
   if (otherTables[0]?.values.length > 0) {
@@ -83,41 +88,47 @@ async function run() {
     });
   }
 
-  self.addEventListener('message', (e) => {
-    if (e.data.type==NEW_DB_FROM_FILE) {
 
-      new SQL.Database(new Uint8Array(e.data.blobby), { filename: `/sql/${e.data.name}` });
+
+
+  self.addEventListener('message', (e) => {
+    switch (e.data.type) {
+      case NEW_DB_FROM_FILE:
+        new SQL.Database(new Uint8Array(e.data.blobby), { filename: `/sql/${e.data.name}` });      
+        db.exec(`INSERT INTO StoredTables (name) values ('${e.data.name}');`);
+        break;
+
       
-      db.exec(`INSERT INTO StoredTables (name) values ('${e.data.name}');`);     
+      case GENERIC_QUERY: 
+        const innerdb = dbList.find((db) => db.name === e.data.db);
+        let result = innerdb.db.exec(e.data.query)[0];
+        let formattedResult = {
+          query: e.data.query,
+          columns: result?.columns ?? [],
+          rows: result?.values ?? []
+        }
+        let tableList2 = dbList.map(getDatabaseTableList);
+
+        self.postMessage({
+          type: REFRESH_DB_STATE,
+          dbs: tableList2,
+        });  
+
+        self.postMessage({
+          type: GENERIC_QUERY_RESPONSE,
+          responseId: e.data.id,
+          result: formattedResult
+        }); 
+        break;
+
     }
+
   });
   
-  self.addEventListener('message', (e) => {
-    if(e.data.type=="GENERIC_QUERY") {
-      // Get database object, how? 
-      // let's imagine db is 'db' variable for now.
-      console.log(e);
-      console.log(dbList);
-
-      const innerdb = dbList.find((table) => table.name === e.data.db);
-      console.log(innerdb);
-      let result = innerdb.db.exec(e.data.query)[0];
-      let formattedResult = {
-        query: e.data.query,
-        columns: result.columns,
-        rows: result.values
-      }
-      self.postMessage({
-        type: "GENERIC_QUERY_RESPONSE",
-        responseId: e.data.id,
-        result: formattedResult
-      });  
-      
-    }
-  });
 
   const tableList = dbList.map(getDatabaseTableList);
 
+  
   self.postMessage({
     type: REFRESH_DB_STATE,
     dbs: tableList,

@@ -2,12 +2,18 @@ import express from "express";
 import fs from 'fs';
 const app = express();
 
-const port = process.env.server_port || 3111;
+import dotenv from 'dotenv'
+const env = dotenv.config();
+console.log(env);
+
+
+const port = env.parsed.PORT || 8080;
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
     
 });
+
 
 app.use((req, res, next) => {
 
@@ -18,6 +24,13 @@ app.use((req, res, next) => {
     })
     next();
 })
+
+
+app.get("/", (req, res, next) => {
+    res.send(fs.readFileSync('src/app/index.html', 'utf-8'));
+
+})
+
 
 app.use('/', express.static('dist/public'));
 

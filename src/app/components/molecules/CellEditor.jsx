@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { queryAppended } from '../../store/queryListSlice';
+import CodeEditor from '../atoms/CodeEditor';
 
 
 function CellEditorWrapper(props) {
@@ -14,14 +16,25 @@ function CellEditorWrapper(props) {
 function CellEditor(props) {
   const dispatch = useDispatch();
   const selectedCell = useSelector(state => state.selectedCell);
-  const cell = useSelector(store => store.latestResultSet.rows[selectedCell.row][selectedCell.column]);
+  
+  const resultSet = useSelector(store => store.latestResultSet);
+  const cell = useSelector(store => store.latestResultSet.rows?.[selectedCell.row]?.[selectedCell.column]);
   const [textAreaVal, setTextAreaVal] = useState(cell);
   
+  // TODO: Kill me
+  const table = {
+    name: "HelloThere"
+  }
+
   if(!cell) return null;
   return (
     <div className="cell-editor">
+      
       <div className="cell-edit-box">
-        <textarea value={textAreaVal} onChange={(e)=>{setTextAreaVal(e.target.value)}}></textarea>
+        <div>
+          <textarea value={textAreaVal} onChange={event => {setTextAreaVal(event.target.value)}} />
+
+        </div>
       </div>
       <div className="cell-edit-actions">
         <select>
@@ -39,8 +52,8 @@ function CellEditor(props) {
           </option>
         </select>
         <button type="main" onClick={() => {
+          dispatch(queryAppended(`UPDATE ${table.name} SET mycolumn = '${textAreaVal}' WHERE rowid = ${resultSet.columns[selectedCell.column]};`));
           // Roughly something like... 
-          console.log(`UPDATE ${table.name} SET ${table.columns[selectedCell.column]} = '${textAreaVal}' WHERE rowid = ${row[0]};`)
         }}>
           Update
         </button>

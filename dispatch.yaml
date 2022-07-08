@@ -1,0 +1,3 @@
+dispatch:
+  - url: "dash.tableland.xyz/*"
+    service: default

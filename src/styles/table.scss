@@ -1,4 +1,5 @@
 table.tabula-rasa {
+  
   overflow: hidden;
   th, td {
     padding: 5px 10px;
@@ -21,6 +22,14 @@ table.tabula-rasa {
         background-color: #ddd;
       }
     }
+  }
+  th {
+    color: white;
+    background-color: #6067eb;
+  }
+  td {
+    color: white;
+    background-color: rgba(0,0,0,.95);
   }
   tr:hover {
     transition-duration: 200ms;
