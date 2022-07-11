@@ -12,8 +12,10 @@ function CellEditorWrapper(props) {
   )
 }
 
-// TODO: STATIC: Create update statements
-function CellEditor(props) {
+// TODO!: Create update statements
+function CellEditor() {
+  const show = useSelector(store => store.latestResultSet.editable);
+
   const dispatch = useDispatch();
   const selectedCell = useSelector(state => state.selectedCell);
   
@@ -21,12 +23,12 @@ function CellEditor(props) {
   const cell = useSelector(store => store.latestResultSet.rows?.[selectedCell.row]?.[selectedCell.column]);
   const [textAreaVal, setTextAreaVal] = useState(cell);
   
-  // TODO: Kill me
+  // FIXME: This isn't even real
   const table = {
     name: "HelloThere"
   }
-
-  if(!cell) return null;
+ 
+  if(!cell || !show) return null;
   return (
     <div className="cell-editor">
       
@@ -53,7 +55,6 @@ function CellEditor(props) {
         </select>
         <button type="main" onClick={() => {
           dispatch(queryAppended(`UPDATE ${table.name} SET mycolumn = '${textAreaVal}' WHERE rowid = ${resultSet.columns[selectedCell.column]};`));
-          // Roughly something like... 
         }}>
           Update
         </button>

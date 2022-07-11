@@ -15,16 +15,14 @@ function initializeWorker() {
         console.log("Refreshing DB state");
         store.dispatch(databaseRefreshed(event.data.dbs));
         break;
-      case "GENERIC_QUERY_RESPONSE":
-        store.dispatch(resultSetUpdated(event.data.result));
-        break;
+
     }
 
     
 
   });
   initBackend(worker);
-  // TODO: Zap me
+  // XXX: Don't do window/global
   window.worker = worker;
   return worker;
 }

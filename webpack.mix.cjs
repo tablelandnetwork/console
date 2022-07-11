@@ -1,11 +1,21 @@
 const mix = require('laravel-mix');
 
 const webpackConfig = {
+  module: {
+    rules: [
+      {
+        resolve: {
+            fullySpecified: false
+        }
+      }
+    ]
+  },
   resolve: {
     fallback: {
       crypto: false,
       path: false,
-      fs: false
+      fs: false,
+      buffer: false
     }
 }};
 

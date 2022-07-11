@@ -34,6 +34,6 @@ app.get("/", (req, res, next) => {
 
 app.use('/', express.static('dist/public'));
 
-app.get(['/about', "^/table/:tableId"], (req, res, next) => {
+app.get(['/about', '/table-design', "^/table/:tableId"], (req, res, next) => {
     res.send(fs.readFileSync('src/app/index.html', 'utf-8'));
 });

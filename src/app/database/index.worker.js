@@ -18,7 +18,7 @@ function getDatabaseTableList(database) {
   // we know them a-priori.
   function findColumns(table) {
     return db.exec(`
-      CREATE TEMP TABLE ${table}_empty_fix (empty); insert into ${table}_empty_fix (empty) values ('');
+      CREATE TEMP TABLE IF NOT EXISTS ${table}_empty_fix (empty); insert into ${table}_empty_fix (empty) values ('');
       SELECT m.rowid as rowid, m.* FROM ${table}_empty_fix LEFT JOIN ${table} m;
     `)[0].columns;
   }
@@ -101,24 +101,38 @@ async function run() {
       
       case GENERIC_QUERY: 
         const innerdb = dbList.find((db) => db.name === e.data.db);
-        let result = innerdb.db.exec(e.data.query)[0];
-        let formattedResult = {
-          query: e.data.query,
-          columns: result?.columns ?? [],
-          rows: result?.values ?? []
+        let result;
+        try {
+          result = innerdb.db.exec(e.data.query)[0];
+
+          let formattedResult = {
+            query: e.data.query,
+            columns: result?.columns ?? [],
+            rows: result?.values ?? []
+          }
+          let tableList2 = dbList.map(getDatabaseTableList);
+
+          self.postMessage({
+            type: REFRESH_DB_STATE,
+            dbs: tableList2,
+          });  
+
+          self.postMessage({
+            type: GENERIC_QUERY_RESPONSE,
+            responseId: e.data.id,
+            result: formattedResult
+          }); 
+        } catch (error) {
+          self.postMessage({
+            type: GENERIC_QUERY_RESPONSE,
+            responseId: e.data.id,
+            result: {
+              error: error.message,
+              query: e.data.query
+            }
+          });
         }
-        let tableList2 = dbList.map(getDatabaseTableList);
 
-        self.postMessage({
-          type: REFRESH_DB_STATE,
-          dbs: tableList2,
-        });  
-
-        self.postMessage({
-          type: GENERIC_QUERY_RESPONSE,
-          responseId: e.data.id,
-          result: formattedResult
-        }); 
         break;
 
     }

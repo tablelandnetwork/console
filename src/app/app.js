@@ -8,7 +8,7 @@ import { connect } from '@tableland/sdk';
 
 async function startTableLand() {
 
-  // TODO: Destroy this trash. Global things are lame
+  // XXX: Destroy this trash. Global things are lame
   const tbl = await connect({
     chain: "ethereum-goerli"
   });

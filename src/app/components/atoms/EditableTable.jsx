@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
+import { genericQuery } from '../../database/databaseCalls';
 import CodeEditor from './CodeEditor';
-import Table from './Table';
 
 function EditableResultSet(props) {
 
@@ -10,19 +10,14 @@ function EditableResultSet(props) {
   const [db, setDb] = useState('tableland'); 
 
 
-  let resultSet = useSelector(state => state.latestResultset);
+  let resultSet = useSelector(state => state.latestResultSet);
   const [query, setQuery] = useState(resultSet?.query || "");
   return (
     <div className='editable-result-set'>
       <form>
       <select class="case-matters" onChange={e => {
         let [db, table] = e.target.value.split(".");
-        // TODO: Kill this
-        worker.postMessage({
-          type: "GENERIC_QUERY",
-          query: `SELECT * FROM ${table};`,
-          db 
-        })
+        genericQuery(`SELECT * FROM ${table};`, {db, editable: true});
       }}>
         {databases.map(database => {
           return (
@@ -41,7 +36,7 @@ function EditableResultSet(props) {
         <CodeEditor onChange={code=>{setQuery(code)}} code={query} />
 
         <div>
-          <select defaultValue={db} onChange={e => setDb(e.target.value)}>
+          <select title="Database to query" defaultValue={db} onChange={e => setDb(e.target.value)}>
             {
               databases.map(database => {
                 return (
@@ -58,18 +53,16 @@ function EditableResultSet(props) {
               if (!db) {
                 throw(new Error("No database selected"));
               }
-              // TODO: This is lame
-              worker.postMessage({
-                type: "GENERIC_QUERY",
-                db,
-                query
-              });
+              genericQuery(query, {db});
+
             } catch(e) {
               console.log("This error, lol", e);
             }
 
             
           }} disabled={!(query.length && db)}>Run local query</button>
+          {resultSet.error && <div className="error">Error<br></br>{resultSet.error}</div>}
+          <div className="users-input">{resultSet.query}</div>
         </div>
       </form>
   </div>

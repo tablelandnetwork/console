@@ -1,0 +1,29 @@
+button:not(.reset), select:not(.reset), .button {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--primary-color);
+  background-color: black;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: 0px;
+  margin: 10px 0px;
+  text-transform: uppercase;
+  font-family: var(--main-font);
+  transition: color .5s, background-color .5s;
+  border: 2px solid black;
+  &:hover {
+    color: white;    
+  }
+  &.case-matters {
+    text-transform: none;
+  }
+  &.subtle {
+    background-color: transparent;
+    color: black;
+    &:hover {
+      background-color: rgba(255,255,255,.4);
+    }
+  }
+}
+
+

@@ -1,23 +1,23 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import CodeEditor from '../atoms/CodeEditor';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import EditableResultSet from '../atoms/EditableTable';
 import Table from '../atoms/Table';
 import CellEditor from '../molecules/CellEditor';
 import DatabaseList from '../molecules/DatabaseList';
 
 import { highlight, languages } from "prismjs/components/prism-core";
-// TODO: STATIC; build out table editor
+import { clearStaged } from '../../store/queryListSlice';
 
-function TableEditor(props) {
-
-  let queryList = useSelector(store => store.queryList);
-  let selectedCell = useSelector(store => store.selectedCell);
-  let resultSet = useSelector(state => state.latestResultset);
+function TableEditor() {
+  const dispatch = useDispatch();
+  const queryList = useSelector(store => store.queryList);
 
   return (
     <div className="update-table-panel">
       <div className="update-table-editor">
+      <Link class="button" to="/table-design">Create Table</Link>
+        <DatabaseList />
         <EditableResultSet />
         
         <CellEditor />
@@ -35,7 +35,7 @@ function TableEditor(props) {
           }
         </ol>
         <div className="staged-writes--actions">
-          <button className='subtle'>Clear</button>
+          <button className='subtle' onClick={ () => dispatch(clearStaged())}>Clear</button>
           <button onClick={async e=>
             console.log(await tbl.write(queryList.join(" ")))
           }>Commit to network</button>

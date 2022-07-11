@@ -8,16 +8,16 @@ function Table(props) {
 
 
   return (
-    <Rnd
-      bounds="parent"
-      axis="x"
-      disableDragging={true}
-    >
+    // <Rnd
+    //   bounds="parent"
+    //   axis="x"
+    //   disableDragging={true}
+    // >
       <table className='tabula-rasa'>           
         <TableHeader />
         <TableBody />
       </table>
-    </Rnd>
+    // </Rnd>
   );
 }
 

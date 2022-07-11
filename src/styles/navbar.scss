@@ -4,6 +4,10 @@
   &--logo {
     max-width: 250px;
   }
+  &>a {
+    display: flex;
+    justify-content: center;
+  }
   &--menu {
     display: flex;
     li {

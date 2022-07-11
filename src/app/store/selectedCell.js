@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { storeDefaultSelectedCell } from '../fake.js'
 
-// TODO: More general name; this isn't just about the cell
+// TODO: selectedCell -> resultSet.Selection || resultSetSelection
 const selectedCellSlice = createSlice({
   name: 'selectedCell',
   initialState: storeDefaultSelectedCell,

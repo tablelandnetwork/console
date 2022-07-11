@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { GENERIC_QUERY } from '../../../consts';
+import { genericQuery } from '../../database/databaseCalls';
 
+
+// TODO! : Clean up, move, and docucomment this function
 async function populateFromTableland() {
   const tableList = Object.values(await tbl.list());
   let myTables = await Promise.all(tableList.map(async table => {
@@ -35,20 +38,18 @@ function Header(props) {
 
   return (
     <header className='navbar'>
-    <img src="/assets/tableland.svg" className='navbar--logo' />
+    <Link to="/">  
+      <img src="/assets/tableland.svg" className='navbar--logo' />
+    </Link>
     <ul className='navbar--menu'>
       <li><Link to="/about">About</Link></li>
+      <li><Link to="/table-design">Create Table</Link></li>
       <li>
       <button className='subtle'>Upload Database (sqlite)</button>
       </li>
       <li>
         <button onClick={async e => {
-          // TODO: This is trash
-          worker.postMessage({
-            db: "tableland",
-            query: await populateFromTableland(),
-            type: GENERIC_QUERY
-          })
+          genericQuery(await populateFromTableland());
         }} >Connect to Tableland</button>
       </li>
     </ul>

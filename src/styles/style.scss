@@ -1,24 +1,44 @@
 @import "reset";
+@import "animations";
 @import "navbar";
 @import "table";
 @import "codeEditor";
+@import "buttons";
+@import "staged-writes";
 
-// TODO: Clean up Stylesheets
 
 html {
   --main-font: "AndaleMono", AndaleMono, monospace;
   --primary-color: #ff6567;
   --secondary-color: #6067eb;
+  --secondary-font: "Times New Roman", Times, serif;
   font-family: var(--main-font);
+  
+}
+header, footer {
+  background-color: rgba(255,255,255, .5);
+  padding: 10px;
+}
+header {
+  margin-bottom: 10px;
+}
+footer {
+  margin-top: 10px
 }
 
-@keyframes animatedBackgroundTall {
-  from { 
-    transform: scale(1);
-  }
-  to { 
-    transform: scale(1.1); }
+h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  padding-bottom: 10px;
 }
+h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+
+
+
 
 #app {
   display: flex;
@@ -54,25 +74,20 @@ body {
   animation: animatedBackgroundTall 26s ease-out infinite alternate;
 }
 
-
-
 .default-container {
   margin: 0 auto;
   max-width: 1280px;
   width: 100%;
 }
 
-.about {
+.simple-page {
   padding: 50px;
   background-color: rgba(255,255,255, .5);
   border-radius: 5px;
 }
 
 .update-table-panel {
-
   padding: 50px;
-  // background-color: rgba(255,255,255, .5);
-  // background-color: #5b6467;
   background-image: linear-gradient(315deg, #5b6467b5 0%, #c1c9d085 34%);
   border-radius: 5px;
   display: grid;
@@ -95,126 +110,26 @@ body {
   }
 }
 
-.staged-writes {
-
-}
-
-.staged-writes--list {
-  background-color: rgba(0,0,0,1);
-  font-family: monospace;
-  list-style-type: decimal-leading-zero;
-  list-style-position: inside;
-  border: 1px solid #000;
-  min-height: 400px;
-  color: #ffc;
-  border-radius: 10px;
-  background: radial-gradient(#222, #000);
-  li {
-    padding: 10px;
-    position: relative;
-    border-bottom: 1px solid var(--secondary-color);
-    &:before, &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 6px;
-      height: 0px;
-      border-top: 3px solid var(--secondary-color);
-      bottom: 0px;
-    }
-    &:before {
-      left: 0px;
-    }
-    &:after {
-      right: 0px;
-    }
-    .delete {
-      visibility: hidden;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      right: 10px;
-      padding: 10px;
-      font-size: 1.4rem;
-      font-weight: 100;
-      margin-right: -10px;
-    }
-    &:hover {
-      background-color: #300;
-      
-      .delete {
-        visibility: visible;
-        color: black;
-        transition-duration: 200ms;
-        &:hover {
-          color: crimson;
-          background-color:rgba(255,255,255, .5)
-        }
-
-
-      }
-    }
-    &::marker {
-      left: 0;
-      right: 0;
-    }
-  }
-}
-
-/* 
-  Boilerplate
-*/
-
-header, footer {
-  background-color: rgba(255,255,255, .5);
+.error {
+  display: block;
+  border: 2px solid red;
+  background-color: #ff000055;
+  border-radius: 5px;
   padding: 10px;
-}
-header {
+  color: white;
+  font-weight: 900;
   margin-bottom: 10px;
 }
-footer {
-  margin-top: 10px
+
+.users-input {
+  border: 1px solid #333;
+  background-color: #ffffff55;
+  padding: 10px;
+  font-family: var(--secondary-color);
+  margin-bottom: 10px;
 }
 
-h2 {
-  font-size: 1.6rem;
-  font-weight: 900;
-  padding-bottom: 10px;
-}
-h3 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  padding-bottom: 10px;
-}
-
-button:not(.reset), select:not(.reset) {
-  color: var(--primary-color);
-  background-color: black;
+.form-input {
   border-radius: 5px;
   padding: 10px 20px;
-  border: 0px;
-  margin: 10px 0px;
-  text-transform: uppercase;
-  font-family: var(--main-font);
-  transition: color .5s, background-color .5s;
-  border: 2px solid black;
-  &:hover {
-    color: white;    
-  }
-  &.case-matters {
-    text-transform: none;
-  }
-  &.subtle {
-    background-color: transparent;
-    color: black;
-    &:hover {
-      background-color: rgba(255,255,255,.4);
-    }
-  }
 }
-
-

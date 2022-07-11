@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router';
 import Homepage from './pages/Homepage';
-import AboutPage from './pages/About';
+import AboutPage from './pages/AboutPage';
 import BrowsePage from './pages/BrowsePage';
+import CreateTable from './pages/CreateTablePage';
 
 function GrandCentral() {
   return (
@@ -12,6 +13,7 @@ function GrandCentral() {
         <Route path="/" element={<Homepage />} />
         <Route path="/browse" element={<BrowsePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/table-design" element={<CreateTable />} />
         <Route path="/table/:tableId" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
