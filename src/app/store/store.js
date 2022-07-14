@@ -3,6 +3,7 @@ import databasesReducer from './databasesSlice.js';
 import selectedCellReducer from './selectedCell.js';
 import queryListReducer from './queryListSlice.js';
 import resultSetReducer from './resultSetSlice.js';
+import createTableReducer from './createTableSlice.js';
 
 // TODO: Create shared store selector functions
 // TODO: Identifier for tables & dbs that aren't based on position in array
@@ -14,6 +15,7 @@ export const store = configureStore({
     selectedCell: selectedCellReducer,
     queryList: queryListReducer,
     latestResultSet: resultSetReducer,
+    createTable: createTableReducer
   }
 });
 

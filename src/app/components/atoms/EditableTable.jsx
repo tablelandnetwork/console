@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { genericQuery } from '../../database/databaseCalls';
+import { queryAppended } from '../../store/queryListSlice';
 import CodeEditor from './CodeEditor';
 
 function EditableResultSet(props) {
 
-
+  const dispatch = useDispatch();
   const databases = useSelector(store => store.databases);
   const [db, setDb] = useState('tableland'); 
 
@@ -31,6 +32,7 @@ function EditableResultSet(props) {
           );
         })}            
       </select>
+
 
 
         <CodeEditor onChange={code=>{setQuery(code)}} code={query} />
@@ -61,6 +63,19 @@ function EditableResultSet(props) {
 
             
           }} disabled={!(query.length && db)}>Run local query</button>
+          <button onClick={e=> {
+            try { 
+              e.preventDefault();
+
+              // TODO: Continue to dispatch only if query succeeds
+              genericQuery(query);
+
+              dispatch(queryAppended(query));
+              
+            } catch(err) {
+              
+            }
+          }}>Run & Stage Write Query</button>
           {resultSet.error && <div className="error">Error<br></br>{resultSet.error}</div>}
           <div className="users-input">{resultSet.query}</div>
         </div>

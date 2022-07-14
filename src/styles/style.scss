@@ -133,3 +133,24 @@ body {
   border-radius: 5px;
   padding: 10px 20px;
 }
+
+.database-list {
+  padding: 10px; 
+  background-color: rgba(255,255,255, .5);
+  border: black solid 2px;
+  border-radius: 5px;
+  &--header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+      padding-bottom: 0px;
+    }
+    &>span {
+      font-size: 1.2rem;
+    }
+  }
+  &--database {
+    margin: 20px 0px;
+  }
+}

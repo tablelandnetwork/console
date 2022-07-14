@@ -9,7 +9,7 @@ function TableList(props) {
   const selectedCell = useSelector(store => store.selectedCell);
 
   return (
-    <ul>
+    <ul className='table-list'>
       {database.tables.map((table, tableKey) => {
         const itemClass = selectedCell.database === tableKey ? "selected" : "";
         return (

@@ -5,8 +5,8 @@ const queryListSlice = createSlice({
   name: 'queryList',
   initialState: [],
   reducers: {
-    queryRemoved() {
-
+    queryRemoved(state, action) {
+      state.splice(action.payload.position, 1);
     },
     clearStaged(state, action) {
       return [];
@@ -17,5 +17,5 @@ const queryListSlice = createSlice({
   }
 })
 
-export const { queryAppended, clearStaged } = queryListSlice.actions
+export const { queryAppended, clearStaged, queryRemoved } = queryListSlice.actions
 export default queryListSlice.reducer
