@@ -12,7 +12,7 @@ function Cell(props) {
     && column === selectedCell.column
   ) ? "selected" : "";
 
-  if (!cell) return null;
+  if (cell===undefined) return null;
 
   return (
     <td onClick={() => dispatch(selectedCellUpdated({...props}))} className={selectedClass}>{cell}</td>

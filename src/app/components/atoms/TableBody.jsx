@@ -6,7 +6,7 @@ function TableBody(props) {
   const rows = useSelector(store => store.latestResultSet?.rows);
 
   if (!rows) return null;
-
+  
   return (
     <tbody>
       {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedCellUpdated } from '../../store/selectedCell';
+import { Link } from 'react-router-dom';
 
 
 function TableList(props) {
@@ -12,6 +13,9 @@ function TableList(props) {
     <ul className='table-list'>
       {database.tables.map((table, tableKey) => {
         const itemClass = selectedCell.database === tableKey ? "selected" : "";
+        const tbl_name_parts = table.name.split("_");
+        const tbl_chain = tbl_name_parts[tbl_name_parts.length - 2];
+        const tbl_id = tbl_name_parts[tbl_name_parts.length - 1];
         return (
           <li 
             key={`${database.name}-${table.name}`} 
@@ -23,7 +27,7 @@ function TableList(props) {
             }))} 
             className={itemClass}
           >
-            {table.name}
+            <Link to={`/?table=${tbl_chain}&${tbl_id}`}>{table.name}</Link>
           </li>
         )
       })}

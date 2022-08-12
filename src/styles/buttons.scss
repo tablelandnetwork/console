@@ -1,8 +1,8 @@
 button:not(.reset), select:not(.reset), .button {
   display: inline-block;
   text-decoration: none;
-  color: var(--primary-color);
-  background-color: black;
+  color: var(--negative-space);
+  background-color: var(--positive-space);
   border-radius: 5px;
   padding: 10px 20px;
   border: 0px;
@@ -10,7 +10,7 @@ button:not(.reset), select:not(.reset), .button {
   text-transform: uppercase;
   font-family: var(--main-font);
   transition: color .5s, background-color .5s;
-  border: 2px solid black;
+  border: 2px solid var(--positive-space);
   & + button {
     margin-left: 10px;
   }
@@ -22,11 +22,19 @@ button:not(.reset), select:not(.reset), .button {
   }
   &.subtle {
     background-color: transparent;
-    color: black;
+    color: var(--positive-space);
     &:hover {
       background-color: rgba(255,255,255,.4);
     }
   }
+  &:disabled {
+    color: #bbb;
+    background-color: #777;
+    border-color: #777;
+  }
 }
 
-
+.right-buttons {
+  display: flex;
+  justify-content: flex-end;
+}

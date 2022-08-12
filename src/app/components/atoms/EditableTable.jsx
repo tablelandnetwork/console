@@ -16,7 +16,7 @@ function EditableResultSet(props) {
   return (
     <div className='editable-result-set'>
       <form>
-      <select class="case-matters" onChange={e => {
+      <select className="case-matters" onChange={e => {
         let [db, table] = e.target.value.split(".");
         genericQuery(`SELECT * FROM ${table};`, {db, editable: true});
       }}>

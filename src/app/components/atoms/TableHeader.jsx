@@ -16,7 +16,6 @@ function HeaderRow(props) {
                 {column}
               </th>
             )
-
           })}
       </tr>
     </thead>

@@ -7,13 +7,13 @@ import DatabaseList from '../molecules/DatabaseList';
 import StagedWritesWindow from '../molecules/StagedWritesWindow';
 
 function TableEditor() {
-
+  
 
   return (
     <div className="update-table-panel">
       <div className="update-table-editor">
       <DatabaseList />
-      <Link class="button" to="/table-design">Create Table</Link>
+      <Link className="button" to="/table-design">Create Table</Link>
 
         <EditableResultSet />
         

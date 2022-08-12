@@ -9,7 +9,7 @@ function Header(props) {
   return (
     <header className='navbar'>
     <Link to="/">  
-      <img src="/assets/tableland.svg" className='navbar--logo' />
+      <img src="./assets/tableland.svg" className='navbar--logo' />
     </Link>
     <ul className='navbar--menu'>
       <li><Link to="/about">About</Link></li>
