@@ -13,10 +13,9 @@ function Header(props) {
     </Link>
     <ul className='navbar--menu'>
       <li><Link to="/about">About</Link></li>
-      <li><Link to="/table-design">Create Table</Link></li>
-      <li>
+      {/* <li>
       <button className='subtle'>Upload Database (sqlite)</button>
-      </li>
+      </li> */}
       <li>
         <button onClick={async e => {
           genericQuery(await populateFromTableland());

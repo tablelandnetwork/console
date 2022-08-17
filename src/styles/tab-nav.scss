@@ -1,0 +1,25 @@
+.tab-nav {
+  margin-bottom: -1px;
+  display: flex;
+  li {
+    display: block;
+    border: 1px solid #bbb;
+    border-bottom: 0px;
+    padding: 5px 10px;
+    background-color: #ccc;
+    margin-top: 5px;
+    margin-left: -1px;
+    transition: margin-top 200ms;
+    &:first-child {
+      margin-left: 0px;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+  li.active {
+    margin-top: 0px;
+    background-color: #f6f6f6;
+  }
+}

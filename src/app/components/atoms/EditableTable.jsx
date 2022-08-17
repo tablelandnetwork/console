@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { genericQuery } from '../../database/databaseCalls';
 import { queryAppended } from '../../store/queryListSlice';
+import TableSelector from '../molecules/TableSelector';
 import CodeEditor from './CodeEditor';
 
 function EditableResultSet(props) {
@@ -15,24 +16,7 @@ function EditableResultSet(props) {
   const [query, setQuery] = useState(resultSet?.query || "");
   return (
     <div className='editable-result-set'>
-      <form>
-      <select className="case-matters" onChange={e => {
-        let [db, table] = e.target.value.split(".");
-        genericQuery(`SELECT * FROM ${table};`, {db, editable: true});
-      }}>
-        {databases.map(database => {
-          return (
-            <optgroup label={database.name}>
-              {
-                database.tables.map(table => {
-                  return <option value={`${database.name}.${table.name}`}>{table.name}</option>
-                })
-              }
-            </optgroup>
-          );
-        })}            
-      </select>
-
+      <form>     
 
 
         <CodeEditor onChange={code=>{setQuery(code)}} code={query} />
@@ -49,35 +33,6 @@ function EditableResultSet(props) {
               })
             }
           </select>
-          <button onClick={(event) => {
-            try {
-              event.preventDefault();
-              if (!db) {
-                throw(new Error("No database selected"));
-              }
-              genericQuery(query, {db});
-
-            } catch(e) {
-              console.log("This error, lol", e);
-            }
-
-            
-          }} disabled={!(query.length && db)}>Run local query</button>
-          <button onClick={e=> {
-            try { 
-              e.preventDefault();
-
-              // TODO: Continue to dispatch only if query succeeds
-              genericQuery(query);
-
-              dispatch(queryAppended(query));
-              
-            } catch(err) {
-              
-            }
-          }}>Run & Stage Write Query</button>
-          {resultSet.error && <div className="error">Error<br></br>{resultSet.error}</div>}
-          <div className="users-input">{resultSet.query}</div>
         </div>
       </form>
   </div>

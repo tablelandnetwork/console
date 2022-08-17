@@ -7,7 +7,7 @@ async function populateFromTableland() {
       contents: await tbl.read(`SELECT * FROM ${table.name};`)
     };
   }));
-  console.log(myTables);
+
   const sqlheader = myTables.map(table => {
     const columns = table.contents.columns.map(column => {
       return column.name;

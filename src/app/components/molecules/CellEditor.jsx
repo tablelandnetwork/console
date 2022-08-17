@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import { queryAppended } from '../../store/queryListSlice';
-import CodeEditor from '../atoms/CodeEditor';
 
 
 function CellEditorWrapper(props) {
@@ -28,7 +27,7 @@ function CellEditor() {
     name: "HelloThere"
   }
  
-  if(!cell || !show) return null;
+  if(cell === undefined || !show) return null;
   return (
     <div className="cell-editor">
       

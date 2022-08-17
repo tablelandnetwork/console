@@ -27,7 +27,7 @@ function TableList(props) {
             }))} 
             className={itemClass}
           >
-            <Link to={`/?table=${tbl_chain}&${tbl_id}`}>{table.name}</Link>
+            <Link to={`/table/?chain=${tbl_chain}&table=${tbl_id}`}>{table.name}</Link>
           </li>
         )
       })}

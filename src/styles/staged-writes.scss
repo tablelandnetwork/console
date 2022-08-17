@@ -1,14 +1,13 @@
 
 .staged-writes--list {
-  background-color: rgba(0,0,0,1);
+  background-color: rgba(255,255,255,1);
   font-family: monospace;
   list-style-type: decimal-leading-zero;
   list-style-position: inside;
-  border: 1px solid #000;
+  border: 1px solid #777;
   min-height: 400px;
-  color: #ffc;
-  border-radius: 10px;
-  background: radial-gradient(#222, #000);
+  color: #000;
+  border-radius: 3px;
   li {
     padding: 10px;
     position: relative;

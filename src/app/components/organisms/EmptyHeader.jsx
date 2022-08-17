@@ -7,7 +7,7 @@ function EmptyHeader(props) {
   return (
     <header className='navbar'>
     <Link to="/">  
-      <img src="./assets/tableland.svg" className='navbar--logo' />
+      <img src="/assets/tableland.svg" className='navbar--logo' />
     </Link>
     <ul className='navbar--menu'>
       <li><a href="#"><i class="fa-solid fa-ellipsis-vertical"></i></a></li>

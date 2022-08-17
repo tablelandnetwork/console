@@ -5,13 +5,12 @@
  */
  [class*="language-"],
  :not(pre) > code[class*="language-"] {
-	background-color: transparent;
-	border: 0px;
+	background-color: white;
+	border: 1px solid #ccc;
  }
  code[class*="language-"],
  pre[class*="language-"],
- textarea[class*="language-"] {
-	
+ textarea[class*="language-"] {	
 	 color: black;
 	 background: none;
 	 background-color: white;

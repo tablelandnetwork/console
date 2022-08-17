@@ -49,7 +49,7 @@ export const resultSetExample = {
   rows: [
     ["Sound", "Engineering", "Bob woodershine"]
   ],
-  error: "Hi this is an error"
+  error: null
 };
 
 export const fakeStagedCommits = ["Update hello_5_13 SET name = 'I like cheesecake' where id = 1;"];
