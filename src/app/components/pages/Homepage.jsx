@@ -5,8 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Routes, Route } from 'react-router';
 import BrowseData from "../organisms/BrowseData";
 import ExecuteSqlWindow from "../organisms/ExecuteSqlWindow";
-import StagedWritesWindow from '../molecules/StagedWritesWindow';
 import CreateTable from "../organisms/CreateTable";
+import PendingWrites from "../molecules/PendingWrites";
 
 function isPage(page, location) {
   return location.pathname===page ? "active" : "not-active";
@@ -33,8 +33,9 @@ function Homepage() {
             </Routes>
           </div>
         </div>      
-        {/* <StagedWritesWindow />          */}
+        <PendingWrites />
       </div>      
+
     </DefaultTemplate>
   );
 }

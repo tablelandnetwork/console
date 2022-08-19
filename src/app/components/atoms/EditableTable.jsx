@@ -9,7 +9,7 @@ function EditableResultSet(props) {
   const [db, setDb] = useState('tableland'); 
 
 
-  let resultSet = useSelector(state => state.latestResultSet);
+  let resultSet = useSelector(state => state.tablelandQuery);
   const [query, setQuery] = useState(resultSet?.query || "");
   return (
     <div className='editable-result-set'>

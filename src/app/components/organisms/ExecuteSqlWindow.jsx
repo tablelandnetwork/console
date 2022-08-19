@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { query } from '../../database/databaseCalls';
 import { modeSet } from '../../store/modeSlice';
 import { setQuery } from '../../store/querySlice';
 import CodeEditor from '../atoms/CodeEditor';
 import Table from '../atoms/Table';
+import { queryTableland } from '../../store/resultSetSlice';
+import Loading from '../atoms/Loading';
 
 function ExecuteSqlActions(props) {
   
@@ -18,6 +19,7 @@ function ExecuteSqlActions(props) {
       const token = searchParams.get("query");
       if (token) {
         searchParams.delete("query");
+        searchParams.set("query", )
         console.log("setting params:", { searchParams: searchParams.toString() });
         console.dir(searchParams.toString());
         dispatch(setQuery(token));
@@ -28,8 +30,8 @@ function ExecuteSqlActions(props) {
 
 
   const mode = useSelector(store => store.mode);
-  if(mode!=="latestResultSet") {
-    dispatch(modeSet("latestResultSet"))
+  if(mode!=="tablelandQuery") {
+    dispatch(modeSet("tablelandQuery"))
   }
   const [db, setDb] = useState('tableland'); 
   return (
@@ -44,7 +46,8 @@ function ExecuteSqlActions(props) {
               if (!db) {
                 throw(new Error("No database selected"));
               }
-              query(props.query, {db});
+              // query(props.query, {db});
+              dispatch(queryTableland({query: props.query}));
               
 
             } catch(e) {
@@ -62,8 +65,9 @@ function ExecuteSqlActions(props) {
 
 function ExecuteSqlSection(props) {
   
-  let resultSet = useSelector(store => store.latestResultSet);
-  const query = useSelector(store => store.query);
+  let resultSet = useSelector(store => store.tablelandQuery);
+  const query = useSelector(store => store.query.value);
+  const resultSetStatus = useSelector(store => store.tablelandQuery.status);
   const dispatch = useDispatch()
   
    
@@ -73,9 +77,10 @@ function ExecuteSqlSection(props) {
       <ExecuteSqlActions query={query} />
 
       {resultSet.error && <div className="error">Error<br></br>{resultSet.error}</div>}
-      <Table />
+      {resultSetStatus==="loading" ? <Loading /> : <Table />}
 
     </div>    
   );
 }
+
 export default ExecuteSqlSection;

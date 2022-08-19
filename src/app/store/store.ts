@@ -4,10 +4,11 @@ import selectedCellReducer from './selectedCellSlice.js';
 import queryListReducer from './queryListSlice.js';
 import resultSetReducer from './resultSetSlice.js';
 import createTableReducer from './createTableSlice.js';
-import queryReducer from './querySlice.js';
+import queryReducer from './querySlice';
 import browseReducer from './browseSlice.js';
 import modeReducer from './modeSlice.js';
 import tablesReducer from './tablesSlice.js';
+import pendingWritesReducer from './pendingWritesSlice';
 
 export interface Store { 
   mode: string,
@@ -18,12 +19,13 @@ export const store = configureStore({
     databases: databasesReducer,
     selectedCell: selectedCellReducer,
     queryList: queryListReducer,
-    latestResultSet: resultSetReducer,
+    tablelandQuery: resultSetReducer,
     createTable: createTableReducer,
     query: queryReducer,
     browse: browseReducer,
     mode: modeReducer,
-    tables: tablesReducer
+    tables: tablesReducer,
+    pendingWrites: pendingWritesReducer
   }
 });
 

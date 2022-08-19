@@ -6,12 +6,12 @@ export const newBrowse = createAsyncThunk('browse/newBrowse', async (action) => 
   
   let res = await tbl.read(`SELECT count(*) from ${action.table};`);
   let count = res.rows[0][0];
-  let {columns, rows} = await tbl.read(`SELECT * FROM ${action.table} LIMIT ${5}${0 ? ` offset ${0}` : ''};`)
+  let {columns, rows} = await tbl.read(`SELECT * FROM ${action.table} LIMIT ${50}${0 ? ` offset ${0}` : ''};`)
 
   return {
     table: action.table,
     offset: 0,
-    limit: 5,
+    limit: 50,
     count,
     columns,
     rows,
@@ -26,7 +26,7 @@ const browseSlice = createSlice({
     table: "",
     offset: 0,
     count: 0,
-    limit: 20,
+    limit: 50,
     columns: [],
     rows: [],
     status: 'init',

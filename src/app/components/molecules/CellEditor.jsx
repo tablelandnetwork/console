@@ -13,13 +13,13 @@ function CellEditorWrapper(props) {
 
 // TODO!: Create update statements
 function CellEditor() {
-  const show = useSelector(store => store.latestResultSet.editable);
+  const show = useSelector(store => store.tablelandQuery.editable);
 
   const dispatch = useDispatch();
   const selectedCell = useSelector(state => state.selectedCell);
   
-  const resultSet = useSelector(store => store.latestResultSet);
-  const cell = useSelector(store => store.latestResultSet.rows?.[selectedCell.row]?.[selectedCell.column]);
+  const resultSet = useSelector(store => store.tablelandQuery);
+  const cell = useSelector(store => store.tablelandQuery.rows?.[selectedCell.row]?.[selectedCell.column]);
   const [textAreaVal, setTextAreaVal] = useState(cell);
   
   // FIXME: This isn't even real

@@ -66,7 +66,6 @@ export function WalletConnect() {
       location.reload();
     } else {
       completeConnection(web3Modal);
-      queryLocal(await populateFromTableland());
     }
 
   }
