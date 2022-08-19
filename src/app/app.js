@@ -4,6 +4,7 @@ import Main from './components/Main.jsx';
 import initializeWorker from './database/initializeWorker.js';
 import { connect } from '@tableland/sdk';
 import init from '@tableland/sqlparser';
+init();
 
 async function startTableLand() {
 
