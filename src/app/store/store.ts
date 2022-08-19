@@ -9,9 +9,9 @@ import browseReducer from './browseSlice.js';
 import modeReducer from './modeSlice.js';
 import tablesReducer from './tablesSlice.js';
 
-// TODO: Create shared store selector functions
-// TODO: Identifier for tables & dbs that aren't based on position in array
-// TODO: Multiple selctions / history of selections
+export interface Store { 
+  mode: string,
+}
 
 export const store = configureStore({
   reducer: {
