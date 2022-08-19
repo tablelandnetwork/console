@@ -1,25 +1,31 @@
 .tab-nav {
   margin-bottom: -1px;
   display: flex;
+  background-color: rgb(25, 25, 25);
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 10px ;
   li {
     display: block;
-    border: 1px solid #bbb;
-    border-bottom: 0px;
-    padding: 5px 10px;
-    background-color: #ccc;
-    margin-top: 5px;
-    margin-left: -1px;
+    padding: 8px 16px;
+    font-size: 1.1rem;
+    margin: 5px;
     transition: margin-top 200ms;
+    border-radius: 5px;
+    color: #bbb;
+    &:hover {
+      color: white;
+    }
     &:first-child {
       margin-left: 0px;
     }
     a {
       text-decoration: none;
-      color: black;
+      color: inherit;
     }
   }
   li.active {
-    margin-top: 0px;
-    background-color: #f6f6f6;
+    background-color: rgb(47, 47, 54);
+    color: white;
   }
 }

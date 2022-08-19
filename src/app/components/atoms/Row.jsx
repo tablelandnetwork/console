@@ -4,7 +4,7 @@ import Cell from './Cell';
 
 function Row(props) {
 
-  const row = useSelector(store => store.latestResultSet.rows[props.row]);
+  const row = useSelector(store => store[store.mode].rows[props.row]);
 
   if (!row) return null;
 

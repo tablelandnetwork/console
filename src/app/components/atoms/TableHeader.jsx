@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 function HeaderRow(props) {
 
-  const columns = useSelector(store => store.latestResultSet?.columns);
+  const columns = useSelector(store => store[store.mode]?.columns);
 
   if (!columns) return null;
 
@@ -12,8 +12,8 @@ function HeaderRow(props) {
       <tr>      
           {columns.map((column, columnKey) => {
             return (
-              <th key={column}>
-                {column}
+              <th key={column.name}>
+                {column.name}
               </th>
             )
           })}

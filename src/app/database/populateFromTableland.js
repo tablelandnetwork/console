@@ -24,6 +24,5 @@ async function populateFromTableland() {
     }).join(', ');
     return `INSERT INTO ${table.name} (${columns}) VALUES ${rows.join(",")}`
   }).join("; \n");
-  console.log(sqlheader + sqlbody);
   return sqlheader + sqlbody;
 }

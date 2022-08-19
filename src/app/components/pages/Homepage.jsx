@@ -18,22 +18,22 @@ function Homepage() {
     <DefaultTemplate>      
       <div className="page-content-wrapper">
         <div className="page-section">
-          <ul className="tab-nav">
-            <li className={isPage("/", l)}><Link to="/">My Tables</Link></li>
-            <li className={isPage("/table-design", l)}><Link to="/table-design">Create Table</Link></li>
+          <ul className="tab-nav">            
+            <li className={isPage("/", l)}><Link to="/">Create Table</Link></li>
+            <li className={isPage("/my-tables", l)}><Link to="/my-tables">My Tables</Link></li>
             <li className={isPage("/browse", l)}><Link to="/browse">Browse Data</Link></li>
             <li className={isPage("/execute", l)}><Link to="/execute">Execute SQL</Link></li>
           </ul>
           <div className="tab-section">
             <Routes>
-              <Route path="/browse" element={<BrowseData />} />
-              <Route path="/table-design" element={<CreateTable />} />
+              <Route path="/" element={<CreateTable />} />
+              <Route path="/browse" element={<BrowseData />} />              
               <Route path="/execute" element={<ExecuteSqlWindow />} />
-              <Route path="/" element={<TableEditor />} />            
+              <Route path="/my-tables" element={<TableEditor />} />            
             </Routes>
           </div>
         </div>      
-        <StagedWritesWindow />         
+        {/* <StagedWritesWindow />          */}
       </div>      
     </DefaultTemplate>
   );

@@ -1,9 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { resultSetExample } from '../fake.js'
+
+const emptyInitialState = {
+  query: "",
+  columns: [],
+  rows: [],
+  error: null
+}
 
 const resultSetSlice = createSlice({
   name: 'latestResultSet',
-  initialState: resultSetExample,
+  initialState: emptyInitialState,
   reducers: {
     resultSetUpdated(state, action) {
       return action.payload

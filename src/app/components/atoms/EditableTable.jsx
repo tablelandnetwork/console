@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { genericQuery } from '../../database/databaseCalls';
-import { queryAppended } from '../../store/queryListSlice';
-import TableSelector from '../molecules/TableSelector';
 import CodeEditor from './CodeEditor';
 
 function EditableResultSet(props) {

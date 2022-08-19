@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CodeEditor from '../atoms/CodeEditor';
 import DatabaseList from '../molecules/DatabaseList';
 import DefaultTemplate from '../page-templates/DefaultTemplate';
 

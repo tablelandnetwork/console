@@ -1,28 +1,21 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { genericQuery } from '../../database/databaseCalls';
+import { useSelector, useDispatch } from 'react-redux';
+import {newBrowse } from '../../store/browseSlice';
 
 function TableSelector(props) {
   
-  const databases = useSelector(store => store.databases);
-  const [db, setDb] = useState('tableland'); 
+  const tables = useSelector(store => store.tables);
+  const dispatch = useDispatch();
 
   return (
     <select className="case-matters" onChange={e => {
-      let [db, table] = e.target.value.split(".");
-      genericQuery(`SELECT * FROM ${table};`, {db, editable: true});
-    }}>
-      {databases.map(database => {
-        return (
-          <optgroup label={database.name} key={database.name}>
-            {
-              database.tables.map(table => {
-                return <option key={table.name} value={`${database.name}.${table.name}`}>{table.name}</option>
-              })
-            }
-          </optgroup>
-        );
-      })}            
+      dispatch(newBrowse({table: e.target.value}));
+    }} defaultValue="healthbot_1_1">
+      {
+        tables.myTables.map((table, key) => {
+          return <option key={table.name + key} value={`${table.name}`}>{table.name}</option>
+        })
+      }          
     </select>
   );
 }

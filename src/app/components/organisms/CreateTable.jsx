@@ -52,7 +52,6 @@ function CreateTable(props) {
   const stringColumns = columns.map(column => {
     return column.join(" ");
   }).join(", ");
-  console.log(stringColumns);
 
   return (
     <form onSubmit={e => {
@@ -64,7 +63,6 @@ function CreateTable(props) {
           placeholder='Table Prefix'
           className='form-input'
           type="text" 
-          defaultValue={""} 
           value={tableName} 
           onChange={e => {
             dispatch(updateName(e.target.value));

@@ -14,8 +14,10 @@
   "dependencies": {
     "@jlongster/sql.js": "^1.6.7",
     "@reduxjs/toolkit": "^1.8.2",
-    "@tableland/sdk": "^1.0.0",
+    "@tableland/sdk": "^3.0.1",
+    "@tableland/sqlparser": "github:tablelandnetwork/wasm-sqlparser",
     "@urdeveloper/sql.js": "1.6.1",
+    "@walletconnect/web3-provider": "^1.8.0",
     "absurd-sql": "^0.0.53",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -28,7 +30,8 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-simple-code-editor": "^0.11.2",
-    "redux": "^4.2.0"
+    "redux": "^4.2.0",
+    "web3modal": "^1.9.8"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.17.12",

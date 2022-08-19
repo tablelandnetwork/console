@@ -2,6 +2,7 @@
 // TODO: Make better fake data, preferable from a true DB
 // Alternatively, complete remove the fake data
 export const storeDefaultDatabases = [
+  
   {
     name: "DB1",
     tables: [
@@ -35,22 +36,4 @@ export const storeDefaultDatabases = [
     ] 
   }
 ];
-
-export const storeDefaultSelectedCell = {
-  database: 0,
-  table: 0,
-  row: 0,
-  column: 0
-};
-
-export const resultSetExample = {
-  query: "SELECT * FROM SOMETHING;",
-  columns: ["first", "Second", "Third"],
-  rows: [
-    ["Sound", "Engineering", "Bob woodershine"]
-  ],
-  error: null
-};
-
-export const fakeStagedCommits = ["Update hello_5_13 SET name = 'I like cheesecake' where id = 1;"];
 

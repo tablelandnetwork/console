@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearStaged, queryRemoved } from '../../store/queryListSlice';
 import { highlight, languages } from "prismjs/components/prism-core";
-import { genericQuery } from '../../database/databaseCalls';
+import { queryLocal } from '../../database/databaseCalls';
 import populateFromTableland from '../../database/populateFromTableland';
 
 function StagedWritesWindow(props) {
@@ -29,7 +29,7 @@ function StagedWritesWindow(props) {
       <div className="staged-writes--actions">
         <button className='subtle' onClick={ async () => {
           dispatch(clearStaged());
-          genericQuery(await populateFromTableland());
+          queryLocal(await populateFromTableland());
           
         }}>Clear</button>
         <button onClick={async e => {

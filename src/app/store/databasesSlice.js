@@ -3,10 +3,18 @@ import { storeDefaultDatabases } from '../fake.js'
 
 const databasesSlice = createSlice({
   name: 'databases',
-  initialState: storeDefaultDatabases,
+  initialState: [],
   reducers: {
     databaseRefreshed(state, action) {
-      return action.payload
+      let res = action.payload.map(db => {
+        return {
+          name: db.name,
+          tables: db.tables.map(table => {
+            return {name: table.name};
+          })
+        }
+      })
+      return res;
     },
   }
 })

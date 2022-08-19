@@ -15,7 +15,11 @@ const webpackConfig = {
       crypto: false,
       path: false,
       fs: false,
-      buffer: false
+      buffer: false,
+      os: false,
+      https: false,
+      http: false,
+      stream: false
     }
 }};
 

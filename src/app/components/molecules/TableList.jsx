@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectedCellUpdated } from '../../store/selectedCell';
+import { selectedCellUpdated } from '../../store/selectedCellSlice';
 import { Link } from 'react-router-dom';
 
 

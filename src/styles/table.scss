@@ -2,29 +2,26 @@
   width: 100%;
   overflow: hidden;
   overflow: scroll;
-  // background: black;
   padding-bottom: 10px;
-  // border-radius: 5px;
-  border: 1px solid #ccc;
   margin-bottom: 5px;
-  background-color: white;
 }
 table.tabula-rasa {
   border-collapse: separate;
   border-spacing: 0;
   width: 100%;
   max-width: 100%;
-  // background: var(--background-dark);
   overflow: hidden;
   overflow-x: scroll;
   position: relative;
   
   th, td {
-    padding: 5px 10px;
+    padding: 10px 35px 10px 10px;
     position: relative;
-  }
-
-  td, th {
+    color: white;
+    border: 1px solid #333;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
     &:hover {
       &::after {
         background-color: #ddd;
@@ -35,7 +32,6 @@ table.tabula-rasa {
     border-collapse: separate;
     position: sticky;
     top: 0;
-    background-color: white;
 
     z-index: 1;
   }
@@ -43,11 +39,6 @@ table.tabula-rasa {
     text-align: left;
     color: #fff;
     font-weight: 900;
-    color: black;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-top: 0px;
-    border-right: 0px;
     &:first-of-type {
       border-left: 0px;
     }
@@ -55,26 +46,44 @@ table.tabula-rasa {
 
   tr:hover {
     transition-duration: 200ms;
-    background-color: #ddd;
+    background-color: #464646;
   }
+
   th {
     font-family: sans-serif;
     font-weight: 700;
+    text-transform: capitalize;
   }
   td {
-    border: 1px solid #ccc;
-    border-top: 0px;
-    border-right: 0px;
-    &:first-of-type {
-      border-left: 0px;
-    }
+    
     &:hover {
       background-color: rgba(155,155,155, .5);
     }
     &.selected {
       // border-color: #000;
       // box-shadow: 0px 0px 0px 1px #111 inset;
-      background-color: #bbb;
+      background-color: #444;
     }
+    &:hover {
+      a {
+        text-decoration: underline;
+      }
+      
+    }
+    a {
+      text-decoration: none;
+
+      color: white;
+      &:before {
+        content: "\f424";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+  }
+  tr:last-of-type>td {
+    border-bottom: 0px;
   }
 }
