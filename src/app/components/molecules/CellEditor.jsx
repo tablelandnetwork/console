@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {  useDispatch, useSelector } from 'react-redux';
-import { queryAppended } from '../../store/queryListSlice';
+// import { queryAppended } from '../../store/queryListSlice';
 
 
 function CellEditorWrapper(props) {
@@ -11,21 +11,14 @@ function CellEditorWrapper(props) {
   )
 }
 
-// TODO!: Create update statements
 function CellEditor() {
   const show = useSelector(store => store.tablelandQuery.editable);
-
-  const dispatch = useDispatch();
   const selectedCell = useSelector(state => state.selectedCell);
   
-  const resultSet = useSelector(store => store.tablelandQuery);
   const cell = useSelector(store => store.tablelandQuery.rows?.[selectedCell.row]?.[selectedCell.column]);
   const [textAreaVal, setTextAreaVal] = useState(cell);
   
-  // FIXME: This isn't even real
-  const table = {
-    name: "HelloThere"
-  }
+
  
   if(cell === undefined || !show) return null;
   return (
@@ -53,7 +46,7 @@ function CellEditor() {
           </option>
         </select>
         <button type="main" onClick={() => {
-          dispatch(queryAppended(`UPDATE ${table.name} SET mycolumn = '${textAreaVal}' WHERE rowid = ${resultSet.columns[selectedCell.column]};`));
+          // dispatch(queryAppended(`UPDATE ${table.name} SET mycolumn = '${textAreaVal}' WHERE rowid = ${resultSet.columns[selectedCell.column]};`));
         }}>
           Update
         </button>

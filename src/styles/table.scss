@@ -15,7 +15,7 @@ table.tabula-rasa {
   position: relative;
   
   th, td {
-    padding: 10px 35px 10px 10px;
+    padding: 10px 16px 10px 10px;
     position: relative;
     color: white;
     border: 1px solid #333;
@@ -85,5 +85,9 @@ table.tabula-rasa {
   }
   tr:last-of-type>td {
     border-bottom: 0px;
+  }
+  input[type="checkbox"] {
+    height: 30px;
+    width: 30px;
   }
 }

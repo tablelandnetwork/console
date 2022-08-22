@@ -5,10 +5,10 @@ export const refreshTables = createAsyncThunk('tables/refreshTables', async (act
 
   const tables = await tbl.list();
 
-  return [{name: 'healthbot_1_1'}, ...tables.map(table => {
+  return tables.map(table => {
     table.owned = true;
     return table;
-  })];
+  });
 
 });
 
@@ -16,8 +16,9 @@ export const refreshTables = createAsyncThunk('tables/refreshTables', async (act
 const tablesSlice = createSlice({
   name: 'tables',
   initialState: {
-    myTables: ['healthbot_1_1'], 
+    myTables: [], 
     starredTables: JSON.parse(localStorage.getItem('star_tables')) || [],
+    refreshing: false
   }, 
   reducers: {
     addToStarredTables: (state, action) => {
@@ -25,7 +26,11 @@ const tablesSlice = createSlice({
     }
   },
   extraReducers(builder) {
+    builder.addCase(refreshTables.pending, (state, action) => {
+      state.refreshing = true;
+    });
     builder.addCase(refreshTables.fulfilled, (state, action) => {
+      state.refreshing = false;
       state.myTables = action.payload;
     });
   }

@@ -1,10 +1,17 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  // padding: 10px calc(50vw - 640px);
   &--logo {
     max-width: 250px;
-    
+    @media only screen and (max-width: 640px) {
+      display: none;
+    }
+    &__mobile {
+      display: none;
+      @media only screen and (max-width: 640px) {
+        display: block;
+      }
+    }
   }
   &>a {
     display: flex;

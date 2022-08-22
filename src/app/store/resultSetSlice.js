@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
+import { setQuery } from './querySlice';
 import store from './store';
 
 
 export const queryTableland = createAsyncThunk('tablelandQuery/query', async (action) => {
   const { query, options } = action;
 
-  console.log(action)
+  await tbl;
   let isWrite; 
 
   
@@ -22,9 +23,12 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
   let res; 
   if(isWrite) {
     store.dispatch(addPendingWrite({
-      query: query
+      query: query,
+      status: "pending-wallet"
     }));
+    await tbl.siwe();
     res = tbl.write(query);
+    store.dispatch(setQuery(""));
     store.dispatch(updatePendingWrite({
       query: query,
       status: "pending-network"
@@ -34,9 +38,10 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
       query: query,
       status: "complete"
     }));
-
+    
     return {query};
   } else {
+    console.log("... hello")
     res = await tbl.read(query);
   }
   console.log({...res, ...options, query})
@@ -58,13 +63,13 @@ const resultSetSlice = createSlice({
     resultSetUpdated(state, action) {
       return action.payload
     },
+
   },
   extraReducers(builder) {
     builder.addCase(queryTableland.pending, (state, action) => {
       state.status = "loading";
     });
-    builder.addCase(queryTableland.fulfilled, (state, action) => {
-      
+    builder.addCase(queryTableland.fulfilled, (state, action) => {      
       return action.payload;
     }) 
   }

@@ -10,7 +10,8 @@ function TableSelector(props) {
   return (
     <select className="case-matters" onChange={e => {
       dispatch(newBrowse({table: e.target.value}));
-    }} defaultValue="healthbot_1_1">
+    }} defaultValue="">
+      <option></option>
       {
         tables.myTables.map((table, key) => {
           return <option key={table.name + key} value={`${table.name}`}>{table.name}</option>
