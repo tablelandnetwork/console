@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import { queryLocal } from '../../database/databaseCalls';
-import populateFromTableland from '../../database/populateFromTableland';
 import { refreshTables } from '../../store/tablesSlice';
 import { useDispatch } from 'react-redux/es/exports';
+import { startTableLand } from '../../database/connectToTableland';
 
 export let globalWeb3modal = null; 
 
@@ -18,7 +17,9 @@ export function WalletConnect() {
 
 
   async function completeConnection(web3Modal) {
+
     const provider = await web3Modal.connect();
+    startTableLand(provider);
     setAddress((await provider.request({ method: 'eth_accounts' }))[0]);
     setConnected(true);
     dispatch(refreshTables());
@@ -60,14 +61,7 @@ export function WalletConnect() {
   }, [])
 
   async function toggleWallet() {
-    if(connected) {
-      setConnected(false);
-      web3Modal.clearCachedProvider();
-      location.reload();
-    } else {
-      completeConnection(web3Modal);
-    }
-
+    completeConnection(web3Modal);
   }
 
   let truncAddress = `${address.substring(0, 5)}...${address.substring(address.length - 4)}`; 

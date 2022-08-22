@@ -21,7 +21,7 @@ const pendingWritesSlice = createSlice({
     addPendingWrite (state, action) {
       state.push({
         query: action.payload.query,
-        status: "validating"
+        status: "pending-wallet"
       });
     },
     updatePendingWrite (state, action) {

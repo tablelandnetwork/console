@@ -1,7 +1,18 @@
-import { queryAppended } from "../store/queryListSlice";
-import { resultSetUpdated } from "../store/resultSetSlice";
-import store from "../store/store";
+export async function getQueryType(query) {
+  try {
+    await sqlparser.parse(query);
+  } catch (e) {
+    return 'invalid';
+  }
 
+  try {
+    await sqlparser.parse(query + "INSERT INTO SOMETHING (id) VALUES ('se');");
+    return 'write';
+
+  } catch(e) {
+    return 'read';
+  }
+}
 
 export async function query(query, options) {
   await sqlparser.parse(query);

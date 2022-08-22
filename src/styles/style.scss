@@ -5,31 +5,28 @@
 @import "table";
 @import "codeEditor";
 @import "buttons";
-@import "staged-writes";
 @import "page-template";
 @import "tab-nav";
-
-
+@import "writes";
+html,body {
+  height:100%;
+}
 html {
   background-color: white;
   --main-font: "AndaleMono", AndaleMono, monospace;
-
   --secondary-font: "Times New Roman", Times, serif;
-
-
-  font-family: var(--main-font);
-  
+  font-family: var(--main-font);  
   --background-dark: radial-gradient(#222, #000);
-
   --size-padding: 10px;
   --outer-border-radius: 8px;
   @media only screen and (max-width: 1020px) {
     --size-padding: 10px;
   }
   @media only screen and (max-width: 720px) {
-    --size-padding: 0;
-    
+    --size-padding: 0;    
   }
+
+  color: white;
 }
 header, footer {
   // background-color: var(--accent-color);
@@ -203,4 +200,13 @@ body {
 
 .connected-icon {
   color: #0f0;
+}
+
+.create-column {
+  margin-left: 20px;
+}
+
+.form-input {
+  color: white;
+  background-color: #222;
 }
