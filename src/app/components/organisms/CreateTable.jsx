@@ -1,61 +1,79 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addColumn, updateColumn, updateName, removeColumn } from '../../store/createTableSlice';
+import { addColumn, updateName, removeColumn, columnsSummary, updateColumnProperty } from '../../store/createTableSlice';
 import { SUPPORTED_CHAINS } from '@tableland/sdk';
 import { globalWeb3modal } from '../molecules/WalletConnect';
 
 function CreateColumn(props) {
   const dispatch = useDispatch();
   const column = useSelector(store=>store.createTable.columns[props.slot]);
+
+  const setColumnProperty = function(e) {
+    dispatch(updateColumnProperty({
+      columnIndex: props.slot,
+      property: e.target.name,
+      checked: e.target.checked,
+      value: e.target.value
+    }));
+  }
+
   return (
     <tr>
       <td>
         <input 
-            placeholder='Column Name' 
-            pattern='[a-zA-Z][a-zA-Z0-9]*' 
-            className='form-input'
-            defaultValue={column[0]}
-            onChange={e=> {
-              dispatch(updateColumn({
-                columnIndex: props.slot,
-                newColumn: [e.target.value, column[1]]
-              }))
-            }}
+          placeholder='Column Name' 
+          pattern='[a-zA-Z][a-zA-Z0-9]*' 
+          className='form-input'
+          value={column.name}
+          name="name"
+          onChange={setColumnProperty}
           />
       </td>
       <td>
         <select 
-          type="Column type" 
-          defaultValue={column[1]}
-          onChange={e => {
-            dispatch(updateColumn({
-              columnIndex: props.slot,
-              newColumn: [column[0], e.target.value]
-            }))
-          }}
-          
-          >
+          name="type"
+          value={column.type}   
+          onChange={setColumnProperty}   
+        >
           <option value="any">Any</option>
           <option value="text">Text</option>
           <option value="integer">Integer</option>
         </select>
       </td>
       <td>
-        <input type="checkbox" title="Not Null"></input>
+        <input
+          name="notNull"
+          checked={column.notNull}
+          type="checkbox"            
+          onChange={setColumnProperty}
+        />
       </td>
       <td>
-        <input type="checkbox" title="Primary Key"></input>
+        <input      
+          name="primaryKey"     
+          checked={column.primaryKey}
+          type="checkbox"          
+          onChange={setColumnProperty}
+        />
       </td>
       <td>
-        <input type="checkbox" title="Unique"></input>
-        </td>
-      <td>
-          <input type="text" className='form-input'></input>
+        <input        
+          name="unique"
+          value={column.unique}
+          checked={column.unique}   
+          type="checkbox"           
+          onChange={setColumnProperty} 
+        />
       </td>
-
+      <td>
+        <input           
+          type="text" 
+          className='form-input' 
+          name="default" 
+          onChange={setColumnProperty} 
+        />
+      </td>
     </tr>
-
-
   )
 }
 
@@ -65,15 +83,13 @@ function CreateTable(props) {
   const currentNetwork = useSelector(store => store.walletConnection.network);
   const dispatch = useDispatch();
 
-  const stringColumns = columns.map(column => {
-    return column.join(" ");
-  }).join(", ");
   const supportedChains = Object.entries(SUPPORTED_CHAINS);
   
   return (
     <form onSubmit={e => {
       e.preventDefault();
-      tbl.create(stringColumns, {prefix: tableName});
+      console.log(columnsSummary(columns));
+      tbl.create(columnsSummary(columns), {prefix: tableName});
     }}>
       <label><div>Table Prefix</div>
         <input 

@@ -50,7 +50,6 @@ function Header(props) {
       <li>
         <button onClick={() => setSettingsMenuOpen(!settingsMenuOpen)}><i className="fa-solid fa-ellipsis"></i></button>
         <ul className={`submenu ${settingsMenuOpen ? 'open' : 'closed'}`}>
-          {/* <li><Link to="/about"> About <i className="fa-solid fa-circle-info"></i></Link></li> */}
           <li><button className='reset' onClick={()=>{
             globalWeb3modal.clearCachedProvider();
             location.reload();
