@@ -3,11 +3,13 @@ import fs from 'fs';
 const app = express();
 
 import dotenv from 'dotenv'
-const env = dotenv.config();
-console.log(env);
 
+let port = 8080; 
+try {
+    const env = dotenv.config();
+    port = env.parsed.PORT
+} catch(e) {}
 
-const port = env.parsed.PORT || 8080;
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
