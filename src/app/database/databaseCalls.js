@@ -6,7 +6,11 @@ export async function getQueryType(query) {
   }
 
   try {
-    await sqlparser.parse(query + "INSERT INTO SOMETHING (id) VALUES ('se');");
+    let fakeInsert = "INSERT INTO t (id) VALUES (0);"
+    await Promise.any([
+      sqlparser.parse(`${query};${fakeInsert}`),
+      sqlparser.parse(`${query} ${fakeInsert}`)
+    ]);
     return 'write';
 
   } catch(e) {
