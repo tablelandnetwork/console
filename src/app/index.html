@@ -12,33 +12,27 @@
 </head>
 <body>
   <div id="app"></div>
-<!-- Tally form for user feedback -->
 
-<script  src="https://tally.so/widgets/embed.js"></script>
-<script >
-
-document.addEventListener("DOMContentLoaded", () => {
-  window.TallyConfig = {
-  "formId": "mJ9WNz",
-  "popup": {
-    "width": 300,
-    "hideTitle": true,
-    "open": {
-      "trigger": "scroll",
-      "scrollPercent": 80
-    },
-    "autoClose": 5000
-    }
-  };
-  const formId = 'mJ9WNz';
-  const popupKey = `popup_${formId}`;
-
-  Tally.openPopup(formId);
-
-})
-
-
-</script>
+  <script  src="https://tally.so/widgets/embed.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      window.TallyConfig = {
+      "formId": "mJ9WNz",
+      "popup": {
+        "width": 300,
+        "hideTitle": true,
+        "open": {
+          "trigger": "scroll",
+          "scrollPercent": 80
+        },
+        "autoClose": 5000
+        }
+      };
+      const formId = 'mJ9WNz';
+      const popupKey = `popup_${formId}`;
+      Tally.openPopup(formId);
+    })
+  </script>
 
 
 </body>
