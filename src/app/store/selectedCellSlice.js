@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { storeDefaultSelectedCell } from '../fake.js'
 
-// TODO: selectedCell -> resultSet.Selection || resultSetSelection
+
+const storeDefaultSelectedCell = {
+  database: 0,
+  table: 0,
+  row: 0,
+  column: 0
+};
+
 const selectedCellSlice = createSlice({
   name: 'selectedCell',
   initialState: storeDefaultSelectedCell,

@@ -1,0 +1,25 @@
+.page-content-wrapper {
+  padding: 50px;
+  // background-color: #eee;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 100%;
+  @media screen and (max-width: 1020px) {
+    grid-template-columns: 100%;
+  }
+  gap: 20px;
+}
+
+
+.execute-sql-window {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 80px);
+}
+
+.tab-section {
+  background-color: rgb(25, 25, 25);
+  border-radius: 10px;
+  padding: 10px;
+  
+}

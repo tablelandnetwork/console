@@ -1,20 +1,35 @@
 .navbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   &--logo {
     max-width: 250px;
+    @media only screen and (max-width: 640px) {
+      display: none;
+    }
+    &__mobile {
+      display: none;
+      @media only screen and (max-width: 640px) {
+        display: block;
+      }
+    }
   }
   &>a {
     display: flex;
     justify-content: center;
+    margin-left: 10px;
+    min-height: 60px;
+    @media only screen and (max-width: 640px) {
+      min-height: 30px;
+    }
   }
   &--menu {
     display: flex;
-    li {
+    & > li {
+      position: relative;
       display: flex;
       align-items: center;
       margin: 0px 10px;
-      a {
+      & > a {
         color: black;
         text-decoration: none;
         text-transform: uppercase;
@@ -26,4 +41,42 @@
       }
     }
   }
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  border: 1px solid #777;
+  border-radius: 5px;
+  margin: 0px;
+  border-radius: var(--outer-border-radius);
+  background-color: var(--positive-space);
+  padding: 8px;
+  &.closed {
+    display: none;
+  }
+  &>li {
+    
+    &>button, &>a {
+      padding: 12px;
+      text-decoration: none;
+      margin: 0px;
+      background-color: transparent;
+      border: 0px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted-negative-space);
+      transition: .2s;
+      &:hover {
+        color: var(--negative-space);
+      }
+      &>i {
+        margin-left: 15px;
+        font-size: .8rem;
+        line-height: 1rem;
+      }
+    }
+  }
+
 }

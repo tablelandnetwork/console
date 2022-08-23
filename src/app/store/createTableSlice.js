@@ -12,9 +12,12 @@ const createTableSlice = createSlice({
     },
     updateColumn(state, action) {
       state.columns[action.payload.columnIndex] = action.payload.newColumn;
+    },
+    removeColumn(state, action) {
+      state.columns.pop();
     }
   }
 })
 
-export const { addColumn, updateColumn, updateName } = createTableSlice.actions
+export const { addColumn, updateColumn, updateName, removeColumn } = createTableSlice.actions
 export default createTableSlice.reducer
