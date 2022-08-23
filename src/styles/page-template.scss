@@ -1,6 +1,5 @@
 .page-content-wrapper {
   padding: 50px;
-  // background-color: #eee;
   border-radius: 5px;
   display: grid;
   grid-template-columns: 100%;
@@ -18,7 +17,7 @@
 }
 
 .tab-section {
-  background-color: rgb(25, 25, 25);
+  background-color: var(--grey-dark);
   border-radius: 10px;
   padding: 10px;
   

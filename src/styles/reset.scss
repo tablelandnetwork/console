@@ -69,9 +69,9 @@ table {
 }
 .editor {
   counter-reset: line;
-  border: 1px solid #777;
+  border: 1px solid var(--grey-mid);
   border-radius: 8px;
-  background-color: #262626;
+  background-color: var(--grey-dark-ish);
 }
 
 .editor #codeEditor {
@@ -89,7 +89,7 @@ table {
 .editor .editorLineNumber {
   position: absolute;
   left: 0px;
-  color: #cccccc;
+  color: var(--grey-light);
   text-align: right;
   width: 40px;
   font-weight: 100;

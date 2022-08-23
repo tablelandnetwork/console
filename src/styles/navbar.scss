@@ -30,7 +30,7 @@
       align-items: center;
       margin: 0px 10px;
       & > a {
-        color: black;
+        color: var(--block);
         text-decoration: none;
         text-transform: uppercase;
         font-size: 1.2rem;
@@ -46,12 +46,13 @@
 .submenu {
   position: absolute;
   top: 100%;
+  z-index: 2;
   right: 0;
-  border: 1px solid #777;
+  border: 1px solid var(--grey-mid);
   border-radius: 5px;
   margin: 0px;
   border-radius: var(--outer-border-radius);
-  background-color: var(--positive-space);
+  background-color: var(--black-near);
   padding: 8px;
   &.closed {
     display: none;
@@ -66,10 +67,10 @@
       border: 0px;
       display: flex;
       justify-content: space-between;
-      color: var(--muted-negative-space);
+      color: var(--white-muted);
       transition: .2s;
       &:hover {
-        color: var(--negative-space);
+        color: var(--white);
       }
       &>i {
         margin-left: 15px;

@@ -12,11 +12,12 @@ html,body {
   height:100%;
 }
 html {
-  background-color: white;
+  // TODO: Cleanup colors, etc, into proper variables
+
+  background-color: var(--white);
   --main-font: "AndaleMono", AndaleMono, monospace;
   --secondary-font: "Times New Roman", Times, serif;
   font-family: var(--main-font);  
-  --background-dark: radial-gradient(#222, #000);
   --size-padding: 10px;
   --outer-border-radius: 8px;
   @media only screen and (max-width: 1020px) {
@@ -26,7 +27,7 @@ html {
     --size-padding: 0;    
   }
 
-  color: white;
+  color: var(--white);
 }
 header, footer {
   // background-color: var(--accent-color);
@@ -70,7 +71,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background: linear-gradient(350deg, gray, var(--accent-color));
-  // background: radial-gradient(ellipse at 0% 0%, #141034 0%, #050015 30%, #020202 100%);
   &>main {
     padding: 40px;
     flex-grow: 1;
@@ -97,7 +97,7 @@ body {
 
 .simple-page {
   padding: var(--size-padding);
-  background-color: var(--near-white);
+  background-color: var(--white-near);
   border-radius: 5px;
 }
 
@@ -115,22 +115,15 @@ body {
 
 .error {
   display: block;
-  border: 1px solid #200;
-  background-color: rgb(255, 160, 160);
+  border: 1px solid var(--error-dark);
+  background-color: var(--error-light);
   border-radius: 3px;
   padding: 10px;
-  color: #200;
+  color: var(--error-dark);
   font-weight: 900;
   margin-bottom: 10px;
 }
 
-.users-input {
-  border: 1px solid #333;
-  background-color: #ffffff55;
-  padding: 10px;
-  font-family: var(--secondary-color);
-  margin-bottom: 10px;
-}
 
 .form-input {
   border-radius: 5px;
@@ -139,7 +132,7 @@ body {
 
 .tables-list {
   padding: 10px; 
-  color: white;
+  color: var(--white);
   border-radius: 3px;
   &--header {
     display: flex;
@@ -159,9 +152,9 @@ body {
     }
     a {
       text-decoration: none;
-      color: white;
+      color: var(--white);
       &:hover {
-        color: #777;
+        color: var(--grey-mid);
       }
     }
   }
@@ -199,7 +192,7 @@ body {
 
 
 .connected-icon {
-  color: #0f0;
+  color: var(--bright-green);
 }
 
 .create-column {
@@ -207,6 +200,6 @@ body {
 }
 
 .form-input {
-  color: white;
-  background-color: #222;
+  color: var(--white);
+  background-color: var(--grey-dark-ish);
 }

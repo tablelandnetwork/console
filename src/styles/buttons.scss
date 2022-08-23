@@ -2,8 +2,8 @@ button:not(.reset), select:not(.reset), .button {
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
-  color: var(--negative-space);
-  background-color: var(--positive-space);
+  color: var(--white);
+  background-color: var(--black-near);
   border-radius: 5px;
   padding: 10px 20px;
   border: 0px;
@@ -11,27 +11,27 @@ button:not(.reset), select:not(.reset), .button {
   text-transform: uppercase;
   font-family: var(--main-font);
   transition: color .5s, background-color .5s;
-  border: 2px solid var(--positive-space);
+  border: 2px solid var(--black-near);
   & + button {
     margin-left: 10px;
   }
   &:hover {
-    color: white;    
+    color: var(--white);    
   }
   &.case-matters {
     text-transform: none;
   }
   &.subtle {
     background-color: transparent;
-    color: var(--positive-space);
+    color: var(--black-near);
     &:hover {
-      background-color: rgba(255,255,255,.4);
+      background-color: var(--white-transparent-400);
     }
   }
   &:disabled {
-    color: #bbb;
-    background-color: #777;
-    border-color: #777;
+    color: var(--grey-transparent-500);
+    background-color: var(--grey-mid);
+    border-color: var(--grey-mid);
   }
   .reset-case {
     text-transform: none;

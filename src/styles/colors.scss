@@ -1,9 +1,31 @@
 html {
+
+
+  // Grey
+  --grey-light: #bbb;
+  --grey-mid: #777;
+  --grey-mid-dark: #444;
+  --grey-dark: #191919;
+  --grey-dark-ish: #262626;
+  --grey-active: rgb(47, 47, 54);
+  --grey-transparent-500: rgba(155,155,155, .5);
+
+  // White
+  --white: #fff;
+  --white-near: #f5f5f5;
+  --white-transparent-400: rgba(255,255,255,.4);
+  --white-muted: #ccc;
+
+  // Black
+  --black: #000;
+  --black-near: #080808;
+
+  // Colorful
+  --error-light: rgb(255, 160, 160);
+  --error-dark: #200;
+
   --accent-color: #e8c9f3;
-  --near-white: #f5f5f5;
   --primary-color: #ff6567;
   --secondary-color: #6067eb;
-  --negative-space: #fff;
-  --muted-negative-space: #ccc;
-  --positive-space: #080808;
+  --bright-green: #0f0;
 }
