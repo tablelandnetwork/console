@@ -29,6 +29,9 @@ const createTableSlice = createSlice({
   name: 'createTable',
   initialState,
   reducers: {
+    setPrefix(state, action) {
+      state.name = action.payload
+    },
     addColumn(state, action) {
       state.columns.push({
         name: "", 
@@ -66,5 +69,5 @@ const createTableSlice = createSlice({
   }
 })
 
-export const { addColumn, removeColumn, updateColumnProperty } = createTableSlice.actions
+export const { addColumn, removeColumn, setPrefix, updateColumnProperty } = createTableSlice.actions
 export default createTableSlice.reducer
