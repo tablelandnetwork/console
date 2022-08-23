@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addColumn, updateName, removeColumn, columnsSummary, updateColumnProperty } from '../../store/createTableSlice';
+import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty } from '../../store/createTableSlice';
 import { SUPPORTED_CHAINS } from '@tableland/sdk';
 import { globalWeb3modal } from '../molecules/WalletConnect';
 
@@ -88,7 +88,6 @@ function CreateTable(props) {
   return (
     <form onSubmit={e => {
       e.preventDefault();
-      console.log(columnsSummary(columns));
       tbl.create(columnsSummary(columns), {prefix: tableName});
     }}>
       <label><div>Table Prefix</div>
@@ -98,7 +97,7 @@ function CreateTable(props) {
           type="text" 
           value={tableName} 
           onChange={e => {
-            dispatch(updateName(e.target.value));
+            dispatch(setPrefix(e.target.value));
           }} />
       </label> 
       <select onChange={async e => {
