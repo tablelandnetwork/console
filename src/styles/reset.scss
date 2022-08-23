@@ -69,7 +69,9 @@ table {
 }
 .editor {
   counter-reset: line;
-  border: 1px solid #ced4da;
+  border: 1px solid #777;
+  border-radius: 8px;
+  background-color: #262626;
 }
 
 .editor #codeArea {

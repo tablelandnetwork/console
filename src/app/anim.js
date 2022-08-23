@@ -9,9 +9,8 @@ import { Provider } from 'react-redux';
 
 async function startTableLand() {
 
-  // XXX: Destroy this trash. Global things are lame
   const tbl = await connect({
-    chain: "ethereum-goerli"
+    chain: "ethereum-goerli"    
   });
   window.tbl = tbl;  
   

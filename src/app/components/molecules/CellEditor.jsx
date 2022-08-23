@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { queryAppended } from '../../store/queryListSlice';
-import CodeEditor from '../atoms/CodeEditor';
+import {  useDispatch, useSelector } from 'react-redux';
+// import { queryAppended } from '../../store/queryListSlice';
 
 
 function CellEditorWrapper(props) {
@@ -12,23 +11,16 @@ function CellEditorWrapper(props) {
   )
 }
 
-// TODO!: Create update statements
 function CellEditor() {
-  const show = useSelector(store => store.latestResultSet.editable);
-
-  const dispatch = useDispatch();
+  const show = useSelector(store => store.tablelandQuery.editable);
   const selectedCell = useSelector(state => state.selectedCell);
   
-  const resultSet = useSelector(store => store.latestResultSet);
-  const cell = useSelector(store => store.latestResultSet.rows?.[selectedCell.row]?.[selectedCell.column]);
+  const cell = useSelector(store => store.tablelandQuery.rows?.[selectedCell.row]?.[selectedCell.column]);
   const [textAreaVal, setTextAreaVal] = useState(cell);
   
-  // FIXME: This isn't even real
-  const table = {
-    name: "HelloThere"
-  }
+
  
-  if(!cell || !show) return null;
+  if(cell === undefined || !show) return null;
   return (
     <div className="cell-editor">
       
@@ -54,7 +46,7 @@ function CellEditor() {
           </option>
         </select>
         <button type="main" onClick={() => {
-          dispatch(queryAppended(`UPDATE ${table.name} SET mycolumn = '${textAreaVal}' WHERE rowid = ${resultSet.columns[selectedCell.column]};`));
+          // dispatch(queryAppended(`UPDATE ${table.name} SET mycolumn = '${textAreaVal}' WHERE rowid = ${resultSet.columns[selectedCell.column]};`));
         }}>
           Update
         </button>

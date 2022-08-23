@@ -1,29 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import EditableResultSet from '../atoms/EditableTable';
-import Table from '../atoms/Table';
-import CellEditor from '../molecules/CellEditor';
-import DatabaseList from '../molecules/DatabaseList';
-import StagedWritesWindow from '../molecules/StagedWritesWindow';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { refreshTables } from '../../store/tablesSlice';
+import MyTablesList from '../molecules/MyTablesList';
+
 
 function TableEditor() {
   
+  const dispatch = useDispatch()
 
+  let refreshing = useSelector(store => store.tables.refreshing);
   return (
-    <div className="update-table-panel">
-      <div className="update-table-editor">
-      <DatabaseList />
-      <Link className="button" to="/table-design">Create Table</Link>
-
-        <EditableResultSet />
-        
-        <CellEditor />
-        <div>
-        <Table />
-        </div>
-      </div>
-      <StagedWritesWindow />
-    </div>
+    <>
+      <button onClick={() => {
+        dispatch(refreshTables());
+      }}>Refresh tables {refreshing ? <i className='fa-solid fa-rotate fa-spin'></i> : ''}</button>
+      <MyTablesList />
+    </>
   );
 }
 export default TableEditor;

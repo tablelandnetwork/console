@@ -1,8 +1,7 @@
 import { initBackend } from 'absurd-sql/dist/indexeddb-main-thread.js';
 import { REFRESH_DB_STATE } from '../../consts.js';
-import { databaseRefreshed } from '../store/databasesSlice.js';
-import { resultSetUpdated } from '../store/resultSetSlice.js';
-import store from '../store/store.js';
+import { databaseRefreshed } from '../store/databasesSlice_DEPRECEATED.js';
+import store from '../store/store.ts';
 
 function initializeWorker() {
   let worker = new Worker(new URL('./index.worker.js', import.meta.url));
@@ -22,7 +21,7 @@ function initializeWorker() {
 
   });
   initBackend(worker);
-  // XXX: Don't do window/global
+
   window.worker = worker;
   return worker;
 }

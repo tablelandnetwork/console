@@ -1,24 +1,18 @@
 import React from 'react';
 import reactDom from 'react-dom/client';
 import Main from './components/Main.jsx';
-import initializeWorker from './database/initializeWorker.js';
 import { connect } from '@tableland/sdk';
 
 
 
-async function startTableLand() {
+import init from '@tableland/sqlparser';
+init();
 
-  // XXX: Destroy this trash. Global things are lame
-  const tbl = await connect({
-    chain: "ethereum-goerli"
-  });
-  window.tbl = tbl;  
-  
-}
-
-startTableLand();
-
-initializeWorker();
+const tbl =  connect({
+  chain: 'ethereum-goerli',
+  host: "https://testnet.tableland.network"
+});
+window.tbl = tbl;
 
 document.addEventListener("DOMContentLoaded", () => {
   reactDom.createRoot(document.getElementById("app")).render(<Main />);

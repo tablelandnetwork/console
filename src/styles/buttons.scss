@@ -32,6 +32,9 @@ button:not(.reset), select:not(.reset), .button {
     background-color: #777;
     border-color: #777;
   }
+  .reset-case {
+    text-transform: none;
+  }
 }
 
 .right-buttons {

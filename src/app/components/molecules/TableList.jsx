@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectedCellUpdated } from '../../store/selectedCell';
+import { selectedCellUpdated } from '../../store/selectedCellSlice';
 import { Link } from 'react-router-dom';
 
 
@@ -27,7 +27,7 @@ function TableList(props) {
             }))} 
             className={itemClass}
           >
-            <Link to={`/?table=${tbl_chain}&${tbl_id}`}>{table.name}</Link>
+            <Link to={`/table/?chain=${tbl_chain}&table=${tbl_id}`}>{table.name}</Link>
           </li>
         )
       })}

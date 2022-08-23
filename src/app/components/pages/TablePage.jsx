@@ -40,9 +40,6 @@ function DispalyAndQueryTable() {
           window.location.href = 'https://dash.tableland.xyz'; 
         }
       }
-
-
-
       
     };
     if(data===null) {

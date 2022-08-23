@@ -1,0 +1,31 @@
+.tab-nav {
+  margin-bottom: -1px;
+  display: flex;
+  background-color: rgb(25, 25, 25);
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 10px ;
+  li {
+    display: block;
+    padding: 8px 16px;
+    font-size: 1.1rem;
+    margin: 5px;
+    transition: margin-top 200ms;
+    border-radius: 5px;
+    color: #bbb;
+    &:hover {
+      color: white;
+    }
+    &:first-child {
+      margin-left: 0px;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+  li.active {
+    background-color: rgb(47, 47, 54);
+    color: white;
+  }
+}

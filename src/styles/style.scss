@@ -5,30 +5,31 @@
 @import "table";
 @import "codeEditor";
 @import "buttons";
-@import "staged-writes";
-
-
+@import "page-template";
+@import "tab-nav";
+@import "writes";
+html,body {
+  height:100%;
+}
 html {
   background-color: white;
   --main-font: "AndaleMono", AndaleMono, monospace;
-
   --secondary-font: "Times New Roman", Times, serif;
-
-
-  font-family: var(--main-font);
-  
+  font-family: var(--main-font);  
   --background-dark: radial-gradient(#222, #000);
-
   --size-padding: 10px;
+  --outer-border-radius: 8px;
   @media only screen and (max-width: 1020px) {
     --size-padding: 10px;
   }
   @media only screen and (max-width: 720px) {
-    --size-padding: 0;
+    --size-padding: 0;    
   }
+
+  color: white;
 }
 header, footer {
-  background-color: var(--accent-color);
+  // background-color: var(--accent-color);
   padding: 10px;
 }
 header {
@@ -68,6 +69,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: linear-gradient(350deg, gray, var(--accent-color));
+  // background: radial-gradient(ellipse at 0% 0%, #141034 0%, #050015 30%, #020202 100%);
   &>main {
     padding: 40px;
     flex-grow: 1;
@@ -88,7 +91,7 @@ body {
 
 .default-container {
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 1200px;
   width: 100%;
 }
 
@@ -96,21 +99,6 @@ body {
   padding: var(--size-padding);
   background-color: var(--near-white);
   border-radius: 5px;
-}
-
-.update-table-panel {
-  padding: 50px;
-  background-image: linear-gradient(315deg, #5b6467b5 0%, #c1c9d085 34%);
-  border-radius: 5px;
-  display: grid;
-  grid-template-columns: 60% 40%;
-  @media screen and (max-width: 1020px) {
-    grid-template-columns: 100%;
-  }
-  gap: 20px;
-  table {
-    width: 100%;
-  }
 }
 
 .cell-editor {
@@ -127,11 +115,11 @@ body {
 
 .error {
   display: block;
-  border: 2px solid red;
-  background-color: #ff000055;
-  border-radius: 5px;
+  border: 1px solid #200;
+  background-color: rgb(255, 160, 160);
+  border-radius: 3px;
   padding: 10px;
-  color: white;
+  color: #200;
   font-weight: 900;
   margin-bottom: 10px;
 }
@@ -149,11 +137,10 @@ body {
   padding: 10px 20px;
 }
 
-.database-list {
+.tables-list {
   padding: 10px; 
-  background-color: rgba(255,255,255, .5);
-  border: black solid 2px;
-  border-radius: 5px;
+  color: white;
+  border-radius: 3px;
   &--header {
     display: flex;
     justify-content: space-between;
@@ -165,12 +152,28 @@ body {
       font-size: 1.2rem;
     }
   }
-  &--database {
+  &--table {
     margin: 20px 0px;
+    li {
+      padding: 2px 10px;
+    }
+    a {
+      text-decoration: none;
+      color: white;
+      &:hover {
+        color: #777;
+      }
+    }
   }
+
 }
 
 
+.action-icons-bar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
 
 .loading-please {
   display: flex;
@@ -192,4 +195,18 @@ body {
     min-height: 15vh;
     overflow: scroll;
   }
+}
+
+
+.connected-icon {
+  color: #0f0;
+}
+
+.create-column {
+  margin-left: 20px;
+}
+
+.form-input {
+  color: white;
+  background-color: #222;
 }
