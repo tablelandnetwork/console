@@ -9,10 +9,10 @@ import "prismjs/components/prism-sql";
 const code = 
 `SELECT * FROM nft_nyc_2022_1_5_19 where id = '0';`;
 
-const hightlightWithLineNumbers = (input, language) =>
+const hightlightWithLineNumbers = (input, language, hideLineNumbers) =>
   highlight(input, language)
     .split("\n")
-    .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
+    .map((line, i) => `${hideLineNumbers ? "" : `<span class='editorLineNumber'>${i + 1}</span>`}${line}`)
     .join("\n");
 
 function CodeEditor(props) {
@@ -22,9 +22,9 @@ function CodeEditor(props) {
       preClassName="language-sql"
       value={props.code}
       onValueChange={props.onChange}
-      highlight={(code) => hightlightWithLineNumbers(code, languages.sql)}
+      highlight={(code) => hightlightWithLineNumbers(code, languages.sql, props.hideLineNumbers)}
       padding={10}
-      textareaId="codeArea"
+      textareaId={props.hideLineNumbers ? "codeViewer":"codeEditor"}
       className="editor language-sql"
       style={{
         fontFamily: '"Fira code", "Fira Mono", monospace',

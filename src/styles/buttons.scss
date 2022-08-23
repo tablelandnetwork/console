@@ -1,4 +1,5 @@
 button:not(.reset), select:not(.reset), .button {
+  cursor: pointer;
   display: inline-block;
   text-decoration: none;
   color: var(--negative-space);

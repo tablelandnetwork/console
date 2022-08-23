@@ -74,12 +74,15 @@ table {
   background-color: #262626;
 }
 
-.editor #codeArea {
+.editor #codeEditor {
   outline: none;
   padding-left: 60px !important;
 }
+.editor #codeViewer {
+  outline: none;
+}
 
-.editor pre {
+.editor #codeEditor + pre {
   padding-left: 60px !important;
 }
 
@@ -90,4 +93,8 @@ table {
   text-align: right;
   width: 40px;
   font-weight: 100;
+}
+
+button {
+  cursor: pointer;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedCellUpdated } from '../../store/selectedCellSlice';
+import CodeEditor from './CodeEditor';
 
 function Cell(props) {
   const { row, column } = props;
@@ -13,9 +14,14 @@ function Cell(props) {
   ) ? "selected" : "";
 
   if (cell===undefined) return null;
+  let cellContents = cell;
+  if(typeof cell === "object") {
+    cellContents = <CodeEditor hideLineNumbers={true} code={JSON.stringify(cell)}></CodeEditor>;
+
+  }
 
   return (
-    <td onClick={() => dispatch(selectedCellUpdated({...props}))} className={selectedClass}>{cell}</td>
+    <td onClick={() => dispatch(selectedCellUpdated({...props}))} className={selectedClass}>{cellContents}</td>
   )
 }
 
