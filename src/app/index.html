@@ -18,6 +18,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       window.TallyConfig = {
       "formId": "mJ9WNz",
+      "hideTitle": true,
       "popup": {
         "width": 300,
         "hideTitle": true,
@@ -30,7 +31,7 @@
       };
       const formId = 'mJ9WNz';
       const popupKey = `popup_${formId}`;
-      Tally.openPopup(formId);
+      Tally.openPopup(formId, TallyConfig);
     })
   </script>
 
