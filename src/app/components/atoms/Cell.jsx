@@ -15,7 +15,7 @@ function Cell(props) {
 
   if (cell===undefined) return null;
   let cellContents = cell;
-  if(typeof cell === "object") {
+  if(typeof cell === "object" && cell !==null) {
     cellContents = <CodeEditor hideLineNumbers={true} code={JSON.stringify(cell)}></CodeEditor>;
 
   }
