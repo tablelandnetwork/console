@@ -21,10 +21,8 @@ function ExecuteSqlActions() {
 
     if (searchParams.has("query")) {
       const token = searchParams.get("query");
-      console.log("This is the token", token);
 
       if(tablelandQuery.query!==decodeURIComponent(token)) {
-        console.log("hi");
         dispatch(queryTableland({query: token}));
       }
       if (token) {
@@ -72,18 +70,50 @@ function ExecuteSqlSection(props) {
   const query = useSelector(store => store.query.value);
   const resultSetStatus = useSelector(store => store.tablelandQuery.status);
   const dispatch = useDispatch();
+  const tables = useSelector(store => store.tables.myTables);
   
    
   return (
     <div className='execute-sql-window'>
+
       <CodeEditor onChange={code=>{
         dispatch(setQuery(code));
         dispatch(checkQueryType(code));
       }} code={query} />
+      <ul className='tables-to-add'>
+        <li><strong>Tables</strong><i className="fa-solid fa-arrow-rotate-right"></i></li>
+        {
+          tables.map(table => {
+            return (
+              <li>
+                {table.name}  
+                <span className='table-insert-select' onClick={() => {
+                  let q = `SELECT * FROM ${table.name} LIMIT 50;`;
+                  dispatch(setQuery(q));
+                  dispatch(checkQueryType(q));
+                  dispatch(queryTableland({query:q}))
+                }}>
+                  SELECT
+                </span>
+                <i className="fa-regular fa-circle-right" onClick={e => {
+                  dispatch(setQuery(query + table.name));
+                  dispatch(checkQueryType(query + table.name));
+                  document.getElementById("codeEditor").focus();
+                }}></i>
+              </li>
+            )
+          })
+        }
+      </ul>
+
       <ExecuteSqlActions />
 
       {resultSet.error && <div className="error">Error<br></br>{resultSet.error}</div>}
-      {resultSetStatus==="loading" ? <Loading /> : <Table />}
+      <div className='table-results'>
+        {resultSet.query === "" ? "Results will load here" : null}
+        {resultSetStatus==="loading" ? <Loading /> : <Table />}
+      </div>
+      
 
     </div>    
   );

@@ -109,7 +109,12 @@ function CreateTable(props) {
           });
       }}>
         {supportedChains.map((chain, key) => {
-            return <option key={`${chain[1].chainId}-${key}`} value={chain[1].chainId}>{chain[1].phrase}</option>
+            // TODO: Remove this
+            if(chain[1].host==="https://staging.tableland.network") return null;
+            if(chain[1].chainId!==5 && chain[1].chainId!==69) {
+              return null
+            }
+            return <option value={chain[1].chainId}>{chain[1].phrase}</option>
           })}
       </select>
       <div className='table-container'>

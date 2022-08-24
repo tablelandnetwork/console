@@ -41,10 +41,8 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
     
     return {query};
   } else {
-    console.log("... hello")
     res = await tbl.read(query);
   }
-  console.log({...res, ...options, query})
   return {...res, ...options, query};
 });
 

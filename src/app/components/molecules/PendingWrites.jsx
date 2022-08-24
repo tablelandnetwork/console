@@ -1,23 +1,20 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addPendingWrite } from '../../store/pendingWritesSlice';
 
 function PendingWrites(props) {
 
   const pendingWrites = useSelector(store => store.pendingWrites);
   const dispatch = useDispatch();
+  const openStatus = "open";
 
   return (
-    <div>
-
+    <ul className={`submenu submenu--pending-writes ${openStatus}`}>
       {pendingWrites.map(pendingWrite => {
-        return (
-          <ul>
-            <li>{pendingWrite.query}</li>
-            <li>Status: {pendingWrite.status}</li>
-          </ul>);
+        return (                  
+            <li>{pendingWrite.query} <br></br>Status: {pendingWrite.status}</li>
+          );
       })}
-    </div>
+    </ul>
   );
 }
 export default PendingWrites;

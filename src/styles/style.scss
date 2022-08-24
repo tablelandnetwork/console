@@ -203,3 +203,14 @@ body {
   color: var(--white);
   background-color: var(--grey-dark-ish);
 }
+
+.table-insert-select {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background-color: var(--grey-mid);
+  color: var(--white-muted);
+  cursor: pointer;
+  &:hover {
+    color: var(--white);
+  }
+}

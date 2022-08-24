@@ -11,16 +11,60 @@
 
 
 .execute-sql-window {
-  display: flex;
+  flex-grow: 1;
+  margin: 0px 0px 10px;
+  display: grid;
   flex-direction: column;
   max-height: calc(100vh - 80px);
   max-height: 100%;
-  .editor {
-    min-height: 150px;
+  grid-template-columns: 35% calc(65% - 10px);
+  grid-template-rows: minmax(20%, 200px) 1fr;
+  grid-template-areas: 
+    "list editor"
+    "list viewer"
+  ;
+  gap: 10px;
+
+}
+
+.table-results {
+  border: 1px solid var(--grey-mid);
+  background-color: var(--grey-dark-ish);
+  border-radius: 10px;
+  overflow: scroll;
+  grid-area: viewer;
+}
+
+.tables-to-add {
+  border: 1px solid var(--grey-mid);
+  background-color: var(--grey-dark-ish);
+  border-radius: 10px;
+  overflow: scroll;
+  grid-area: list;
+  li {
+    display: grid;
+    color: var(--white-muted);
+    grid-template-columns: 1fr min-content min-content;
+    gap: 15px;
+    cursor: pointer;
+    padding: 5px 10px;
+    i {
+      color: var(--grey-mid);
+      &:hover {
+        color: white;
+      }
+    }
+    &:hover {
+      color: white;
+    }
   }
 }
 
+
+
+
 .tab-section {
+  flex-grow: 1;
   background-color: var(--grey-dark);
   border-radius: 10px;
   padding: 10px;
@@ -30,7 +74,7 @@
 }
 
 .page-section {
-  max-height: calc(100vh - 240px);
+  height: calc(100vh - 240px);
   display: flex;
   flex-direction: column;
 }

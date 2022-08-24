@@ -20,20 +20,20 @@ function Homepage() {
         <div className="page-section">
           <ul className="tab-nav">            
             <li className={isPage("/", l)}><Link to="/">Create Table</Link></li>
-            <li className={isPage("/my-tables", l)}><Link to="/my-tables">My Tables</Link></li>
-            <li className={isPage("/browse", l)}><Link to="/browse">Browse Data</Link></li>
+            {/* <li className={isPage("/my-tables", l)}><Link to="/my-tables">My Tables</Link></li>
+            <li className={isPage("/browse", l)}><Link to="/browse">Browse Data</Link></li> */}
             <li className={isPage("/execute", l)}><Link to="/execute">Execute SQL</Link></li>
           </ul>
           <div className="tab-section">
             <Routes>
               <Route path="/" element={<CreateTable />} />
-              <Route path="/browse" element={<BrowseData />} />              
               <Route path="/execute" element={<ExecuteSqlWindow />} />
-              <Route path="/my-tables" element={<TableEditor />} />            
+              <Route path="/browse" element={<BrowseData />} />             
+              <Route path="/my-tables" element={<TableEditor />} /> 
+              <Route path="/execute" element={<ExecuteSqlWindow />} />           
             </Routes>
           </div>
         </div>      
-        <PendingWrites />
       </div>      
 
     </DefaultTemplate>
