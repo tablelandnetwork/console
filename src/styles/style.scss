@@ -35,7 +35,10 @@ header {
   margin-bottom: 10px;
 }
 footer {
-  margin-top: 10px
+  .dashboard-version {
+    color: black;
+    font-size: 2rem;
+  }
 }
 
 h2 {
@@ -68,7 +71,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(350deg, gray, var(--accent-color));
   &>main {
     padding: 40px;
     flex-grow: 1;
@@ -78,7 +80,7 @@ body {
 .the-bg {
   position: fixed;
   z-index: -1;
-  // background-image: url('/assets/app-bg.jpg');
+  background: linear-gradient(350deg, gray, var(--accent-color));
   background-size: cover;
   top: -10%;
   left: 0;

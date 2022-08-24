@@ -1,6 +1,12 @@
 const mix = require('laravel-mix');
+const webpack = require('webpack');
 
 const webpackConfig = {
+  plugins: [
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(require("./package.json").version)
+    })
+  ],
   module: {
     rules: [
       {

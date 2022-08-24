@@ -4,7 +4,7 @@ function Footer(props) {
 
   return (
     <footer>
-      Tableland
+      <span className='dashboard-version'>{VERSION}</span> 
     </footer>  
   );
 }
