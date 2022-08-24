@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty } from '../../store/createTableSlice';
 import { SUPPORTED_CHAINS } from '@tableland/sdk';
-import { globalWeb3modal } from '../molecules/WalletConnect';
+import { globalWeb3modal } from '../molecules/Menu_Wallet';
 
 function CreateColumn(props) {
   const dispatch = useDispatch();

@@ -66,5 +66,9 @@ export function WalletConnect() {
 
   let truncAddress = `${address.substring(0, 5)}...${address.substring(address.length - 4)}`; 
 
-  return <button onClick={toggleWallet} title={address} >{connected ? <>Connected: <span className='reset-case'>{truncAddress}</span> <span className='connected-icon'>●</span></> : "Connect wallet" }</button>
+  return (
+    <li>
+      <button onClick={toggleWallet} title={address} >{connected ? <>Connected: <span className='reset-case'>{truncAddress}</span> <span className='connected-icon'>●</span></> : "Connect wallet" }</button>
+    </li>
+  );
 }
