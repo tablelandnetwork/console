@@ -1,6 +1,5 @@
 html {
 
-
   // Grey
   --grey-light: #bbb;
   --grey-mid: #777;
@@ -28,4 +27,16 @@ html {
   --primary-color: #ff6567;
   --secondary-color: #6067eb;
   --bright-green: #0f0;
+
+
+  ---negative-space-absolute: var(--black);
+
+  html[data-theme='light'] {
+    ---negative-space-absolute: var(--white);
+    ---negative-space-near: var(--white-near);
+    ---negative-space-muted: var(--white-near);
+
+    ---grey-near-negative: var(--grey-light);
+    ---grey-near-positive: var(--grey-dark);
+  }
 }

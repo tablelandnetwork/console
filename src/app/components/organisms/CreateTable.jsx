@@ -90,6 +90,7 @@ function CreateTable(props) {
       e.preventDefault();
       tbl.create(columnsSummary(columns), {prefix: tableName});
     }}>
+      <h2>Create Table</h2>
       <label><div>Table Prefix</div>
         <input 
           placeholder='Table Prefix'
@@ -123,9 +124,9 @@ function CreateTable(props) {
           <tr>
             <th>Name</th>
             <th>Type</th>
-            <th>NN <i className="fa-solid fa-circle-question" title="Not null"></i></th>
-            <th>PK <i className="fa-solid fa-circle-question" title="Primary Key"></i></th>
-            <th>U <i className="fa-solid fa-circle-question" title="Unique"></i></th>
+            <th>NN <i className="fa-solid fa-circle-question tooltip"><span>Not null</span></i></th>
+            <th>PK <i className="fa-solid fa-circle-question tooltip"><span>Primary Key</span></i></th>
+            <th>U <i className="fa-solid fa-circle-question tooltip"><span>Unique</span></i></th>
             <th>Default value</th>
           </tr>
         </thead>

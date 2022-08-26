@@ -75,11 +75,15 @@ function ExecuteSqlSection(props) {
    
   return (
     <div className='execute-sql-window'>
-
-      <CodeEditor onChange={code=>{
-        dispatch(setQuery(code));
-        dispatch(checkQueryType(code));
-      }} code={query} />
+      <div className='executer'>
+        <div className='editor-container'>
+          <CodeEditor onChange={code=>{
+            dispatch(setQuery(code));
+            dispatch(checkQueryType(code));
+          }} code={query} />
+        </div>
+        <ExecuteSqlActions />
+      </div>
       <ul className='tables-to-add'>
         <li><strong>Tables</strong><i className="fa-solid fa-arrow-rotate-right"></i></li>
         {
@@ -105,8 +109,6 @@ function ExecuteSqlSection(props) {
           })
         }
       </ul>
-
-      <ExecuteSqlActions />
 
       {resultSet.error && <div className="error">Error<br></br>{resultSet.error}</div>}
       <div className='table-results'>

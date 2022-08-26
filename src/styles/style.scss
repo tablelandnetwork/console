@@ -214,3 +214,35 @@ body {
     color: var(--white);
   }
 }
+
+.tooltip {
+  position: relative;
+  span {
+    display: none;
+    position: absolute;
+    top: calc(100% + 15px);
+    left: -23px;
+    background: var(--black);
+    color: var(--white);
+    padding: 5px 10px;
+    border-radius: 5px;
+    max-width: 200px;
+    width: max-content;
+    font-family: var(--main-font);
+    &:after {
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      border-width: 8px;
+      border-color: transparent;
+      border-style: solid;
+      border-bottom-color: var(--black);
+      left: 20px;
+      top: -16px;
+      content: '';
+    }
+  }
+  &:hover span {
+    display: block;
+  }
+}

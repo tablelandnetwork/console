@@ -25,6 +25,30 @@
   ;
   gap: 10px;
 
+  .executer {
+    grid-area: editor;
+    position: relative;
+    .action-icons-bar {
+      position: absolute;
+      bottom: 0px;
+      right: 10px;
+    }
+    .editor-container {
+      max-height: 100%;
+      overflow: scroll;  
+      min-height: 100%;
+      height: 100%;
+      // border-radius: 8px;
+      border: 1px solid var(--grey-mid);
+      padding-bottom: 50px;
+      background-color: var(--grey-dark-ish);
+    }
+    .editor {
+      min-height: 100%;
+      padding-bottom: 50px;
+    }
+  }
+
 }
 
 .table-results {
