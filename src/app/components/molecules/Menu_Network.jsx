@@ -15,10 +15,13 @@ function NetworkSummaryMenu() {
   useCloseOnClickOutside(ref, "chainMenu");
   if(!currentNetwork) return null;
 
+  function menuToggles() {
+    dispatch(toggleMenu("chainMenu")) 
+  }
+
   return (
     <li>
-      <button onClick={() => dispatch(toggleMenu("chainMenu")) }>{currentNetwork}</button>
-      
+      <button onClick={menuToggles}>{currentNetwork}</button>      
       
       <ul ref={ref} className={`submenu ${chainMenuOpen ? 'open' : 'closed'}`}>
         {supportedChains.map((chain, key) => {

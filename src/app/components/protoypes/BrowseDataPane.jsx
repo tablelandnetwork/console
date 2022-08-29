@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import TableSelector from './TableSelector';
 import Table from '../atoms/Table';
-import CellEditor from './CellEditor_Prototype'; 
+import CellEditor from './CellEditor'; 
 import { useSelector, useDispatch } from 'react-redux';
 import { modeSet } from '../../store/modeSlice';
 import { useSearchParams } from 'react-router-dom';
 import { newBrowse } from '../../store/browseSlice';
 import Loading from '../atoms/Loading';
 
-function BrowseData(props) {
+function BrowseData() {
   
   const [searchParams, setSearchParams] = useSearchParams();
   const browseStatus = useSelector(store => store.browse.status);

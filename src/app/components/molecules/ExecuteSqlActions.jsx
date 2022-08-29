@@ -30,30 +30,28 @@ function ExecuteSqlActions() {
     }
   }, []);
 
+  function copyQueryText() {
+    navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/execute?query=${encodeURIComponent(query)}`)
+  }
+
+  function sendQuery(event) {
+      event.preventDefault();
+      searchParams.set("query", query);
+      setSearchParams(searchParams);
+      dispatch(queryTableland({query: query}));
+  }
 
   const mode = useSelector(store => store.mode);
+
   if(mode!=="tablelandQuery") {
     dispatch(modeSet("tablelandQuery"))
   }
+  
   return (
     <ul className='action-icons-bar'>
       <li>
-        <button onClick={() => {
-          navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/execute?query=${encodeURIComponent(query)}`)
-        }}>Copy link to Query <i className="fa-solid fa-clipboard"></i></button>
-        <button onClick={(event) => {
-            try {
-              event.preventDefault();
-              searchParams.set("query", query);
-              setSearchParams(searchParams);
-              dispatch(queryTableland({query: query}));              
-
-            } catch(e) {
-              console.log("This error, lol", e);
-            }
-
-            
-          }} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
+        <button onClick={copyQueryText}>Copy link to Query <i className="fa-solid fa-clipboard"></i></button>
+        <button onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
       </li>
     </ul>
   );

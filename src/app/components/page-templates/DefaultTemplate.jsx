@@ -3,8 +3,6 @@ import Footer from '../atoms/Footer';
 import Header from '../organisms/Header';
 
 function DefaultTemplate(props) {
-
-
   return (
     <>
       <div className="the-bg"></div>

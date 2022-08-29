@@ -4,13 +4,11 @@ import NavBar from '../molecules/Menu_Navbar';
 
 function Header() {
 
-
   return (
     <header className='navbar'>       
       <Logo />
       <NavBar />
     </header>
-  );
-  
+  );  
 }
 export default Header;

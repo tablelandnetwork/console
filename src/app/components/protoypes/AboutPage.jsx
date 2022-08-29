@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import DefaultTemplate from '../page-templates/DefaultTemplate';
 
-function AboutPage(props) {
+function AboutPage() {
 
   return (
     <DefaultTemplate>
@@ -12,7 +11,6 @@ function AboutPage(props) {
         <Link to="/">Home</Link>
         <Link to="/browse">Browse Data</Link>
       </div>
-
     </DefaultTemplate>
   );
 }
