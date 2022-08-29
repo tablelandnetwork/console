@@ -1,45 +1,28 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { globalWeb3modal } from './Menu_Wallet';
 import { SUPPORTED_CHAINS } from '@tableland/sdk';
-import PendingWrites from './PendingWrites';
-
-function PendingTransactionList() {
-  const pendingWrites = useSelector(store => store.pendingWrites);
-  if(pendingWrites.length < 1) return null;
-
-  let awaitingWallet = !!pendingWrites.filter(write => write.status==='pending-wallet').length;
-  let pending = pendingWrites.filter(write => write.status!=='complete').length;
-  let icon = awaitingWallet ? <i className="fa-solid fa-circle-exclamation" title="Awaiting Wallet"></i> : <i className="fas fa-circle-notch fa-spin"></i>;
-  if(!pending) {
-    icon = <i className="fa-solid fa-check"></i>;
-  }
-  return (
-    <>
-      <button>Commits {!pending ? "Complete" : "Pending"}: {pending || pendingWrites.length}/{pendingWrites.length} {icon}</button>
-      <PendingWrites />
-    </>
-  )
-
-}
-
+import { toggleMenu } from '../../store/pageStateSlice';
+import { useRef } from 'react';
+import { useCloseOnClickOutside } from '../../hooks/clickOutside';
 
 function NetworkSummaryMenu() {
-  const [chainMenuOpen, setChainMenuOpen] = useState();
+  const chainMenuOpen = useSelector(store => store.pageState.chainMenu);
   const currentNetwork = useSelector(store => store.walletConnection.network);
   const supportedChains = Object.entries(SUPPORTED_CHAINS);
-  
-
+  const dispatch = useDispatch();
+  const ref = useRef();
+  useCloseOnClickOutside(ref, "chainMenu");
   if(!currentNetwork) return null;
 
   return (
     <li>
-      <button onClick={() => setChainMenuOpen(!chainMenuOpen) }>{currentNetwork}</button>
-      <PendingTransactionList />
+      <button onClick={() => dispatch(toggleMenu("chainMenu")) }>{currentNetwork}</button>
       
-      <ul className={`submenu ${chainMenuOpen ? 'open' : 'closed'}`}>
+      
+      <ul ref={ref} className={`submenu ${chainMenuOpen ? 'open' : 'closed'}`}>
         {supportedChains.map((chain, key) => {
-          // TODO: Remove this
+          // TODO: Clean this up
           if(chain[1].host==="https://staging.tableland.network") return null;
           if(chain[1].chainId!==5 && chain[1].chainId!==69) return null;
           return <li key={`${chain[1].chainId}-${key}`}><button onClick={async e => {
@@ -54,7 +37,7 @@ function NetworkSummaryMenu() {
         })}
       </ul>
     </li>    
-    );
+  );
 }
 
 export default NetworkSummaryMenu;

@@ -15,7 +15,6 @@ export function WalletConnect() {
   const [address, setAddress] = useState('');
   const dispatch = useDispatch();
 
-
   async function completeConnection(web3Modal) {
 
     const provider = await web3Modal.connect();

@@ -1,13 +1,9 @@
 import React from "react";
-
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-sql";
-// import "prismjs/themes/prism.css";
 
-const code = 
-`SELECT * FROM nft_nyc_2022_1_5_19 where id = '0';`;
 
 const hightlightWithLineNumbers = (input, language, hideLineNumbers) =>
   highlight(input, language)

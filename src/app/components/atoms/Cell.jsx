@@ -13,15 +13,20 @@ function Cell(props) {
     && column === selectedCell.column
   ) ? "selected" : "";
 
-  if (cell===undefined) return null;
   let cellContents = cell;
+
+  // If is JSON, highlight it
   if(typeof cell === "object" && cell !==null) {
     cellContents = <CodeEditor hideLineNumbers={true} code={JSON.stringify(cell)}></CodeEditor>;
-
   }
 
   return (
-    <td onClick={() => dispatch(selectedCellUpdated({...props}))} className={selectedClass}>{cellContents}</td>
+    <td 
+      onClick={() => dispatch(selectedCellUpdated({...props}))} 
+      className={selectedClass}
+    >
+      {cellContents}
+    </td>
   )
 }
 

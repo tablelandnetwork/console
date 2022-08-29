@@ -47,8 +47,6 @@ function TableListTable() {
 
 
 function TablesList(props) {
-  const myTables = useSelector(store => store.tables.myTables);
-  const starredTables = useSelector(store => store.tables.starredTables);
 
   return (
     <div className='tables-list'>
@@ -56,7 +54,6 @@ function TablesList(props) {
         <h2>Tables of interest</h2>
       </div>      
       <TableListTable />
-
     </div>
   );
 }

@@ -1,37 +1,44 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectedCellUpdated } from '../../store/selectedCellSlice';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { checkQueryType, setQuery } from "../../store/querySlice";
+import { queryTableland } from "../../store/resultSetSlice";
 
+function TableList() {
 
-function TableList(props) {
+  const tables = useSelector(store => store.tables.myTables);
+  const query = useSelector(store => store.query.value);
   const dispatch = useDispatch();
-  const database = useSelector(store => store.databases[props.database]);
-  const selectedCell = useSelector(store => store.selectedCell);
 
   return (
-    <ul className='table-list'>
-      {database.tables.map((table, tableKey) => {
-        const itemClass = selectedCell.database === tableKey ? "selected" : "";
-        const tbl_name_parts = table.name.split("_");
-        const tbl_chain = tbl_name_parts[tbl_name_parts.length - 2];
-        const tbl_id = tbl_name_parts[tbl_name_parts.length - 1];
+    <>
+    {
+      tables.map(table => {
         return (
-          <li 
-            key={`${database.name}-${table.name}`} 
-            onClick={() => dispatch(selectedCellUpdated({
-              database: props.database,
-              table: tableKey,
-              row: 0,
-              column: 0
-            }))} 
-            className={itemClass}
-          >
-            <Link to={`/table/?chain=${tbl_chain}&table=${tbl_id}`}>{table.name}</Link>
+          <li key={table.name}>
+            {table.name}  
+            <span className='table-insert-select' onClick={() => {
+              let q = `SELECT * FROM ${table.name} LIMIT 50;`;
+
+              // TODO: Combine into a single dispatch
+              dispatch(setQuery(q));
+              dispatch(checkQueryType(q));
+              dispatch(queryTableland({query:q}))
+            }}>
+              SELECT
+            </span>
+            <i className="fa-regular fa-circle-right" onClick={e => {
+              // TODO: Combine into a single dispatch
+              dispatch(setQuery(query + table.name));
+              dispatch(checkQueryType(query + table.name));
+              document.getElementById("codeEditor").focus();
+            }}></i>
           </li>
         )
-      })}
-    </ul>
-  );
+      })
+    }
+    </>
+  )
 }
+
+
 export default TableList;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { refreshTables } from '../../store/tablesSlice';
-import MyTablesList from '../molecules/MyTablesList';
+import MyTablesList from './MyTablesList';
 
 
 function TableEditor() {

@@ -6,13 +6,18 @@ function Row(props) {
 
   const row = useSelector(store => store[store.mode].rows[props.row]);
 
-  if (!row) return null;
-
   return (
     <tr>
       {
         row.map((column, columnKey) => {
-          return <Cell key={columnKey} table={props.table} row={props.row} column={columnKey} database={props.database} />;
+          return (
+            <Cell 
+              key={columnKey} 
+              table={props.table} 
+              row={props.row} 
+              column={columnKey} 
+              database={props.database} 
+            />);
         }) 
       }
     </tr>

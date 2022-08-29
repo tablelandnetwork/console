@@ -1,14 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Logo from '../atoms/Logo';
 
 
-function EmptyHeader(props) {
+function EmptyHeader() {
 
   return (
     <header className='navbar'>
-    <Link to="/">  
-      <img src="/assets/tableland.svg" className='navbar--logo' />
-    </Link>
+    <Logo />
     <ul className='navbar--menu'>
       <li><a href="#"><i className="fa-solid fa-ellipsis-vertical"></i></a></li>
       <li><a target="_blank" href="https://dash.tableland.xyz"><i className="fa-solid fa-arrow-up-right-from-square"></i></a></li>

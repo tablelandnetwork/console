@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-function HeaderRow(props) {
+function HeaderRow() {
 
   const columns = useSelector(store => store[store.mode]?.columns);
 

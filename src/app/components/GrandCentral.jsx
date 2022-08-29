@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router';
 import Homepage from './pages/Homepage';
 import AboutPage from './pages/AboutPage';
-import TablePage from './pages/TablePage';
+import TablePage from './protoypes/NFT';
 
 function GrandCentral() {
 

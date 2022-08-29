@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import TableSelector from '../molecules/TableSelector';
+import TableSelector from './TableSelector';
 import Table from '../atoms/Table';
-import CellEditor from '../molecules/CellEditor'; 
+import CellEditor from './CellEditor_Prototype'; 
 import { useSelector, useDispatch } from 'react-redux';
 import { modeSet } from '../../store/modeSlice';
 import { useSearchParams } from 'react-router-dom';

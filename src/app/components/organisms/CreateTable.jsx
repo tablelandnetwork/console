@@ -1,3 +1,5 @@
+
+// TODO: Refactor components into seperate files
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty } from '../../store/createTableSlice';
@@ -19,7 +21,7 @@ function CreateColumn(props) {
 
   return (
     <tr>
-      <td>
+      <td key={"name"}>
         <input 
           placeholder='Column Name' 
           pattern='[a-zA-Z][a-zA-Z0-9]*' 
@@ -110,12 +112,12 @@ function CreateTable(props) {
           });
       }}>
         {supportedChains.map((chain, key) => {
-            // TODO: Remove this
+            // TODO: Clean this up
             if(chain[1].host==="https://staging.tableland.network") return null;
             if(chain[1].chainId!==5 && chain[1].chainId!==69) {
               return null
             }
-            return <option value={chain[1].chainId}>{chain[1].phrase}</option>
+            return <option key={chain[1].chainId} value={chain[1].chainId}>{chain[1].phrase}</option>
           })}
       </select>
       <div className='table-container'>

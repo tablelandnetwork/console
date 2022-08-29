@@ -1,3 +1,33 @@
+.editor {
+  counter-reset: line;
+  // border: 1px solid var(--grey-mid);
+  
+  background-color: var(--grey-dark-ish);
+}
+
+.editor #codeEditor {
+  outline: none;
+  padding-left: 60px !important;
+}
+.editor #codeViewer {
+  outline: none;
+}
+
+.editor #codeEditor + pre {
+  padding-left: 60px !important;
+}
+
+.editor .editorLineNumber {
+  position: absolute;
+  left: 0px;
+  color: var(--grey-light);
+  text-align: right;
+  width: 40px;
+  font-weight: 100;
+}
+
+
+// Boilerplate
 code[class*="language-"],
 pre[class*="language-"] {
 	text-align: left;

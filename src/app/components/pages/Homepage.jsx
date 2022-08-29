@@ -1,12 +1,11 @@
 import React from "react";
 import DefaultTemplate from "../page-templates/DefaultTemplate";
-import TableEditor from '../organisms/TableEditor';
+import TableEditor from '../protoypes/TableEditor';
 import { Link, useLocation } from "react-router-dom";
 import { Routes, Route } from 'react-router';
-import BrowseData from "../organisms/BrowseData";
-import ExecuteSqlWindow from "../organisms/ExecuteSqlWindow";
+import BrowseData from "../protoypes/BrowseDataPane";
+import ExecuteSqlWindow from "../organisms/ExecuteSqlSection";
 import CreateTable from "../organisms/CreateTable";
-import PendingWrites from "../molecules/PendingWrites";
 
 function isPage(page, location) {
   return location.pathname===page ? "active" : "not-active";

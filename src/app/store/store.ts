@@ -8,6 +8,7 @@ import modeReducer from './modeSlice.js';
 import tablesReducer from './tablesSlice.js';
 import pendingWritesReducer from './pendingWritesSlice';
 import walletConnectionReducer from './walletConnectionSlice';
+import pageStateReducer from './pageStateSlice.js';
 
 export interface Store { 
   mode: string,
@@ -23,7 +24,8 @@ export const store = configureStore({
     browse: browseReducer,
     mode: modeReducer,
     tables: tablesReducer,
-    pendingWrites: pendingWritesReducer
+    pendingWrites: pendingWritesReducer,
+    pageState: pageStateReducer
   }
 });
 

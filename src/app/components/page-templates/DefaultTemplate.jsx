@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from '../organisms/Footer';
+import Footer from '../atoms/Footer';
 import Header from '../organisms/Header';
 
 function DefaultTemplate(props) {

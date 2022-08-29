@@ -1,4 +1,10 @@
-export function useOnClickOutside(ref, handler) {
+import { useEffect } from "react";
+import { closeMenu } from "../store/pageStateSlice";
+import store from "../store/store";
+
+
+
+export function useCloseOnClickOutside(ref, itemToClose) {
   useEffect(
     () => {
       const listener = (event) => {
@@ -6,8 +12,8 @@ export function useOnClickOutside(ref, handler) {
         if (!ref.current || ref.current.contains(event.target)) {
           return;
         }
-
-        handler(event);
+        store.dispatch(closeMenu(itemToClose));
+        // handler(event);
       };
 
       document.addEventListener("mousedown", listener);
@@ -24,6 +30,6 @@ export function useOnClickOutside(ref, handler) {
     // ... callback/cleanup to run every render. It's not a big deal ...
     // ... but to optimize you can wrap handler in useCallback before ...
     // ... passing it into this hook.
-    [ref, handler]
+    [ref]
   );
 }

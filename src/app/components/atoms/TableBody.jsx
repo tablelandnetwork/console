@@ -11,7 +11,13 @@ function TableBody(props) {
     <tbody>
       {
         rows.map((row, rowKey) => {
-          return <Row key={rowKey} {...props} row={rowKey} />
+          return (
+            <Row 
+              key={rowKey} 
+              {...props} 
+              row={rowKey} 
+            />
+          );
         })
       }
     </tbody>

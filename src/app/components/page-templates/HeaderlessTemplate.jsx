@@ -1,9 +1,7 @@
 import React from 'react';
 import EmptyHeader from '../organisms/EmptyHeader';
-import Footer from '../organisms/Footer';
 
 function HeaderlessTemplate(props) {
-
 
   return (
     <>
@@ -14,10 +12,8 @@ function HeaderlessTemplate(props) {
           {props.children}
         </div>
       </main>
-      {/* <Footer /> */}
     </>
   );
 }
-
 
 export default HeaderlessTemplate;
