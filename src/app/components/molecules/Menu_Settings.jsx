@@ -3,13 +3,16 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCloseOnClickOutside } from '../../hooks/clickOutside';
 import { toggleMenu } from '../../store/pageStateSlice';
+import { setShowMainnets, setShowStaging } from '../../store/walletConnectionSlice';
 import { globalWeb3modal } from './Menu_Wallet';  
 
-function ResetWallet() {
-  () => {
-    globalWeb3modal.clearCachedProvider();
-    location.reload();
-  }
+async function ResetWallet() {
+  globalWeb3modal.clearCachedProvider();
+  // await globalWeb3modal.connect().request({
+  //   method: "eth_requestAccounts",
+  //   params: [{eth_accounts: {}}]
+  // });
+  location.reload();
 }
 
 function SettingsMenu() {
@@ -17,6 +20,15 @@ function SettingsMenu() {
   const ref = useRef();
   const dispatch = useDispatch();
   useCloseOnClickOutside(ref, "settingsMenu");
+  const { showMainnets, showStaging } = useSelector(store => store.walletConnection);
+
+  function toggleShowMainnet() {
+    dispatch(setShowMainnets(!showMainnets))
+  }
+  
+  function toggleShowStaging() {
+    dispatch(setShowStaging(!showStaging))
+  }
 
   return (
     <li>
@@ -36,7 +48,17 @@ function SettingsMenu() {
           >
             Disconnect <i className="fa-solid fa-link-slash"></i>
           </button>
-        </li>        
+        </li>     
+        {/* <li>
+          <label htmlFor="show-testnets">Show Mainnets (alpha)</label>
+          <input id="show-testnets" onChange={toggleShowMainnet}  type="checkbox" checked={showMainnets} />  
+        </li>   
+        <li>
+          <button>
+            <label htmlFor="show-testnets" >Show Tableland Staging <i className="fa-solid fa-circle-question tooltip"><span>For Tableland Devs, mostly</span></i></label>
+            <input id="show-staging" onChange={toggleShowStaging}  type="checkbox" checked={showStaging} />
+          </button>
+        </li> */}
       </ul>
     </li>
   );

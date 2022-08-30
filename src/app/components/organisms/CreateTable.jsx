@@ -3,8 +3,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty } from '../../store/createTableSlice';
-import { SUPPORTED_CHAINS } from '@tableland/sdk';
 import { globalWeb3modal } from '../molecules/Menu_Wallet';
+import { SelectChain } from '../molecules/Menu_Network';
+import { getActiveNetworks } from '../../database/connectToTableland';
 
 function CreateColumn(props) {
   const dispatch = useDispatch();
@@ -85,7 +86,8 @@ function CreateTable(props) {
   const currentNetwork = useSelector(store => store.walletConnection.network);
   const dispatch = useDispatch();
 
-  const supportedChains = Object.entries(SUPPORTED_CHAINS);
+
+  const activeChains = getActiveNetworks();
   
   return (
     <form onSubmit={e => {
@@ -105,19 +107,10 @@ function CreateTable(props) {
       </label> 
       <select onChange={async e => {
         let prov = await globalWeb3modal.connect();
-
-        prov.request({
-          method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${e.target.value.toString(16)}` }],
-          });
+          SelectChain(parseInt(e.target.value));
       }}>
-        {supportedChains.map((chain, key) => {
-            // TODO: Clean this up
-            if(chain[1].host==="https://staging.tableland.network") return null;
-            if(chain[1].chainId!==5 && chain[1].chainId!==69) {
-              return null
-            }
-            return <option key={chain[1].chainId} value={chain[1].chainId}>{chain[1].phrase}</option>
+        {activeChains.map((chain, key) => {
+            return <option key={chain.chainId} value={chain.chainId}>{chain.phrase}</option>
           })}
       </select>
       <div className='table-container'>

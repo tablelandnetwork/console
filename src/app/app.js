@@ -2,9 +2,6 @@ import React from 'react';
 import reactDom from 'react-dom/client';
 import Main from './components/Main.jsx';
 import { connect } from '@tableland/sdk';
-
-
-
 import init from '@tableland/sqlparser';
 init();
 
@@ -15,5 +12,10 @@ const tbl =  connect({
 window.tbl = tbl;
 
 document.addEventListener("DOMContentLoaded", () => {
-  reactDom.createRoot(document.getElementById("app")).render(<Main />);
+  reactDom
+    .createRoot(document.getElementById("app"))
+    .render(<Main />);
 });
+
+// APP WIDE TODOS
+// TODO: Refactor slices to be more readable
