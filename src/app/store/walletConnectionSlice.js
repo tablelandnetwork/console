@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   network: 5,
   showStaging: false,
-  showMainnets: false
+  showMainnets: localStorage.getItem("showMainnets") === "true"
 };
 
 const walletConnectionSlice = createSlice({
@@ -18,6 +18,7 @@ const walletConnectionSlice = createSlice({
     },
     setShowMainnets(state, action) {
       state.showMainnets = action.payload;
+      localStorage.setItem("showMainnets", true);
     }
   }
 });

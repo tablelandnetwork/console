@@ -6,7 +6,6 @@ import { setQuery } from "../../store/querySlice";
 import { queryTableland } from "../../store/resultSetSlice";
 
 function ExecuteSqlActions() {
-  
 
   const [searchParams, setSearchParams] = useSearchParams();
   const tablelandQuery = useSelector(store => store.tablelandQuery.query);

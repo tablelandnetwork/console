@@ -1,5 +1,5 @@
 import React from 'react';
-import QueryPane from '../molecules/QueryEditor';
+import QueryPane from '../molecules/QueryPane';
 import TableListPane from '../molecules/TableListPane';
 import ResultSetPane from '../molecules/ResultSetPane';
 

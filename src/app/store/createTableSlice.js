@@ -1,5 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { produce } from 'immer';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
+import store from './store';
+
+export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
+  const { query, options } = details;
+
+  const fauxQuery = `CREATE TABLE ${options.prefix} (${query});`;  
+
+  store.dispatch(addPendingWrite({
+    query: fauxQuery,
+    status: "pending-wallet"
+  }));
+  const tx = tbl.create(query, options);
+  store.dispatch(updatePendingWrite({
+    query: fauxQuery,
+    status: "pending-network"
+  }));
+  await tx;
+  store.dispatch(updatePendingWrite({
+    query: fauxQuery,
+    status: "complete",
+    hash: tx.receipt.txn_hash,
+    chain: "",
+    table_id: ""
+  }));
+
+});
+
 
 export function columnsSummary(columns) {
   let columnsArray = columns.map(column => {

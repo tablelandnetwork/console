@@ -9,7 +9,7 @@ export default function ResultSetPane() {
   return (
     <div className='table-results'>
       {resultSet.error && <div className="error">Error<br></br>{resultSet.error}</div>}
-      {resultSet.query === "" ? "Results will load here" : null}
+      {resultSet.query === "" ? <div className="results-will-load">Results will load here</div> : null}
       {resultSet.status==="loading" ? <Loading /> : <Table />}
     </div>
   )

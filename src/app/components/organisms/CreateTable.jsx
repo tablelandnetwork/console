@@ -2,7 +2,7 @@
 // TODO: Refactor components into seperate files
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty } from '../../store/createTableSlice';
+import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty, sendCreateQuery } from '../../store/createTableSlice';
 import { globalWeb3modal } from '../molecules/Menu_Wallet';
 import { SelectChain } from '../molecules/Menu_Network';
 import { getActiveNetworks } from '../../database/connectToTableland';
@@ -88,12 +88,15 @@ function CreateTable(props) {
 
 
   const activeChains = getActiveNetworks();
+
+  function createTableOnNetwork(e) {
+    e.preventDefault();
+    
+    dispatch(sendCreateQuery({query: columnsSummary(columns), options: {prefix: tableName}}));
+  }
   
   return (
-    <form onSubmit={e => {
-      e.preventDefault();
-      tbl.create(columnsSummary(columns), {prefix: tableName});
-    }}>
+    <form onSubmit={createTableOnNetwork}>
       <h2>Create Table</h2>
       <label><div>Table Prefix</div>
         <input 
@@ -107,7 +110,7 @@ function CreateTable(props) {
       </label> 
       <select onChange={async e => {
         let prov = await globalWeb3modal.connect();
-          SelectChain(parseInt(e.target.value));
+        SelectChain(parseInt(e.target.value));
       }}>
         {activeChains.map((chain, key) => {
             return <option key={chain.chainId} value={chain.chainId}>{chain.phrase}</option>

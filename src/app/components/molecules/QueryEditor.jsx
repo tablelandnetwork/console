@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { checkQueryType, setQuery } from '../../store/querySlice';
 import CodeEditor from '../atoms/CodeEditor';
 
 function QueryEditor() {

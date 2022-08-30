@@ -49,11 +49,11 @@ function SettingsMenu() {
             Disconnect <i className="fa-solid fa-link-slash"></i>
           </button>
         </li>     
-        {/* <li>
+        <li>
           <label htmlFor="show-testnets">Show Mainnets (alpha)</label>
           <input id="show-testnets" onChange={toggleShowMainnet}  type="checkbox" checked={showMainnets} />  
         </li>   
-        <li>
+        {/* <li>
           <button>
             <label htmlFor="show-testnets" >Show Tableland Staging <i className="fa-solid fa-circle-question tooltip"><span>For Tableland Devs, mostly</span></i></label>
             <input id="show-staging" onChange={toggleShowStaging}  type="checkbox" checked={showStaging} />
