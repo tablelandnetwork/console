@@ -37,7 +37,11 @@
         font-weight: 200;
         padding: 0px 10px;
         display: block;
+        color: var(--black-near);
         font-family: var(--main-font);
+        &:hover { 
+          color: var(--black);
+        }
       }
     }
   }

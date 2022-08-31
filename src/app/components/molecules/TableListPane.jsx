@@ -17,7 +17,7 @@ export default function TableListWithMeta() {
 
   return (
     <ul className='tables-to-add'>
-      <li><strong>Tables on {currentNetwork}</strong><i
+      <li className="tables-to-add--header"><strong>Tables on {currentNetwork}</strong><i
         onClick={refreshMyTables}      
         className="fa-solid fa-arrow-rotate-right"></i>
       </li>

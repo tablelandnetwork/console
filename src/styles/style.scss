@@ -180,6 +180,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  &.closed {
+    display: none;
+  }
 }
 
 .query-window {
