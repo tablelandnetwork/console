@@ -16,13 +16,13 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
     query: fauxQuery,
     status: "pending-network"
   }));
-  await tx;
+  const txResult = await tx;
   store.dispatch(updatePendingWrite({
     query: fauxQuery,
     status: "complete",
-    hash: tx.receipt.txn_hash,
-    chain: "",
-    table_id: ""
+    hash: txResult.txnHash,
+    chain: txResult.chainId,
+    tableName: txResult.name
   }));
 
 });

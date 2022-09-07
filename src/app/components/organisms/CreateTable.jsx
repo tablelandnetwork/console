@@ -25,11 +25,12 @@ function CreateColumn(props) {
       <td key={"name"}>
         <input 
           placeholder='Column Name' 
-          pattern='[a-zA-Z][a-zA-Z0-9]*' 
+          pattern='[a-zA-Z0-9_]*' 
           className='form-input'
           value={column.name}
           name="name"
           onChange={setColumnProperty}
+          title={"Letter, numbers, and underscores only. First character cannot be a number"}
           />
       </td>
       <td>
@@ -95,27 +96,22 @@ function CreateTable(props) {
     dispatch(sendCreateQuery({query: columnsSummary(columns), options: {prefix: tableName}}));
   }
   
+
   return (
     <form onSubmit={createTableOnNetwork}>
-      <h2>Create Table</h2>
+      <h2>Create Table on {currentNetwork} <i className="fa-solid fa-circle-question tooltip"><span>Switch networks to change the network this table will be created on.</span></i></h2>
       <label><div>Table Prefix</div>
         <input 
           placeholder='Table Prefix'
           className='form-input'
           type="text" 
+          pattern='[a-zA-Z0-9_]*'
+          title={"Letter, numbers, and underscores only. First character cannot be a number"}
           value={tableName} 
           onChange={e => {
             dispatch(setPrefix(e.target.value));
           }} />
       </label> 
-      <select onChange={async e => {
-        let prov = await globalWeb3modal.connect();
-        SelectChain(parseInt(e.target.value));
-      }}>
-        {activeChains.map((chain, key) => {
-            return <option key={chain.chainId} value={chain.chainId}>{chain.phrase}</option>
-          })}
-      </select>
       <div className='table-container'>
         <table className='tabula-rasa'>        
         <thead>

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  network: 5,
+  network: null,
   showStaging: false,
   showMainnets: localStorage.getItem("showMainnets") === "true"
 };

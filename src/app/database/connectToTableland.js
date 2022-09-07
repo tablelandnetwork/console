@@ -46,7 +46,8 @@ export async function startTableLand(provider) {
 
   let currentChain = supportedChains.find(chain => chain[1].chainId === parseInt(provider.chainId));
   
-  store.dispatch(networkSet(currentChain[1].phrase));
+
+  store.dispatch(networkSet(currentChain[1].phrase) || "Ethereum Mainnet");
   
   const tbl = await connect({
     chain: currentChain[0],

@@ -91,7 +91,7 @@ function TableListItem(props) {
   return (
     <li key={table.name}>
       <span className={`${open ? "highlight" : ""} table-actions-bar`} >
-        <span onClick={()=>setOpen(!open)}>{table.name} </span>
+        <span onClick={()=>setOpen(!open)}>{table.name} <i className="fa-solid fa-arrow-turn-down"></i></span>
         <span 
           className='table-insert-select' 
           onClick={populateQueryWithSelect}>

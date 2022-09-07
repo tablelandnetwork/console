@@ -15,6 +15,23 @@ async function ResetWallet() {
   location.reload();
 }
 
+function Disconnect() {
+
+  const network = useSelector(store => store.walletConnection.network);
+  if(!network) return null;
+
+  return (
+    <li>
+      <button 
+        className='reset' 
+        onClick={ ResetWallet }
+      >
+        Disconnect <i className="fa-solid fa-link-slash"></i>
+      </button>
+    </li>
+  )
+}
+
 function SettingsMenu() {
   const settingsMenuOpen = useSelector(store => store.pageState.settingsMenu);
   const ref = useRef();
@@ -41,14 +58,8 @@ function SettingsMenu() {
         className={`submenu ${settingsMenuOpen ? 'open' : 'closed'}`} 
         ref={ref}
       >
-        <li>
-          <button 
-            className='reset' 
-            onClick={ ResetWallet }
-          >
-            Disconnect <i className="fa-solid fa-link-slash"></i>
-          </button>
-        </li>     
+      <Disconnect />
+     
         <li>
           <label htmlFor="show-testnets">Show Mainnets (alpha)</label>
           <input id="show-testnets" onChange={toggleShowMainnet}  type="checkbox" checked={showMainnets} />  
