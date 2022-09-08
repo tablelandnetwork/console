@@ -8,8 +8,11 @@
 @import "page-template";
 @import "tab-nav";
 @import "writes";
+@import "tab-pane";
+
 html,body {
   height:100%;
+  background-color: var(--grey-dark);
 }
 html {
   background-color: var(--white);
@@ -26,15 +29,24 @@ html {
   }
 
   color: var(--white);
+
+  --font-large: clamp(18px, 2vw, 36px);
+  --font-small: clamp();
+  --font-medium: clamp();
+  --font-semi-large: clamp();
 }
 header, footer {
   // background-color: var(--accent-color);
   padding: 10px;
+  background-color: var(--grey-dark-ish);
 }
 header {
   margin-bottom: 10px;
+  grid-area: header;
+  
 }
 footer {
+  grid-area: footer;
   .dashboard-version {
     color: black;
     font-size: 2rem;
@@ -42,7 +54,7 @@ footer {
 }
 
 h2 {
-  font-size: 1.6rem;
+  font-size: var(--font-large);
   font-weight: 900;
   padding-bottom: 10px;
 }
@@ -52,35 +64,45 @@ h3 {
   padding-bottom: 10px;
 }
 
-
-
-
 #app {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   justify-content: space-between;
   min-height: 100vh;
+  column-gap: 20px;
+  grid-template-rows: 
+    min-content
+    1fr 
+    min-content
+  ;
+  
+  grid-template-columns: .6fr 1fr;
+  grid-template-areas: 
+    "navbar navbar"
+    "sidebar main"
+    "footer footer"
+  ;
 }
 
 main {
-  flex-grow: 1;
-  padding: 10px;
+  display: contents;
+}
+.sidebar {
+  grid-area: sidebar;
 }
 
+
 body {
-  display: flex;
+  gap: 10px;
+  display: grid;
   flex-direction: column;
   min-height: 100vh;
-  &>main {
-    padding: 40px;
-    flex-grow: 1;
-  }
 }
 
 .the-bg {
   position: fixed;
   z-index: -1;
-  background: linear-gradient(350deg, gray, var(--accent-color));
+  // background: linear-gradient(350deg, gray, var(--accent-color));
+  background-color: var(--grey-dark);
   background-size: cover;
   top: -10%;
   left: 0;
@@ -89,11 +111,6 @@ body {
   animation: animatedBackgroundTall 26s ease-out infinite alternate;
 }
 
-.default-container {
-  margin: 0 auto;
-  max-width: 1200px;
-  width: 100%;
-}
 
 .simple-page {
   padding: var(--size-padding);
@@ -206,9 +223,41 @@ body {
   margin-left: 20px;
 }
 
+.create-table-prefix {
+  display: flex;
+  align-items: center;
+  .form-input {
+    background-color: var(--grey-dark-ish);
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: var(--grey-mid);
+    border-style: solid;
+  }
+  margin-bottom: 10px;
+  div {
+    flex-shrink: 0;
+    width: max-content;
+    padding: 0px 20px 0px 10px;
+    font-size: var(--font-medium);
+  }
+}
+
 .form-input {
   color: var(--white);
-  background-color: var(--grey-dark-ish);
+  background-color: transparent;
+  border: transparent;
+  border-radius: 0px;
+  border-width: 0px;
+  border-bottom-width: 2px;
+  width: 100%;
+  &:focus {
+    background-color: var(--grey-dark-ish);
+    border-color: white;
+    border-bottom: 1px solid var(--grey-mid);
+  }
+  &:focus-visible {
+    outline: 0;
+  }
 }
 
 .table-insert-select {

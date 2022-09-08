@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkQueryType, setQuery } from "../../store/querySlice";
-import { queryTableland } from "../../store/resultSetSlice";
+import { activateTab, newQueryTab } from "../../store/tabsSlice";
 import { getSchema } from "../../store/tablesSlice";
 import Loading from "../atoms/Loading";
 
@@ -65,7 +65,6 @@ function TableListItem(props) {
   const { tableName } = props;
 
   const dispatch = useDispatch();
-  const query = useSelector(store => store.query.value);
   const [open, setOpen] = useState(false);
   const table = useSelector(store => {
     return store.tables.myTables.find(table=>table.name===tableName);
@@ -73,20 +72,18 @@ function TableListItem(props) {
 
   function populateQueryWithSelect() {
     let q = `SELECT * FROM ${table.name} LIMIT 50;`;
-
     // TODO: Combine into a single dispatch
-    dispatch(setQuery(q));
-    dispatch(checkQueryType(q));
-    dispatch(queryTableland({query:q}));
+    dispatch(newQueryTab({query: q}));
   }
 
-  function insertThisTableName() {
-    // TODO: Combine into a single dispatch
-    dispatch(setQuery(query + table.name));
-    dispatch(checkQueryType(query + table.name));
-    document.getElementById("codeEditor").focus();
-  }
-
+  // function insertThisTableName() {
+  //   // TODO: Combine into a single dispatch
+  //   dispatch(setQuery(query + table.name));
+  //   dispatch(checkQueryType(query + table.name));
+  //   document.getElementById("codeEditor").focus();
+  // }
+  
+  
 
   return (
     <li key={table.name}>
@@ -97,7 +94,7 @@ function TableListItem(props) {
           onClick={populateQueryWithSelect}>
           SELECT
         </span>
-        <i className="fa-regular fa-circle-right" onClick={insertThisTableName}></i>
+        <i class="fa-regular fa-copy" title="Copy table name" onClick={() => navigator.clipboard.writeText(table.name)}></i>
       </span>
       <TableColumnDetails open={open} setOpen={setOpen} tableName={table.name} />
 

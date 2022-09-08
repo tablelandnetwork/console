@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-function HeaderRow() {
+function HeaderRow(props) {
 
-  const columns = useSelector(store => store[store.mode]?.columns);
+  const columns = useSelector(store => store.tabs.list[props.tab].columns);
 
   if (!columns) return null;
 

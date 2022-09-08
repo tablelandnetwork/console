@@ -8,9 +8,7 @@ function HeaderlessTemplate(props) {
       <div className="the-bg"></div>
       <EmptyHeader />
       <main>
-        <div className="default-container">
           {props.children}
-        </div>
       </main>
     </>
   );

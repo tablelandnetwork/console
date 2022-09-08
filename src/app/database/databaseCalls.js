@@ -43,25 +43,3 @@ export async function queryGateway(query, options) {
   const resultSet = await tbl.read(query);
   return resultSet;
 }
-
-// export async function queryLocal(query, options={}) {
-  
-//   const id = Math.random();
-//   worker.addEventListener('message', e => {
-//     if(e.data.responseId!==id) return; 
-//     let result = e.data.result;
-//     result.editable = options.editable;
-//     store.dispatch(resultSetUpdated(result));
-//   });
-
-//   store.dispatch(queryAppended(query))
-
-  
-//   const message = {
-//     id,
-//     type: GENERIC_QUERY,
-//     query: query,
-//     db: options.db ?? "tableland"
-//   };
-//   worker.postMessage(message);
-// }

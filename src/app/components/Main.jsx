@@ -8,9 +8,9 @@ import GrandCentral from './GrandCentral';
 function Main() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <GrandCentral />
-      </BrowserRouter>
+        <BrowserRouter>
+          <GrandCentral />
+        </BrowserRouter>
     </Provider>
   );
 }

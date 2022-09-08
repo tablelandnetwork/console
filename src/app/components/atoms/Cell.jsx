@@ -6,7 +6,7 @@ import CodeEditor from './CodeEditor';
 function Cell(props) {
   const { row, column } = props;
   const dispatch = useDispatch();
-  const cell = useSelector(store => store[store.mode].rows[props.row][props.column]);
+  const cell = useSelector(store => store.tabs.list[props.tab].rows[props.row][props.column]);
   const selectedCell = useSelector(state => state.selectedCell);
   const selectedClass = (
     row === selectedCell.row

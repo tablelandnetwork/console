@@ -50,7 +50,7 @@ export function columnsSummary(columns) {
   return columnsArray.join(", ");
 }
 
-const initialState = {name: "", columns: [{name: "id", type: "integer", notNull: false, primaryKey: false, unique: false}]};
+const initialState = {name: "untitled_table", columns: [{name: "id", type: "integer", notNull: false, primaryKey: false, unique: false}]};
 
 const createTableSlice = createSlice({
   name: 'createTable',

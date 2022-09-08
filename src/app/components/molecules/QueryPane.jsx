@@ -2,13 +2,13 @@ import React from "react"
 import ExecuteSqlActions from "./ExecuteSqlActions"
 import QueryEditor from "./QueryEditor";
 
-export default function QueryPage() {
+export default function QueryPage(props) {
   return (
     <div className='executer'>
       <div className='editor-container'>
-        <QueryEditor />
+        <QueryEditor tab={props.tab} />
       </div>
-      <ExecuteSqlActions />
+      <ExecuteSqlActions tab={props.tab} />
     </div>
   )
 }

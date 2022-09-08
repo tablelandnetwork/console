@@ -74,9 +74,11 @@ function CreateColumn(props) {
           type="text" 
           className='form-input' 
           name="default" 
+          placeholder='null'
           onChange={setColumnProperty} 
         />
       </td>
+      <td><i className="fa-solid fa-x"></i></td>
     </tr>
   )
 }
@@ -100,7 +102,7 @@ function CreateTable(props) {
   return (
     <form onSubmit={createTableOnNetwork}>
       <h2>Create Table on {currentNetwork} <i className="fa-solid fa-circle-question tooltip"><span>Switch networks to change the network this table will be created on.</span></i></h2>
-      <label><div>Table Prefix</div>
+      <label className="create-table-prefix"><div>Table Prefix</div>
         <input 
           placeholder='Table Prefix'
           className='form-input'
@@ -112,16 +114,18 @@ function CreateTable(props) {
             dispatch(setPrefix(e.target.value));
           }} />
       </label> 
+      <h3>Columns</h3>
       <div className='table-container'>
-        <table className='tabula-rasa'>        
+        <table className='creating-table'>
         <thead>
           <tr>
             <th>Name</th>
             <th>Type</th>
-            <th>NN <i className="fa-solid fa-circle-question tooltip"><span>Not null</span></i></th>
-            <th>PK <i className="fa-solid fa-circle-question tooltip"><span>Primary Key</span></i></th>
-            <th>U <i className="fa-solid fa-circle-question tooltip"><span>Unique</span></i></th>
+            <th>Not null</th>
+            <th>Primary Key</th>
+            <th>Unique</th>
             <th>Default value</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

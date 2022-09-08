@@ -4,7 +4,7 @@ import Cell from './Cell';
 
 function Row(props) {
 
-  const row = useSelector(store => store[store.mode].rows[props.row]);
+  const row = useSelector(store => store.tabs.list[props.tab].rows[props.row]);
 
   return (
     <tr>
@@ -13,10 +13,9 @@ function Row(props) {
           return (
             <Cell 
               key={columnKey} 
-              table={props.table} 
+              tab={props.tab} 
               row={props.row} 
               column={columnKey} 
-              database={props.database} 
             />);
         }) 
       }

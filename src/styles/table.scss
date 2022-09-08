@@ -43,7 +43,7 @@ table.tabula-rasa {
 
   tr:hover {
     transition-duration: 200ms;
-    background-color: var(--grey-mid-dark);
+    // background-color: var(--grey-mid-dark);
   }
 
   th {
@@ -54,7 +54,7 @@ table.tabula-rasa {
   td {
     
     &:hover {
-      background-color: var(--grey-transparent-500);
+      // background-color: var(--grey-transparent-500);
     }
     &.selected {
       background-color: var(--grey-mid-dark);
@@ -84,5 +84,49 @@ table.tabula-rasa {
   input[type="checkbox"] {
     height: 30px;
     width: 30px;
+    accent-color: transparent;
+  }
+}
+
+*::placeholder {
+  font-style: italic;
+}
+.creating-table {
+  margin: 10px auto;
+  border-collapse:separate;
+  border-spacing:0 5px;
+  th {
+    color: var(--grey-mid);
+    font-weight: 900;
+    text-align: left;
+    padding: 5px 10px;
+  }
+  tbody {
+    tr {
+      padding-top: 10px;
+      td {
+        background-color: var(--grey-dark-ish);
+      }
+      td:first-of-type {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+      td:last-of-type {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        i {
+          border-radius: 50%;
+          display: block;
+          color: var(--white-muted);
+          padding: 10px;
+          margin: 0px 10px;
+        }
+        &:hover {
+          i {
+            color: var(--white);
+          }
+        }
+      }
+    }
   }
 }
