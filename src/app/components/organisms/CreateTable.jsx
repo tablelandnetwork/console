@@ -3,9 +3,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty, sendCreateQuery } from '../../store/createTableSlice';
-import { globalWeb3modal } from '../molecules/Menu_Wallet';
-import { SelectChain } from '../molecules/Menu_Network';
-import { getActiveNetworks } from '../../database/connectToTableland';
+
 
 function CreateColumn(props) {
   const dispatch = useDispatch();
@@ -89,8 +87,6 @@ function CreateTable(props) {
   const currentNetwork = useSelector(store => store.walletConnection.network);
   const dispatch = useDispatch();
 
-
-  const activeChains = getActiveNetworks();
 
   function createTableOnNetwork(e) {
     e.preventDefault();

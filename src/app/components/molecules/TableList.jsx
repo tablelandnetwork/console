@@ -72,18 +72,9 @@ function TableListItem(props) {
 
   function populateQueryWithSelect() {
     let q = `SELECT * FROM ${table.name} LIMIT 50;`;
-    // TODO: Combine into a single dispatch
     dispatch(newQueryTab({query: q}));
   }
 
-  // function insertThisTableName() {
-  //   // TODO: Combine into a single dispatch
-  //   dispatch(setQuery(query + table.name));
-  //   dispatch(checkQueryType(query + table.name));
-  //   document.getElementById("codeEditor").focus();
-  // }
-  
-  
 
   return (
     <li key={table.name}>
@@ -94,7 +85,7 @@ function TableListItem(props) {
           onClick={populateQueryWithSelect}>
           SELECT
         </span>
-        <i class="fa-regular fa-copy" title="Copy table name" onClick={() => navigator.clipboard.writeText(table.name)}></i>
+        <i className="fa-regular fa-copy" title="Copy table name" onClick={() => navigator.clipboard.writeText(table.name)}></i>
       </span>
       <TableColumnDetails open={open} setOpen={setOpen} tableName={table.name} />
 

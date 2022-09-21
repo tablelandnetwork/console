@@ -26,6 +26,7 @@
     border-radius: 5px 5px 0px 0px;
     color: var(--grey-light);
     display: flex;
+    align-items: center;
     padding: 10px;
     &:hover {
       color: var(--white);
@@ -44,5 +45,13 @@
   li.active {
     background-color: var(--black);
     color: var(--white);
+  }
+  li.not-active {
+    background-color: var(--grey-dark-ish);
+  }
+  li input {
+    background-color: transparent;
+    border: 0px;
+    color: white;
   }
 }

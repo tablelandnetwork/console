@@ -110,6 +110,9 @@ const tabsSlice = createSlice({
     updateQuery(store, action) {
       store.list[action.payload.tab].query = action.payload.query;
     },
+    renameTab(store, action) {
+      store.list[action.payload.tab].name = action.payload.name;
+    },
     activateTab(store, action) {
       store.active = action.payload;
     },
@@ -158,5 +161,5 @@ const tabsSlice = createSlice({
   }
 })
 
-export const { closeTab, newQueryTab, newCreateTableTab, activateTab, updateQuery } = tabsSlice.actions
+export const { closeTab, newQueryTab, newCreateTableTab, activateTab, updateQuery, renameTab } = tabsSlice.actions
 export default tabsSlice.reducer

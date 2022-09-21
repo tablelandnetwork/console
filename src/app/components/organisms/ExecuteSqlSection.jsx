@@ -2,8 +2,41 @@ import React from 'react';
 import QueryPane from '../molecules/QueryPane';
 import ResultSetPane from '../molecules/ResultSetPane';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeTab, newCreateTableTab, newQueryTab, activateTab } from '../../store/tabsSlice';
+import { closeTab, newQueryTab, activateTab, renameTab } from '../../store/tabsSlice';
 import CreateTable from './CreateTable';
+
+
+
+
+function TabLabel(props) {
+  const dispatch = useDispatch();
+  const currentTab = useSelector(store=>store.tabs.active);
+  const tab = useSelector(store => store.tabs.list[props.tab]);
+
+
+  function switchToTab(key) {
+    dispatch(activateTab(key));
+  }
+
+  function closeThisTab(key) {
+    dispatch(closeTab(key));
+  }
+
+
+  return (
+    <li
+      className={props.tab===currentTab ? "active" : "not-active"}
+      onClick={() => switchToTab(props.tab)}
+
+    >
+      {tab.type === "create" ? <i className="fa-regular fa-square-plus"></i> : <i className="fa-solid fa-code"></i>}
+      <input type="name" value={tab.name} onChange={(e) => {
+        dispatch(renameTab({tab: props.tab, name: e.target.value}));
+      }} /> 
+      <span onClick={() => closeThisTab(props.tab)}><i className="fa-solid fa-circle-xmark"></i></span></li>
+  );
+
+}
 
 function ExecuteSqlSection() {
    
@@ -15,29 +48,15 @@ function ExecuteSqlSection() {
     dispatch(newQueryTab());
   }
 
-  function closeThisTab(key) {
-    dispatch(closeTab(key));
-  }
 
-  function switchToTab(key) {
-    dispatch(activateTab(key));
-  }
+
 
   return (
       <div className='tabs-pane'>
         <div>
-          <ul class="tab-nav">
+          <ul className="tab-nav">
             {tabs.map((tab, key) => {
-
-              return (
-                <li
-                  className={key===currentTab ? "active" : "not-active"}
-                  onClick={() => switchToTab(key)}
-                >
-                  {tab.type === "create" ? <i className="fa-regular fa-square-plus"></i> : <i className="fa-solid fa-code"></i>}
-                  {tab.name} 
-                  <span onClick={() => closeThisTab(key)}><i className="fa-solid fa-circle-xmark"></i></span></li>
-              );
+              return <TabLabel tab={key} key={key} />
             })}
             <li onClick={openQueryTab} ><i className="fa-solid fa-circle-plus highlight"></i></li>
           </ul>
@@ -46,14 +65,14 @@ function ExecuteSqlSection() {
           const className = currentTab === key ? "open" : "closed";
           if(tab.type==="create") {
             return (
-              <div className={`${className} single-tab-pane`}>
+              <div key={key} className={`${className} single-tab-pane`}>
                 <CreateTable />
               </div>
             );
           }
-          console.log(key);
+    
           return (
-            <div className={`${className} single-tab-pane`}>
+            <div key={key} className={`${className} single-tab-pane`}>
               <QueryPane tab={key} />
 
               <ResultSetPane tab={key} />
