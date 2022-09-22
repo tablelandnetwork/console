@@ -16,13 +16,19 @@ function ExecuteSqlActions(props) {
 
   function sendQuery(event) {
       event.preventDefault();
-      dispatch(queryTableland({query: query, tab}));
+      dispatch(queryTableland({query: query, tab: tab}));
   }
 
   
   return (
     <ul className='action-icons-bar'>
       <li>
+        <button onClick={() => {
+          let savedQueries = JSON.parse(localStorage.getItem("savedQueries")) ;
+          savedQueries = Array.isArray(savedQueries) ? savedQueries : [];
+          savedQueries.push(query);
+          localStorage.setItem("savedQueries", savedQueries);
+        }}>Save</button> 
         <button onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
       </li>
     </ul>

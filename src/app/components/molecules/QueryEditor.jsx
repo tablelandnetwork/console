@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkQueryType, setQuery } from '../../store/querySlice';
+import { checkQueryType } from '../../store/tabsSlice';
 import { updateQuery } from '../../store/tabsSlice';
 import CodeEditor from '../atoms/CodeEditor';
 
@@ -12,7 +12,7 @@ function QueryEditor(props) {
   return (
     <CodeEditor onChange={code=>{
       dispatch(updateQuery({query: code, tab: props.tab}));
-      dispatch(checkQueryType(code));
+      dispatch(checkQueryType({query: code, tab: props.tab}));
     }} code={query} />
   );
 }

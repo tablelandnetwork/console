@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { checkQueryType, setQuery } from "../../store/querySlice";
-import { activateTab, newQueryTab } from "../../store/tabsSlice";
+import { newQueryTab } from "../../store/tabsSlice";
 import { getSchema } from "../../store/tablesSlice";
 import Loading from "../atoms/Loading";
 

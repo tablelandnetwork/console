@@ -19,9 +19,12 @@ interface QueryState {
 
 
 
-export const checkQueryType = createAsyncThunk('query/checkQueryType', async (query) => {
-
-  return await getQueryType(query);
+export const checkQueryType = createAsyncThunk('query/checkQueryType', async (action:any) => {
+  const type = await getQueryType(action.query);
+  return {
+    type,
+    tab: action.tab
+  }
 });
 
 export const queryTableland = createAsyncThunk('tablelandQuery/query', async (action) => {
@@ -149,14 +152,8 @@ const tabsSlice = createSlice({
       state.list[tab].rows = rows;
       state.list[tab].query = query;
     }),
-    builder.addCase(queryTableland.rejected, (state, action) => {
-      
-    }),
     builder.addCase(checkQueryType.fulfilled, (state, action) => {
-      state.list[action.payload.tab].type = action.payload;
-    }),
-    builder.addCase(checkQueryType.pending, (state, action) => {
-      // state.list[action.payload.tab].type = QueryTypeState.loading;
+      state.list[action.payload.tab].queryType = action.payload.type;
     })
   }
 })
