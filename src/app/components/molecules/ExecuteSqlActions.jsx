@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { queryTableland } from "../../store/tabsSlice";
 
 function ExecuteSqlActions(props) {
 
   const { tab } = props;
+  const tabContent = useSelector(store => store.tabs.list[tab]);
   const query = useSelector(store => store.tabs.list[tab].query);
   const queryType = useSelector(store => store.tabs.list[tab].queryType);
   const dispatch = useDispatch();
@@ -26,8 +27,11 @@ function ExecuteSqlActions(props) {
         <button onClick={() => {
           let savedQueries = JSON.parse(localStorage.getItem("savedQueries")) ;
           savedQueries = Array.isArray(savedQueries) ? savedQueries : [];
-          savedQueries.push(query);
-          localStorage.setItem("savedQueries", savedQueries);
+          savedQueries.push({
+            query: query,
+            name: tabContent.name
+          });
+          localStorage.setItem("savedQueries", JSON.stringify(savedQueries));
         }}>Save</button> 
         <button onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
       </li>

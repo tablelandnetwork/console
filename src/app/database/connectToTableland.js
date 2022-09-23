@@ -38,7 +38,14 @@ export function getActiveNetworks() {
   return activeChains;
 }
 
-window.filt = getActiveNetworks;
+var tablelandConnection = connect({
+  chain: 'ethereum-goerli',
+  host: "https://testnet.tableland.network"
+});
+
+export function getTablelandConnection() {
+  return tablelandConnection;
+}
 
 export async function startTableLand(provider) {
 
@@ -53,7 +60,8 @@ export async function startTableLand(provider) {
     chain: currentChain[0],
     host: currentChain[1].host
   });
-  window.tbl = tbl;
+
+  tablelandConnection = tbl;
   
   return tbl;
 }

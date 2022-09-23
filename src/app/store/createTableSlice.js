@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { getTablelandConnection } from '../database/connectToTableland';
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
 
@@ -11,7 +12,7 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
     query: fauxQuery,
     status: "pending-wallet"
   }));
-  const tx = tbl.create(query, options);
+  const tx = getTablelandConnection().create(query, options);
   store.dispatch(updatePendingWrite({
     query: fauxQuery,
     status: "pending-network"

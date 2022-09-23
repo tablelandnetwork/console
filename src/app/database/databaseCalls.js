@@ -40,6 +40,6 @@ export async function query(query, options) {
 }
 
 export async function queryGateway(query, options) {
-  const resultSet = await tbl.read(query);
+  const resultSet = await getTablelandConnection.read(query);
   return resultSet;
 }

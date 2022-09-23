@@ -1,12 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import store from './store';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getTablelandConnection } from '../database/connectToTableland.js';
 
-
-export const newBrowse = createAsyncThunk('browse/newBrowse', async (action) => {
+export const newBrowse = createAsyncThunk('browse/newBrowse', async (action: any) => {
   
-  let res = await tbl.read(`SELECT count(*) from ${action.table};`);
+  let res = await getTablelandConnection().read(`SELECT count(*) from ${action.table};`);
   let count = res.rows[0][0];
-  let {columns, rows} = await tbl.read(`SELECT * FROM ${action.table} LIMIT ${50}${0 ? ` offset ${0}` : ''};`)
+  let {columns, rows} = await getTablelandConnection().read(`SELECT * FROM ${action.table} LIMIT ${50}${0 ? ` offset ${0}` : ''};`)
 
   return {
     table: action.table,
@@ -48,9 +47,6 @@ const browseSlice = createSlice({
   }
 });
 
-window.browseAttempt = (nam) => {
-  store.dispatch(newBrowse(nam))
-}
 
 export const { browseSet } = browseSlice.actions
 export default browseSlice.reducer

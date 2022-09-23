@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import selectedCellReducer from './selectedCellSlice.js';
 import createTableReducer from './createTableSlice.js';
-import queryReducer from './querySlice';
-import browseReducer from './browseSlice.js';
-import tablesReducer from './tablesSlice.js';
+import browseReducer from './browseSlice';
+import tablesReducer from './tablesSlice';
 import pendingWritesReducer from './pendingWritesSlice';
 import walletConnectionReducer from './walletConnectionSlice';
 import pageStateReducer from './pageStateSlice.js';
 import tabsReducer from './tabsSlice';
+import sidebarReducer from './sidebarSlice';
 
 
 export const store = configureStore({
@@ -19,7 +19,8 @@ export const store = configureStore({
     tables: tablesReducer,
     pendingWrites: pendingWritesReducer,
     pageState: pageStateReducer,
-    tabs: tabsReducer
+    tabs: tabsReducer,
+    sidebar: sidebarReducer
   }
 });
 

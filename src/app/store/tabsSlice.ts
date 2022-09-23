@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
-import { setQuery } from './querySlice';
 import store from './store';
 import { getQueryType } from '../database/databaseCalls';
-
+import { getTablelandConnection } from '../database/connectToTableland.js';
 
 enum QueryTypeState {
   loading = 'loading',
@@ -33,7 +32,7 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
   const { query, options, tab } = action;
 
   // @ts-ignore
-  await tbl;
+  await getTablelandConnection();
   let isWrite; 
 
   
@@ -54,11 +53,10 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
       status: "pending-wallet"
     }));
     // @ts-ignore
-    await tbl.siwe();
+    await getTablelandConnection().siwe();
     // @ts-ignore
-    res = tbl.write(query);
+    res = getTablelandConnection().write(query);
     // @ts-ignore
-    store.dispatch(setQuery(""));
     store.dispatch(updatePendingWrite({
       query: query,
       status: "pending-network"
@@ -73,7 +71,7 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
   } else {
     try {
       // @ts-ignore
-      res = await tbl.read(query);
+      res = await getTablelandConnection().read(query);
     } catch(e) {
       res = {
         error: `${e}`

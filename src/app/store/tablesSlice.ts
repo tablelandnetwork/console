@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import store from './store';
+import { getTablelandConnection } from '../database/connectToTableland.js';
 
-export const getSchema = createAsyncThunk('tables/getSchema', async (action) => {
+export const getSchema = createAsyncThunk('tables/getSchema', async (action: any) => {
 
   const { tableName } = action;
 
-  const schema = await tbl.schema(tableName);
-
+  const schema = await getTablelandConnection().schema(tableName);
 
   return {
     schema,
@@ -16,7 +15,7 @@ export const getSchema = createAsyncThunk('tables/getSchema', async (action) => 
 
 export const refreshTables = createAsyncThunk('tables/refreshTables', async (action) => {
 
-  const tables = await tbl.list();
+  const tables = await getTablelandConnection().list();
 
   return tables.map(table => {
     table.owned = true;

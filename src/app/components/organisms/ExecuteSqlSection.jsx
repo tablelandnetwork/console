@@ -29,7 +29,7 @@ function TabLabel(props) {
       onClick={() => switchToTab(props.tab)}
 
     >
-      {tab.type === "create" ? <i className="fa-regular fa-square-plus"></i> : <i className="fa-solid fa-code"></i>}
+      {tab.type === "create" ? <i className="fa-regular fa-square-plus"></i> : <i className="fa-solid fa-terminal"></i>}
       <input type="name" value={tab.name} onChange={(e) => {
         dispatch(renameTab({tab: props.tab, name: e.target.value}));
       }} /> 

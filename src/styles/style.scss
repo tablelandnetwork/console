@@ -36,14 +36,11 @@ html {
   --font-semi-large: clamp();
 }
 header, footer {
-  // background-color: var(--accent-color);
   padding: 10px;
   background-color: var(--grey-dark-ish);
 }
 header {
-  margin-bottom: 10px;
-  grid-area: header;
-  
+  grid-area: header;  
 }
 footer {
   grid-area: footer;
@@ -88,6 +85,26 @@ main {
 }
 .sidebar {
   grid-area: sidebar;
+  display: flex;
+  .actions-bar {
+    background-color: var(--grey-dark-ish);
+    display: flex;
+    flex-direction: column;
+    &--item {
+      padding: 16px;
+      border-radius: 8px;
+      background-color: var(--grey-dark);
+      margin: 5px 10px;
+      font-size: 1.6rem;
+      text-align: center;
+      &.active {
+        background-color: var(--black);
+      }
+      &.disabled {
+        color: var(--grey-mid);
+      }
+    }
+  }
 }
 
 
