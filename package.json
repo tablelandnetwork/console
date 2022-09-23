@@ -1,6 +1,6 @@
 {
   "name": "tableland-ui",
-  "version": "0.0.1-beta",
+  "version": "0.0.2-beta",
   "description": "A UI for Tableland",
   "type": "module",
   "scripts": {
