@@ -98,8 +98,8 @@ const initialState = {
     type: "query",
     columns: [],
     rows: [],
-    query: "",
-    queryType: ""
+    query: `SELECT * FROM erc20_tokens_80001_2733 WHERE symbol = "FWB";`,
+    queryType: "read"
   }] as Tab[],
   active: 0
 };

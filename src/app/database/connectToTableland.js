@@ -4,7 +4,7 @@ import { networkSet } from '../store/walletConnectionSlice';
 const supportedChains = Object.entries(SUPPORTED_CHAINS);
 
 export function getActiveNetworks() {
-  const { showMainnets, showStaging } = store.getState().walletConnection;  
+  const { networksToShow } = store.getState().walletConnection;  
 
   let activeChains = supportedChains.map(chain => {
     return {
@@ -16,7 +16,7 @@ export function getActiveNetworks() {
 
   
   activeChains = activeChains.filter(chain => {
-    if(showMainnets) return true;
+    if(networksToShow==="mainnets" || networksToShow==="all") return true;
     switch(chain.chainId) {
       case 1:
       case 10:
@@ -28,7 +28,7 @@ export function getActiveNetworks() {
   });
 
   activeChains = activeChains.filter(chain => {
-    if(showStaging) return true;
+    if(networksToShow==="testnets" || networksToShow==="all") return true;
     if(chain.host.includes("staging")) return false;
     return true;
   });
@@ -40,7 +40,7 @@ export function getActiveNetworks() {
 
 var tablelandConnection = connect({
   chain: 'ethereum-goerli',
-  host: "https://testnet.tableland.network"
+  host: localStorage.getItem("validator") || "https://testnet.tableland.network"
 });
 
 export function getTablelandConnection() {
@@ -58,7 +58,7 @@ export async function startTableLand(provider) {
   
   const tbl = await connect({
     chain: currentChain[0],
-    host: currentChain[1].host
+    host: localStorage.getItem("validator") || currentChain[1].host
   });
 
   tablelandConnection = tbl;

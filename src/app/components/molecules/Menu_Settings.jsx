@@ -3,22 +3,16 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCloseOnClickOutside } from '../../hooks/clickOutside';
 import { toggleMenu } from '../../store/pageStateSlice';
-import { setShowMainnets, setShowStaging } from '../../store/walletConnectionSlice';
+import { changeNetworksToShow, changeValidatorHost } from '../../store/walletConnectionSlice';
 import { globalWeb3modal } from './Menu_Wallet';  
 
 async function ResetWallet() {
   globalWeb3modal.clearCachedProvider();
-  // await globalWeb3modal.connect().request({
-  //   method: "eth_requestAccounts",
-  //   params: [{eth_accounts: {}}]
-  // });
+
   location.reload();
 }
 
 function Disconnect() {
-
-  const network = useSelector(store => store.walletConnection.network);
-  if(!network) return null;
 
   return (
     <li>
@@ -37,14 +31,11 @@ function SettingsMenu() {
   const ref = useRef();
   const dispatch = useDispatch();
   useCloseOnClickOutside(ref, "settingsMenu");
-  const { showMainnets, showStaging } = useSelector(store => store.walletConnection);
+  const { networksToShow, customHost } = useSelector(store => store.walletConnection);
 
-  function toggleShowMainnet() {
-    dispatch(setShowMainnets(!showMainnets))
-  }
-  
-  function toggleShowStaging() {
-    dispatch(setShowStaging(!showStaging))
+  function toggleNetsToShow(set) {
+    
+    dispatch(changeNetworksToShow(set))
   }
 
   return (
@@ -58,20 +49,43 @@ function SettingsMenu() {
         className={`submenu ${settingsMenuOpen ? 'open' : 'closed'}`} 
         ref={ref}
       >
-      <Disconnect />
-     
+        <Disconnect />     
         <li>
-          <label htmlFor="show-testnets">Show Mainnets (alpha)</label>
-          <input id="show-testnets" onChange={toggleShowMainnet}  type="checkbox" checked={showMainnets} />  
+          <div>
+            <label htmlFor="show-testnets" type="radio">Show Testnets</label>
+            <input id="show-testnets" onChange={()=>toggleNetsToShow("testnets")}  type="radio" checked={networksToShow === "testnets"} />  
+          </div>
+          <div>
+            <label htmlFor="show-mainnets" type="radio">Show Mainnets</label>
+            <input id="show-mainnets" onChange={()=>toggleNetsToShow("mainnets")}  type="radio" checked={networksToShow === "mainnets"} />  
+          </div>
+          <div>
+            <label htmlFor="show-allnets" type="radio">Show Both</label>
+            <input id="show-allnets" onChange={()=>toggleNetsToShow("all")}  type="radio" checked={networksToShow === "all"} />  
+          </div>
         </li>   
-        {/* <li>
-          <button>
-            <label htmlFor="show-testnets" >Show Tableland Staging <i className="fa-solid fa-circle-question tooltip"><span>For Tableland Devs, mostly</span></i></label>
-            <input id="show-staging" onChange={toggleShowStaging}  type="checkbox" checked={showStaging} />
-          </button>
-        </li> */}
+        <li>
+          <label htmlFor="validatorUrl"></label>
+          <input 
+            type="text" 
+            name="validatorUrl" 
+            defaultValue={customHost}
+            onKeyUp={e => {
+              dispatch(changeValidatorHost(e.target.value));
+            }}
+          ></input>
+          <button onClick={() => {
+            localStorage.setItem("validator", customHost);
+            location.reload();
+          }}>Change Validator</button>
+          {customHost && <button onClick={()=> {
+            localStorage.setItem("validator", "");
+            location.reload();
+          }}>Clear Custom Validator</button>}
+        </li>
       </ul>
     </li>
   );
 }
+
 export default SettingsMenu;
