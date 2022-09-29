@@ -73,6 +73,15 @@ export const chainWalletRegisterList = [
       decimals: 18,
     },
     rpcUrls: ["https://polygon-rpc.com/"]
+  },
+  {
+    chainId: 31337,
+    chainName: "Local Tableland",
+    nativeCurrency: {
+      symbol: "fETH",
+      decimals: 18,
+    },
+    rpcUrls: ["http://localhost:8545"]
   }  
 ];
 

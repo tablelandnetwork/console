@@ -30,10 +30,9 @@ export function getActiveNetworks() {
   activeChains = activeChains.filter(chain => {
     if(networksToShow==="testnets" || networksToShow==="all") return true;
     if(chain.host.includes("staging")) return false;
+    if(chain.chainId===31337) return false;
     return true;
   });
-
-  activeChains = activeChains.filter(chain => chain.name !== "localhost");
 
   return activeChains;
 }
