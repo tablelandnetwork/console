@@ -54,11 +54,7 @@ export function WalletConnect() {
     
 
     globalWeb3modal = newWeb3Modal;
-    setWeb3Modal(newWeb3Modal)
-    if(newWeb3Modal.cachedProvider) {
-      completeConnection(newWeb3Modal);
-
-    }
+    setWeb3Modal(newWeb3Modal);
   }, [])
 
   async function toggleWallet() {
