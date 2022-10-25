@@ -5,6 +5,7 @@ import { useCloseOnClickOutside } from '../../hooks/clickOutside';
 import { toggleMenu } from '../../store/pageStateSlice';
 import { changeNetworksToShow, changeValidatorHost } from '../../store/walletConnectionSlice';
 import { globalWeb3modal } from './Menu_Wallet';  
+import { Flags } from 'react-feature-flags';
 
 async function ResetWallet() {
   globalWeb3modal.clearCachedProvider();
@@ -64,25 +65,27 @@ function SettingsMenu() {
             <input id="show-allnets" onChange={()=>toggleNetsToShow("all")}  type="radio" checked={networksToShow === "all"} />  
           </div>
         </li>   
-        <li>
-          <label htmlFor="validatorUrl"></label>
-          <input 
-            type="text" 
-            name="validatorUrl" 
-            defaultValue={customHost}
-            onKeyUp={e => {
-              dispatch(changeValidatorHost(e.target.value));
-            }}
-          ></input>
-          <button onClick={() => {
-            localStorage.setItem("validator", customHost);
-            location.reload();
-          }}>Change Validator</button>
-          {customHost && <button onClick={()=> {
-            localStorage.setItem("validator", "");
-            location.reload();
-          }}>Clear Custom Validator</button>}
-        </li>
+        <Flags authorizedFlags={['customValidator']}>
+          <li>
+            <label htmlFor="validatorUrl"></label>
+            <input 
+              type="text" 
+              name="validatorUrl" 
+              defaultValue={customHost}
+              onKeyUp={e => {
+                dispatch(changeValidatorHost(e.target.value));
+              }}
+            ></input>
+            <button onClick={() => {
+              localStorage.setItem("validator", customHost);
+              location.reload();
+            }}>Change Validator</button>
+            {customHost && <button onClick={()=> {
+              localStorage.setItem("validator", "");
+              location.reload();
+            }}>Clear Custom Validator</button>}
+          </li>
+        </Flags>
       </ul>
     </li>
   );
