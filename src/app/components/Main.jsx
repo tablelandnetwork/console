@@ -7,9 +7,10 @@ import GrandCentral from './GrandCentral';
 
 
 function Main() {
+
   return (
     <Provider store={store}>
-      <FlagsProvider value={[{name: "savedQueries", isActive: false}]}>
+      <FlagsProvider value={store.getState().flags}>
         <BrowserRouter>
           <GrandCentral />
         </BrowserRouter>

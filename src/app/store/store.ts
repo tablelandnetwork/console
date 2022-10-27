@@ -8,6 +8,7 @@ import walletConnectionReducer from './walletConnectionSlice';
 import pageStateReducer from './pageStateSlice.js';
 import tabsReducer from './tabsSlice';
 import sidebarReducer from './sidebarSlice';
+import flagsReducer from './flagSlice';
 
 
 export const store = configureStore({
@@ -20,7 +21,8 @@ export const store = configureStore({
     pendingWrites: pendingWritesReducer,
     pageState: pageStateReducer,
     tabs: tabsReducer,
-    sidebar: sidebarReducer
+    sidebar: sidebarReducer,
+    flags: flagsReducer
   }
 });
 
