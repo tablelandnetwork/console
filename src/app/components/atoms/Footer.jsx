@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Footer(props) {
+function Footer() {
 
   return (
     <footer>
-      Tableland
+      <span className='dashboard-version'>{VERSION}</span> 
     </footer>  
   );
 }

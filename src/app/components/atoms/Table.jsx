@@ -1,23 +1,16 @@
 import React from 'react';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
-import { Rnd } from "react-rnd";
-
 
 function Table(props) {
 
-
   return (
-    // <Rnd
-    //   bounds="parent"
-    //   axis="x"
-    //   disableDragging={true}
-    // >
+    <div className='table-container'>
       <table className='tabula-rasa'>           
-        <TableHeader />
-        <TableBody />
+        <TableHeader tab={props.tab} />
+        <TableBody tab={props.tab} />
       </table>
-    // </Rnd>
+    </div>
   );
 }
 

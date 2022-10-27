@@ -1,20 +1,101 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { getTablelandConnection } from '../database/connectToTableland';
+import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
+import store from './store';
+
+export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
+  const { query, options } = details;
+
+  const fauxQuery = `CREATE TABLE ${options.prefix} (${query});`;  
+
+  store.dispatch(addPendingWrite({
+    query: fauxQuery,
+    status: "pending-wallet"
+  }));
+  const tx = getTablelandConnection().create(query, options);
+  store.dispatch(updatePendingWrite({
+    query: fauxQuery,
+    status: "pending-network"
+  }));
+  const txResult = await tx;
+  store.dispatch(updatePendingWrite({
+    query: fauxQuery,
+    status: "complete",
+    hash: txResult.txnHash,
+    chain: txResult.chainId,
+    tableName: txResult.name
+  }));
+
+});
+
+
+export function columnsSummary(columns) {
+  let columnsArray = columns.map(column => {
+    let columnText = `${column.name} ${column.type}`;
+    if(column["notNull"]) {
+      columnText += " NOT NULL";
+    }
+    if(column["primaryKey"]) {
+      columnText += " PRIMARY KEY" 
+    }
+    if(column["unique"]) {
+      columnText += " UNIQUE"
+    }
+    if(column["default"] && column.type==="integer") {
+      columnText += ` DEFAULT ${column["default"]}`
+    } else if(column["default"]) {
+      columnText += ` DEFAULT '${column["default"]}'`;
+    }
+    return columnText
+  });
+  return columnsArray.join(", ");
+}
+
+const initialState = {name: "untitled_table", columns: [{name: "id", type: "integer", notNull: false, primaryKey: false, unique: false}]};
 
 const createTableSlice = createSlice({
   name: 'createTable',
-  initialState: {name: "", columns: [["id", "integer"]]},
+  initialState,
   reducers: {
-    updateName(state, action) {
-      state.name = action.payload;
+    setPrefix(state, action) {
+      state.name = action.payload
     },
     addColumn(state, action) {
-      state.columns.push(["", "any"]);
+      state.columns.push({
+        name: "", 
+        type: "any",
+        notNull: false, 
+        primaryKey: false, 
+        unique: false,
+        default:  ""
+      });
     },
-    updateColumn(state, action) {
-      state.columns[action.payload.columnIndex] = action.payload.newColumn;
+    removeColumn(state, action) {
+      state.columns.pop();
+    },
+    updateColumnProperty(state, action) {
+      const { columnIndex, property, value, checked } = action.payload;
+
+      let newVal;
+      switch(property) {
+        case "notNull": 
+        case "primaryKey":
+        case "unique":          
+          newVal = checked;
+          break;
+        case "default":
+        case "name": 
+        case "type":
+          newVal = value;
+          break;
+      }
+
+
+      state.columns[columnIndex][property] = newVal;
+
     }
   }
 })
 
-export const { addColumn, updateColumn, updateName } = createTableSlice.actions
+export const { addColumn, removeColumn, setPrefix, updateColumnProperty } = createTableSlice.actions
 export default createTableSlice.reducer

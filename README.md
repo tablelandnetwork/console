@@ -7,7 +7,7 @@ To get started, open your console and run these commands:
 ```console
 npm install
 npx mix
-npm run serve
+npm start
 ```
 
 By default, the Tableland UI will appear at port 3111

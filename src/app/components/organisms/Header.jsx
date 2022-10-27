@@ -1,29 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { GENERIC_QUERY } from '../../../consts';
-import { genericQuery } from '../../database/databaseCalls';
-import populateFromTableland from '../../database/populateFromTableland';
+import Logo from '../atoms/Logo';
+import NavBar from '../molecules/Menu_Navbar';
 
-function Header(props) {
+function Header() {
 
   return (
-    <header className='navbar'>
-    <Link to="/">  
-      <img src="/assets/tableland.svg" className='navbar--logo' />
-    </Link>
-    <ul className='navbar--menu'>
-      <li><Link to="/about">About</Link></li>
-      <li><Link to="/table-design">Create Table</Link></li>
-      <li>
-      <button className='subtle'>Upload Database (sqlite)</button>
-      </li>
-      <li>
-        <button onClick={async e => {
-          genericQuery(await populateFromTableland());
-        }} >Connect to Tableland</button>
-      </li>
-    </ul>
-  </header>
-  );
+    <header className='navbar'>       
+      <Logo />
+      <NavBar />
+    </header>
+  );  
 }
 export default Header;

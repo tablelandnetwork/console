@@ -4,15 +4,19 @@ import Cell from './Cell';
 
 function Row(props) {
 
-  const row = useSelector(store => store.latestResultSet.rows[props.row]);
-
-  if (!row) return null;
+  const row = useSelector(store => store.tabs.list[props.tab].rows[props.row]);
 
   return (
     <tr>
       {
         row.map((column, columnKey) => {
-          return <Cell key={columnKey} table={props.table} row={props.row} column={columnKey} database={props.database} />;
+          return (
+            <Cell 
+              key={columnKey} 
+              tab={props.tab} 
+              row={props.row} 
+              column={columnKey} 
+            />);
         }) 
       }
     </tr>

@@ -1,3 +1,5 @@
 dispatch:
   - url: "dash.tableland.xyz/*"
     service: default
+  - url: "render.tableland.xyz/*"
+    service: table-nft-svg
