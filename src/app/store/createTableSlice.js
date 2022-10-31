@@ -12,7 +12,14 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
     query: fauxQuery,
     status: "pending-wallet"
   }));
-  const tx = getTablelandConnection().create(query, options);
+  const tx = getTablelandConnection().create(query, options).catch(e=>{
+    console.log("Create failed");
+    console.log(e);
+    store.dispatch(updatePendingWrite({
+      query: fauxQuery,
+      status: "cancelled"
+    }));
+  });;
   store.dispatch(updatePendingWrite({
     query: fauxQuery,
     status: "pending-network"

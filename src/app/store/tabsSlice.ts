@@ -53,9 +53,23 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
       status: "pending-wallet"
     }));
     // @ts-ignore
-    await getTablelandConnection().siwe();
+    await getTablelandConnection().siwe().catch(e=>{
+      console.log("SIWE cancelled");
+      console.log(e);
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "cancelled"
+      }));
+    });
     // @ts-ignore
-    res = getTablelandConnection().write(query);
+    res = getTablelandConnection().write(query).catch(e=>{
+      console.log("Write cancelled");
+      console.log(e);
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "cancelled"
+      }));
+    });
     // @ts-ignore
     store.dispatch(updatePendingWrite({
       query: query,
