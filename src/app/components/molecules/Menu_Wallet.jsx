@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { refreshTables } from '../../store/tablesSlice';
-import { useDispatch } from 'react-redux/es/exports';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { startTableLand } from '../../database/connectToTableland';
+import { setConnected } from '../../store/walletConnectionSlice';
 
 export let globalWeb3modal = null; 
 
@@ -11,7 +12,7 @@ export let globalWeb3modal = null;
 export function WalletConnect() {
 
   const [web3Modal, setWeb3Modal] = useState(null);
-  const [connected, setConnected] = useState(false);
+  const connected = useSelector(store => store.walletConnection.connected);
   const [address, setAddress] = useState('');
   const dispatch = useDispatch();
 
@@ -20,7 +21,8 @@ export function WalletConnect() {
     const provider = await web3Modal.connect();
     startTableLand(provider);
     setAddress((await provider.request({ method: 'eth_accounts' }))[0]);
-    setConnected(true);
+    
+    dispatch(setConnected(true));
     dispatch(refreshTables());
     
     provider.on('chainChanged', () => {

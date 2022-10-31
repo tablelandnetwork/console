@@ -4,6 +4,7 @@ const initialState = {
   networksToShow: localStorage.getItem("networksToShow") || "mainnet",
   customHost: localStorage.getItem("validator"),
   network: "",
+  connected: false
 };
 
 const walletConnectionSlice = createSlice({
@@ -19,9 +20,12 @@ const walletConnectionSlice = createSlice({
     changeNetworksToShow(state, action) {
       state.networksToShow = action.payload;
       localStorage.setItem("networksToShow", action.payload);
+    },
+    setConnected(state, action) {
+      state.connected = action.payload;
     }
   }
 });
 
-export const { changeValidatorHost, networkSet, changeNetworksToShow } = walletConnectionSlice.actions
+export const { changeValidatorHost, networkSet, changeNetworksToShow, setConnected } = walletConnectionSlice.actions
 export default walletConnectionSlice.reducer

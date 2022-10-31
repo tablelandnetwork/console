@@ -7,6 +7,7 @@ import { changeNetworksToShow, changeValidatorHost } from '../../store/walletCon
 import { globalWeb3modal } from './Menu_Wallet';  
 import { Flags } from 'react-feature-flags';
 
+
 async function ResetWallet() {
   globalWeb3modal.clearCachedProvider();
 
@@ -14,7 +15,9 @@ async function ResetWallet() {
 }
 
 function Disconnect() {
+  const connected = useSelector(store=>store.walletConnection.connected);
 
+  if(!connected) return null;
   return (
     <li>
       <button 
