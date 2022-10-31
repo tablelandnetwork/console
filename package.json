@@ -16,7 +16,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@tableland/sdk": "^3.1.4",
     "@tableland/sqlparser": "github:tablelandnetwork/wasm-sqlparser",
-    "@urdeveloper/sql.js": "1.6.1",
+    "@urdeveloper/sql.js": "1.6.2",
     "@walletconnect/web3-provider": "^1.8.0",
     "absurd-sql": "^0.0.53",
     "dotenv": "^16.0.1",
