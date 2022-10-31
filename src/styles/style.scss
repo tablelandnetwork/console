@@ -231,6 +231,14 @@ body {
   }
 }
 
+ul.flags-list {
+  padding: 10px;
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }  
+}
 
 .connected-icon {
   color: var(--bright-green);

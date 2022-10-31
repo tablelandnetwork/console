@@ -4,7 +4,11 @@ const flagSlice = createSlice({
   name: 'flag',
   initialState: [
     {name: "savedQueries", isActive: localStorage.getItem("flag--savedQueries")==="active"},
-    {name: "toggleFlags", isActive: localStorage.getItem("flag--toggleFlags")==="active"}
+    {name: "toggleFlags", isActive: localStorage.getItem("flag--toggleFlags")==="active"},
+    {name: "prefabQueries", isActive: localStorage.getItem("flag--prefabQueries")==="active"},
+    {name: "accessControl", isActive: localStorage.getItem("flag--accessControl")==="active"},
+    {name: "networkFocus", isActive: localStorage.getItem("flag--networkFocus")==="active"},
+    {name: "customValidator", isActive: localStorage.getItem("flag--customValidator")==="active"}
   ], 
   reducers: {
     setFlag(state, action) {

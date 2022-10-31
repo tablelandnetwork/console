@@ -71,8 +71,7 @@ function FlagsToggler() {
   const flags = useSelector(store => store.flags);
   const dispatch = useDispatch();
   return (
-    <ul>
-
+    <ul className='flags-list'>
       {
         flags.map(flag => {
           return (
@@ -82,7 +81,16 @@ function FlagsToggler() {
           );
         })
       }
-      
+      <li>
+        <button onClick={() => {
+          flags.forEach(flag => {
+            dispatch(setFlag({name: flag.name, isActive: false}));
+          });
+        }}>Disable all flags</button>
+      </li>
+      <li>
+        (Page must be refreshed for flag updates to apply.)
+      </li>
     </ul>
   );
 }
