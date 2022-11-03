@@ -4,19 +4,21 @@ import { refreshTables } from "../../store/tablesSlice";
 import { newCreateTableTab } from "../../store/tabsSlice";
 import Loading from "../atoms/Loading";
 import TableList from "./TableList";
+import { RootState } from "../../store/store";
 
 
 export default function TableListWithMeta() {
   const dispatch = useDispatch();
-  let refreshing = useSelector(store => store.tables.refreshing);
-  const currentNetwork = useSelector(store => store.walletConnection.network);
+  let refreshing = useSelector((store: RootState) => store.tables.refreshing);
+  const currentNetwork = useSelector((store: RootState) => store.walletConnection.network);
 
   function refreshMyTables() {
+    // @ts-ignore
     dispatch(refreshTables());
   }
 
   function openCreateTableTab() {
-    dispatch(newCreateTableTab());
+    dispatch(newCreateTableTab(null));
   }
 
   return (

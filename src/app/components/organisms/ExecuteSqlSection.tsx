@@ -4,14 +4,14 @@ import ResultSetPane from '../molecules/ResultSetPane';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeTab, newQueryTab, activateTab, renameTab } from '../../store/tabsSlice';
 import CreateTable from './CreateTable';
-
+import { RootState } from '../../store/store';
 
 
 
 function TabLabel(props) {
   const dispatch = useDispatch();
-  const currentTab = useSelector(store=>store.tabs.active);
-  const tab = useSelector(store => store.tabs.list[props.tab]);
+  const currentTab = useSelector((store: RootState)=>store.tabs.active);
+  const tab = useSelector((store: RootState) => store.tabs.list[props.tab]);
 
 
   function switchToTab(key) {
@@ -40,12 +40,12 @@ function TabLabel(props) {
 
 function ExecuteSqlSection() {
    
-  const tabs = useSelector(store=>store.tabs.list);
-  const currentTab = useSelector(store=>store.tabs.active);
+  const tabs = useSelector((store: RootState)=>store.tabs.list);
+  const currentTab = useSelector((store: RootState)=>store.tabs.active);
   const dispatch = useDispatch();
 
   function openQueryTab() {
-    dispatch(newQueryTab());
+    dispatch(newQueryTab(null));
   }
 
 

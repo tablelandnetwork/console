@@ -1,4 +1,5 @@
 import { connect, SUPPORTED_CHAINS } from '@tableland/sdk';
+import { ChainName } from '@tableland/sdk';
 import store from '../store/store';
 import { networkSet } from '../store/walletConnectionSlice';
 const supportedChains = Object.entries(SUPPORTED_CHAINS);
@@ -55,10 +56,10 @@ export async function startTableLand(provider) {
 
   let currentChain = supportedChains.find(chain => chain[1].chainId === chainId);
   
-
+  // @ts-ignore
   store.dispatch(networkSet(currentChain[1].phrase) || "Ethereum Mainnet");
   const tbl = await connect({
-    chain: currentChain[0],
+    chain: currentChain[0] as ChainName,
     host: localStorage.getItem("validator") || currentChain[1].host
   });
 

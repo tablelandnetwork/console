@@ -2,10 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Loading from "../atoms/Loading";
 import Table from "../atoms/Table";
+import { RootState } from '../../store/store';
 
 export default function currentTabPane(props) {
   const { tab } = props;
-  const currentTab = useSelector(store => store.tabs.list[tab]);
+  const currentTab = useSelector((store: RootState) => store.tabs.list[tab]);
   
 
 

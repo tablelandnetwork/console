@@ -1,3 +1,8 @@
+declare global {
+  var sqlparser: any;
+  var getTablelandConnection: any;
+}
+
 export async function getQueryType(query) {
   try {
     await sqlparser.parse(query);
@@ -33,7 +38,7 @@ export async function query(query, options) {
   }
 
   if(isWrite) {
-    queryLocal(query, options);
+//     queryLocal(query, options);
   } else {
     queryGateway(query, options);
   }

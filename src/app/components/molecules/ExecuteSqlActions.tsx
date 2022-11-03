@@ -1,13 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { queryTableland } from "../../store/tabsSlice";
+import { RootState } from '../../store/store';
 
 function ExecuteSqlActions(props) {
 
   const { tab } = props;
-  const tabContent = useSelector(store => store.tabs.list[tab]);
-  const query = useSelector(store => store.tabs.list[tab].query);
-  const queryType = useSelector(store => store.tabs.list[tab].queryType);
+  const tabContent = useSelector((store: RootState) => store.tabs.list[tab]);
+  const query = useSelector((store: RootState) => store.tabs.list[tab].query);
+  const queryType = useSelector((store: RootState) => store.tabs.list[tab].queryType);
   const dispatch = useDispatch();
 
 
@@ -17,6 +18,7 @@ function ExecuteSqlActions(props) {
 
   function sendQuery(event) {
       event.preventDefault();
+      // @ts-ignore
       dispatch(queryTableland({query: query, tab: tab}));
   }
 

@@ -4,11 +4,12 @@ import { setSidebarMode } from '../../store/sidebarSlice';
 import TableListPane from '../molecules/TableListPane';
 import { Flags } from 'react-feature-flags';
 import { setFlag } from '../../store/flagSlice';
+import { RootState } from '../../store/store';
 
 function ActionsBar() {
 
   const dispatch = useDispatch();
-  const activeSidebarItem = useSelector(store => store.sidebar.mode);
+  const activeSidebarItem = useSelector((store: RootState) => store.sidebar.mode);
 
   function active(tab) {
     if (tab===activeSidebarItem) return 'active';
@@ -68,7 +69,7 @@ function SavedTabs() {
 }
 
 function FlagsToggler() {
-  const flags = useSelector(store => store.flags);
+  const flags = useSelector((store: RootState)=> store.flags);
   const dispatch = useDispatch();
   return (
     <ul className='flags-list'>
@@ -97,7 +98,7 @@ function FlagsToggler() {
 
 function Sidebar(props) {
 
-  const sidebarMode = useSelector(store => store.sidebar.mode);
+  const sidebarMode = useSelector((store: RootState) => store.sidebar.mode);
   
   let content = null;
   switch(sidebarMode) {

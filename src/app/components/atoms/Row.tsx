@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Cell from './Cell';
+import { RootState } from '../../store/store';
 
 function Row(props) {
 
-  const row = useSelector(store => store.tabs.list[props.tab].rows[props.row]);
+  const row = useSelector((store: RootState) => store.tabs.list[props.tab].rows[props.row]);
 
   return (
     <tr>

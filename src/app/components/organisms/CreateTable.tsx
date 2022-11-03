@@ -4,11 +4,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty, sendCreateQuery } from '../../store/createTableSlice';
 import Loading from '../atoms/Loading';
-
+import { RootState } from '../../store/store';
 
 function CreateColumn(props) {
   const dispatch = useDispatch();
-  const column = useSelector(store=>store.createTable.columns[props.slot]);
+  const column = useSelector((store: RootState)=>store.createTable.columns[props.slot]);
 
   const setColumnProperty = function(e) {
     dispatch(updateColumnProperty({
@@ -62,7 +62,6 @@ function CreateColumn(props) {
       <td>
         <input        
           name="unique"
-          value={column.unique}
           checked={column.unique}   
           type="checkbox"           
           onChange={setColumnProperty} 
@@ -83,16 +82,16 @@ function CreateColumn(props) {
 }
 
 function CreateTable(props) {
-  const tableName = useSelector(store=>store.createTable.name);
-  const columns = useSelector(store=>store.createTable.columns);
-  const commiting = useSelector(store=>store.createTable.commiting);
-  const currentNetwork = useSelector(store => store.walletConnection.network);
+  const tableName = useSelector((store: RootState)=>store.createTable.name);
+  const columns = useSelector((store: RootState)=>store.createTable.columns);
+  const commiting = useSelector((store: RootState)=>store.createTable.commiting);
+  const currentNetwork = useSelector((store: RootState) => store.walletConnection.network);
   const dispatch = useDispatch();
 
 
   function createTableOnNetwork(e) {
     e.preventDefault();
-    
+    // @ts-ignore
     dispatch(sendCreateQuery({query: columnsSummary(columns), options: {prefix: tableName}}));
   }
 
@@ -140,12 +139,12 @@ function CreateTable(props) {
 
         <button onClick={e => {
           e.preventDefault();
-          dispatch(addColumn());
+          dispatch(addColumn(null));
         }}><i className="fa-solid fa-plus"></i></button>
 
         <button onClick={e => {
           e.preventDefault();
-          dispatch(removeColumn());
+          dispatch(removeColumn(null));
         }}><i className="fa-solid fa-minus"></i></button>
 
       <button>Commit</button>
