@@ -2,12 +2,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getTablelandConnection } from '../database/connectToTableland';
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
+import { CreateTableReceipt } from '@tableland/sdk';
 
-export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
+export const sendCreateQuery = createAsyncThunk("/send", async (details:any) => {
   const { query, options } = details;
 
   const fauxQuery = `CREATE TABLE ${options.prefix} (${query});`;  
-  store.dispatch(startCommit());
+  store.dispatch(startCommit(null));
   store.dispatch(addPendingWrite({
     query: fauxQuery,
     status: "pending-wallet"
@@ -24,7 +25,7 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
     query: fauxQuery,
     status: "pending-network"
   }));
-  const txResult = await tx;
+  const txResult = await tx as CreateTableReceipt; 
   store.dispatch(updatePendingWrite({
     query: fauxQuery,
     status: "complete",
@@ -66,7 +67,8 @@ const initialState = {
       type: "integer", 
       notNull: false, 
       primaryKey: false, 
-      unique: false
+      unique: false,
+      default:  null
   }]
 };
 

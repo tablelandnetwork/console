@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
 import { getQueryType } from '../database/databaseCalls';
-import { getTablelandConnection } from '../database/connectToTableland.js';
+import { getTablelandConnection } from '../database/connectToTableland';
 
 enum QueryTypeState {
   loading = 'loading',
@@ -103,7 +103,9 @@ interface Tab {
   columns?: any[],
   rows?: any[],
   query?: string,
-  queryType?: string
+  queryType?: string,
+  error?: string,
+  status?: string
 }
 
 const initialState = {

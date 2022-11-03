@@ -2,10 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../store/pageStateSlice";
 import PendingWrites from "./PendingWrites";
+import { RootState } from '../../store/store';
 
 
 function TransactionList() {
-  const pendingWrites = useSelector(store => store.pendingWrites);
+  const pendingWrites = useSelector((store: RootState) => store.pendingWrites);
   const dispatch = useDispatch();
   if(pendingWrites.length < 1) return null;
 

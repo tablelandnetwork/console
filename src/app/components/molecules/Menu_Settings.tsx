@@ -6,7 +6,7 @@ import { toggleMenu } from '../../store/pageStateSlice';
 import { changeNetworksToShow, changeValidatorHost } from '../../store/walletConnectionSlice';
 import { globalWeb3modal } from './Menu_Wallet';  
 import { Flags } from 'react-feature-flags';
-
+import { RootState } from '../../store/store';
 
 async function ResetWallet() {
   globalWeb3modal.clearCachedProvider();
@@ -15,7 +15,7 @@ async function ResetWallet() {
 }
 
 function Disconnect() {
-  const connected = useSelector(store=>store.walletConnection.connected);
+  const connected = useSelector((store: RootState) =>store.walletConnection.connected);
 
   if(!connected) return null;
   return (
@@ -31,11 +31,11 @@ function Disconnect() {
 }
 
 function SettingsMenu() {
-  const settingsMenuOpen = useSelector(store => store.pageState.settingsMenu);
+  const settingsMenuOpen = useSelector((store: RootState) => store.pageState.settingsMenu);
   const ref = useRef();
   const dispatch = useDispatch();
   useCloseOnClickOutside(ref, "settingsMenu");
-  const { networksToShow, customHost } = useSelector(store => store.walletConnection);
+  const { networksToShow, customHost } = useSelector((store: RootState) => store.walletConnection);
 
   function toggleNetsToShow(set) {
     
@@ -56,15 +56,17 @@ function SettingsMenu() {
         <Disconnect />     
         <li>
           <div>
-            <label htmlFor="show-testnets" type="radio">Show Testnets</label>
+            <label htmlFor="show-testnets" 
+            typeof='radio'
+            >Show Testnets</label>
             <input id="show-testnets" onChange={()=>toggleNetsToShow("testnets")}  type="radio" checked={networksToShow === "testnets"} />  
           </div>
           <div>
-            <label htmlFor="show-mainnets" type="radio">Show Mainnets</label>
+            <label htmlFor="show-mainnets" typeof="radio">Show Mainnets</label>
             <input id="show-mainnets" onChange={()=>toggleNetsToShow("mainnets")}  type="radio" checked={networksToShow === "mainnets"} />  
           </div>
           <div>
-            <label htmlFor="show-allnets" type="radio">Show Both</label>
+            <label htmlFor="show-allnets" typeof="radio">Show Both</label>
             <input id="show-allnets" onChange={()=>toggleNetsToShow("all")}  type="radio" checked={networksToShow === "all"} />  
           </div>
         </li>   

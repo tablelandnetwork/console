@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 function HeaderRow(props) {
 
-  const columns = useSelector(store => store.tabs.list[props.tab].columns);
+  const columns = useSelector((store: RootState) => store.tabs.list[props.tab].columns);
 
   if (!columns) return null;
 

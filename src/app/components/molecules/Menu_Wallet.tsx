@@ -1,3 +1,4 @@
+import React from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 export let globalWeb3modal = null; 
 import { useProvider } from "wagmi";
