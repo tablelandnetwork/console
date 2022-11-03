@@ -9,6 +9,7 @@
 @import "tab-nav";
 @import "writes";
 @import "tab-pane";
+@import "../../node_modules/@rainbow-me/rainbowkit/dist/index.css";
 
 html,body {
   height:100%;
@@ -229,6 +230,10 @@ body {
     min-height: 15vh;
     overflow: scroll;
   }
+}
+
+div[data-rk] {
+  display: contents;
 }
 
 ul.flags-list {
