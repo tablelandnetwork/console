@@ -7,7 +7,7 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details) => {
   const { query, options } = details;
 
   const fauxQuery = `CREATE TABLE ${options.prefix} (${query});`;  
-
+  store.dispatch(startCommit());
   store.dispatch(addPendingWrite({
     query: fauxQuery,
     status: "pending-wallet"
@@ -58,12 +58,25 @@ export function columnsSummary(columns) {
   return columnsArray.join(", ");
 }
 
-const initialState = {name: "untitled_table", columns: [{name: "id", type: "integer", notNull: false, primaryKey: false, unique: false}]};
+const initialState = {
+  name: "untitled_table", 
+  commiting: false,
+  columns: [{
+      name: "id",
+      type: "integer", 
+      notNull: false, 
+      primaryKey: false, 
+      unique: false
+  }]
+};
 
 const createTableSlice = createSlice({
   name: 'createTable',
   initialState,
   reducers: {
+    startCommit(state, action) {
+      state.commiting = true;
+    },
     setPrefix(state, action) {
       state.name = action.payload
     },
@@ -104,5 +117,5 @@ const createTableSlice = createSlice({
   }
 })
 
-export const { addColumn, removeColumn, setPrefix, updateColumnProperty } = createTableSlice.actions
+export const { addColumn, removeColumn, setPrefix, updateColumnProperty, startCommit } = createTableSlice.actions
 export default createTableSlice.reducer

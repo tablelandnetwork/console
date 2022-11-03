@@ -3,6 +3,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty, sendCreateQuery } from '../../store/createTableSlice';
+import Loading from '../atoms/Loading';
 
 
 function CreateColumn(props) {
@@ -84,6 +85,7 @@ function CreateColumn(props) {
 function CreateTable(props) {
   const tableName = useSelector(store=>store.createTable.name);
   const columns = useSelector(store=>store.createTable.columns);
+  const commiting = useSelector(store=>store.createTable.commiting);
   const currentNetwork = useSelector(store => store.walletConnection.network);
   const dispatch = useDispatch();
 
@@ -92,6 +94,10 @@ function CreateTable(props) {
     e.preventDefault();
     
     dispatch(sendCreateQuery({query: columnsSummary(columns), options: {prefix: tableName}}));
+  }
+
+  if(commiting) {
+    return <Loading show={true} />
   }
   
 
