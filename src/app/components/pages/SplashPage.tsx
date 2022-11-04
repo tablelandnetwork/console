@@ -9,9 +9,7 @@ function SplashPage(props) {
     <>
       <Header />
       <div className='splash-page-connecter'>
-        <div style={{ "height": "100vh", "width": "100vw", display: "flex", "justifyContent": "center", "alignItems": "center"}} >
-          <CustomConnectButton />
-        </div>
+        <CustomConnectButton />
       </div>
     </>
   );
