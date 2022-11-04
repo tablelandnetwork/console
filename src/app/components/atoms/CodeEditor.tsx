@@ -20,6 +20,7 @@ function CodeEditor(props) {
       onValueChange={props.onChange}
       highlight={(code) => hightlightWithLineNumbers(code, languages.sql, props.hideLineNumbers)}
       padding={10}
+      placeholder="SELECT * FROM YourTable;"
       textareaId={props.hideLineNumbers ? "codeViewer":"codeEditor"}
       className="editor language-sql"
       style={{

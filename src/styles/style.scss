@@ -39,6 +39,7 @@ html {
 header, footer {
   padding: 10px;
   background-color: var(--grey-dark-ish);
+  background-color: var(--primary);
 }
 header {
   grid-area: header;  
@@ -73,7 +74,7 @@ h3 {
     min-content
   ;
   
-  grid-template-columns: .6fr 1fr;
+  grid-template-columns: 40% 1fr;
   grid-template-areas: 
     "navbar navbar"
     "sidebar main"
@@ -88,6 +89,7 @@ main {
   grid-area: sidebar;
   display: flex;
   .actions-bar {
+    padding-top: 6px;
     background-color: var(--grey-dark-ish);
     display: flex;
     flex-direction: column;
@@ -282,7 +284,7 @@ ul.flags-list {
   width: 100%;
   &:focus {
     background-color: var(--grey-dark-ish);
-    border-color: white;
+    border-color: var(--white);
     border-bottom: 1px solid var(--grey-mid);
   }
   &:focus-visible {

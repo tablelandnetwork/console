@@ -96,11 +96,11 @@
       i {
         color: var(--grey-mid);
         &:hover {
-          color: white;
+          color: var(--white);
         }
       }
       &:hover {
-        color: white;
+        color: var(--white);
       }
     }
     .table-schema {

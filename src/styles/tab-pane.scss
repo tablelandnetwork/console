@@ -1,6 +1,8 @@
 .tabs-pane {
   display: flex;
   flex-direction: column;
+  max-width: 100%;
+  overflow: hidden;
   .single-tab-pane {
     background-color: var(--black);
     padding: 10px;
@@ -17,6 +19,8 @@
   background-color: var(--grey-dark);
   padding: 10px 15px 0px 0px;
   border-radius: 10px;
+  max-width: 100%;
+  overflow: scroll;
   li {
     display: block;
     padding: 8px 16px;
@@ -52,6 +56,6 @@
   li input {
     background-color: transparent;
     border: 0px;
-    color: white;
+    color: var(--white);
   }
 }
