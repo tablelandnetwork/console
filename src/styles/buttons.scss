@@ -3,7 +3,7 @@ button:not(.reset), select:not(.reset), .button {
   display: inline-block;
   text-decoration: none;
   color: var(--white);
-  background-color: var(--black-near);
+  background-color: var(--paper);
   border-radius: 5px;
   padding: 10px 20px;
   border: 0px;
@@ -11,7 +11,8 @@ button:not(.reset), select:not(.reset), .button {
   text-transform: uppercase;
   font-family: var(--main-font);
   transition: color .5s, background-color .5s;
-  border: 2px solid var(--black-near);
+  border: 2px solid transparent;
+  border: 1px solid var(--primary);
   & + button {
     margin-left: 10px;
   }
