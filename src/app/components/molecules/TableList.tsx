@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { newQueryTab } from "../../store/tabsSlice";
 import { getSchema } from "../../store/tablesSlice";
 import Loading from "../atoms/Loading";
-
+import { RootState } from '../../store/store';
 
 function ColumnDetails(props) {
 
   const { tableName } = props;
 
-  const table = useSelector(store => {
+  const table = useSelector((store: RootState) => {
     return store.tables.myTables.find(table=>table.name===tableName);
   });
 
@@ -38,13 +38,14 @@ function TableColumnDetails(props) {
   const { open, tableName } = props;
   const dispatch = useDispatch();
 
-  const table = useSelector(store => {
+  const table = useSelector((store: RootState) => {
     return store.tables.myTables.find(table=>table.name===tableName);
   });
 
 
 
   if(!table.schema && open) {
+    // @ts-ignore
     dispatch(getSchema({tableName}));
   }
   if(!table.schema) {
@@ -65,7 +66,7 @@ function TableListItem(props) {
 
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const table = useSelector(store => {
+  const table = useSelector((store: RootState) => {
     return store.tables.myTables.find(table=>table.name===tableName);
   });
 
@@ -94,7 +95,7 @@ function TableListItem(props) {
 
 function TableList() {
 
-  const tables = useSelector(store => store.tables.myTables);
+  const tables = useSelector((store: RootState) => store.tables.myTables);
 
   return (
     <>

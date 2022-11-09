@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+      "jsx": "react",
       "module": "ESNext",
       "target": "ESNext",
       "noImplicitAny": false,
       "sourceMap": false,
-      "moduleResolution": "node"
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true
   },
 }

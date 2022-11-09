@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
 import { getQueryType } from '../database/databaseCalls';
-import { getTablelandConnection } from '../database/connectToTableland.js';
+import { getTablelandConnection } from '../database/connectToTableland';
 
 enum QueryTypeState {
   loading = 'loading',
@@ -53,9 +53,23 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
       status: "pending-wallet"
     }));
     // @ts-ignore
-    await getTablelandConnection().siwe();
+    await getTablelandConnection().siwe().catch(e=>{
+      console.log("SIWE cancelled");
+      console.log(e);
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "cancelled"
+      }));
+    });
     // @ts-ignore
-    res = getTablelandConnection().write(query);
+    res = getTablelandConnection().write(query).catch(e=>{
+      console.log("Write cancelled");
+      console.log(e);
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "cancelled"
+      }));
+    });
     // @ts-ignore
     store.dispatch(updatePendingWrite({
       query: query,
@@ -89,7 +103,9 @@ interface Tab {
   columns?: any[],
   rows?: any[],
   query?: string,
-  queryType?: string
+  queryType?: string,
+  error?: string,
+  status?: string
 }
 
 const initialState = {

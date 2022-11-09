@@ -4,7 +4,11 @@ function Footer() {
 
   return (
     <footer>
-      <span className='dashboard-version'>{VERSION}</span> 
+      <span className='dashboard-version'>
+        { // @ts-ignore
+          VERSION
+        }
+      </span> 
     </footer>  
   );
 }

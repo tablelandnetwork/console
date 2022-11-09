@@ -2,12 +2,13 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedCellUpdated } from '../../store/selectedCellSlice';
 import CodeEditor from './CodeEditor';
+import { RootState } from '../../store/store';
 
 function Cell(props) {
   const { row, column } = props;
   const dispatch = useDispatch();
-  const cell = useSelector(store => store.tabs.list[props.tab].rows[props.row][props.column]);
-  const selectedCell = useSelector(state => state.selectedCell);
+  const cell = useSelector((store: RootState) => store.tabs.list[props.tab].rows[props.row][props.column]);
+  const selectedCell = useSelector((store: RootState) => store.selectedCell);
   const selectedClass = (
     row === selectedCell.row
     && column === selectedCell.column

@@ -88,7 +88,7 @@ export const chainWalletRegisterList = [
 export function getChainWalletDetails(chainId) {
 
   const chain = chainWalletRegisterList.find(chain => chain.chainId === chainId);
-  chain.chainId = `0x${chainId.toString(16)}`;
+  chain.chainId = `0x${chainId.toString(16)}` as any;
 
   return chain;
 }

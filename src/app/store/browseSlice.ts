@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getTablelandConnection } from '../database/connectToTableland.js';
+import { getTablelandConnection } from '../database/connectToTableland';
 
 export const newBrowse = createAsyncThunk('browse/newBrowse', async (action: any) => {
   

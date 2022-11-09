@@ -1,6 +1,6 @@
 import React from 'react';
 import reactDom from 'react-dom/client';
-import Main from './components/Main.jsx';
+import Main from './components/ContextProviders';
 import init from '@tableland/sqlparser';
 
 init();
@@ -11,5 +11,3 @@ document.addEventListener("DOMContentLoaded", () => {
     .render(<Main />);
 });
 
-// APP WIDE TODOS
-// TODO: Refactor slices to be more readable
