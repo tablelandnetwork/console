@@ -1,6 +1,8 @@
 .tabs-pane {
   display: flex;
   flex-direction: column;
+  max-width: 100%;
+  overflow: hidden;
   .single-tab-pane {
     background-color: var(--black);
     padding: 10px;
@@ -14,9 +16,9 @@
 .tab-nav {
   margin-bottom: -1px;
   display: flex;
-  background-color: var(--grey-dark);
-  padding: 10px 15px 0px 0px;
-  border-radius: 10px;
+  padding: 10px 15px 0px 0px; 
+  max-width: 100%;
+  overflow: scroll;
   li {
     display: block;
     padding: 8px 16px;
@@ -45,13 +47,15 @@
   li.active {
     background-color: var(--black);
     color: var(--white);
+    border: 1px solid var(--primary);
   }
   li.not-active {
     background-color: var(--grey-dark-ish);
+    background-color: var(--black);
   }
   li input {
     background-color: transparent;
     border: 0px;
-    color: white;
+    color: var(--white);
   }
 }

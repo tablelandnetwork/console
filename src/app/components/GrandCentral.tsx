@@ -1,15 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router';
 import Homepage from './pages/Homepage';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 import { startTableLand } from '../database/connectToTableland';
 import { useAccount, useProvider } from 'wagmi';
+import SplashPage from './pages/SplashPage';
 
-function SplashScreen(props) {
-  return (
-    <ConnectButton />
-  );
-}
 
 function GrandCentral() {
 
@@ -17,7 +13,7 @@ function GrandCentral() {
   const prov = useProvider();
   startTableLand(prov);
   if(!isConnected) {
-    return <SplashScreen />
+    return <SplashPage />
   }
 
   return (       

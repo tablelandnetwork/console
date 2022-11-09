@@ -46,7 +46,8 @@
 .table-results {
   border: 1px solid var(--grey-mid);
   background-color: var(--grey-dark-ish);
-  border-radius: 10px;
+  background-color: var(--paper);
+  border-radius: 3px;
   overflow: scroll;
   grid-area: viewer;
 }
@@ -96,11 +97,11 @@
       i {
         color: var(--grey-mid);
         &:hover {
-          color: white;
+          color: var(--white);
         }
       }
       &:hover {
-        color: white;
+        color: var(--white);
       }
     }
     .table-schema {
