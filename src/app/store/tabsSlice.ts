@@ -105,8 +105,21 @@ interface Tab {
   query?: string,
   queryType?: string,
   error?: string,
-  status?: string
+  status?: string,
+  commiting: boolean,
+  prefix?: string,
+  createColumns?: CreateColumn[]
 }
+
+interface CreateColumn {
+  name: string,
+  type: string, 
+  notNull: boolean, 
+  primaryKey: boolean, 
+  unique: boolean,
+  default:  null | string
+}
+
 
 const initialState = {
   list: [{
@@ -137,13 +150,16 @@ const tabsSlice = createSlice({
       store.list.splice(action.payload, 1);
     },
     newQueryTab(store, action) {
+      
+
       store.list.push({
         name: "Query",
         type: "query",
         query: action.payload?.query || "",
         columns: [],
         rows: [],
-        queryType: ""
+        queryType: "",
+        commiting: false
       });
       store.active = store.list.length - 1;
     },
@@ -151,9 +167,67 @@ const tabsSlice = createSlice({
       store.list.push({
         name: "Create Table",
         type: "create",
+        prefix: "",
+        commiting: false,
+        createColumns: [{
+          name: "id",
+          type: "integer", 
+          notNull: false, 
+          primaryKey: false, 
+          unique: false,
+          default:  null
+        }]
       });
       store.active = store.list.length - 1;
+    },
+
+    startCommit(state, action) {
+      const tab = action.payload.tabId;
+      state.list[tab].commiting = true;
+    },
+    setPrefix(state, action) {
+      const tab = action.payload.tabId;
+      state.list[tab].prefix = action.payload.prefix;
+    },
+    addColumn(state, action) {
+      const tab = action.payload.tabId;
+
+      state.list[tab].createColumns.push({
+        name: "", 
+        type: "any",
+        notNull: false, 
+        primaryKey: false, 
+        unique: false,
+        default:  ""
+      });
+    },
+    removeColumn(state, action) {
+      const tab = action.payload.tabId;
+      state.list[tab].createColumns.pop();
+    },
+    updateColumnProperty(state, action) {
+      const { columnIndex, property, value, checked, tabId } = action.payload;
+
+      let newVal;
+      switch(property) {
+        case "notNull": 
+        case "primaryKey":
+        case "unique":          
+          newVal = checked;
+          break;
+        case "default":
+        case "name": 
+        case "type":
+          newVal = value;
+          break;
+      }
+
+
+      state.list[tabId].createColumns[columnIndex][property] = newVal;
+
     }
+
+
   },
   extraReducers(builder) {
     builder.addCase(queryTableland.pending, (state, action) => {
@@ -172,5 +246,5 @@ const tabsSlice = createSlice({
   }
 })
 
-export const { closeTab, newQueryTab, newCreateTableTab, activateTab, updateQuery, renameTab } = tabsSlice.actions
+export const { closeTab, newQueryTab, newCreateTableTab, activateTab, updateQuery, renameTab,  addColumn, setPrefix, removeColumn, updateColumnProperty, startCommit } = tabsSlice.actions
 export default tabsSlice.reducer

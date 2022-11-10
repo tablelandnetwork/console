@@ -66,7 +66,7 @@ function ExecuteSqlSection() {
           if(tab.type==="create") {
             return (
               <div key={key} className={`${className} single-tab-pane`}>
-                <CreateTable />
+                <CreateTable tabIndex={key} />
               </div>
             );
           }

@@ -2,20 +2,22 @@
 // TODO: Refactor components into seperate files
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addColumn, setPrefix, removeColumn, columnsSummary, updateColumnProperty, sendCreateQuery } from '../../store/createTableSlice';
+import { sendCreateQuery,  columnsSummary } from '../../store/createTableSlice';
+import { addColumn, setPrefix, removeColumn, updateColumnProperty } from '../../store/tabsSlice';
 import Loading from '../atoms/Loading';
 import { RootState } from '../../store/store';
 
 function CreateColumn(props) {
   const dispatch = useDispatch();
-  const column = useSelector((store: RootState)=>store.createTable.columns[props.slot]);
+  const column = useSelector((store: RootState)=>store.tabs.list[props.tabIndex].createColumns[props.slot]);
 
   const setColumnProperty = function(e) {
     dispatch(updateColumnProperty({
       columnIndex: props.slot,
       property: e.target.name,
       checked: e.target.checked,
-      value: e.target.value
+      value: e.target.value,
+      tabId: props.tabIndex
     }));
   }
 
@@ -82,9 +84,8 @@ function CreateColumn(props) {
 }
 
 function CreateTable(props) {
-  const tableName = useSelector((store: RootState)=>store.createTable.name);
-  const columns = useSelector((store: RootState)=>store.createTable.columns);
-  const commiting = useSelector((store: RootState)=>store.createTable.commiting);
+  const tabId = props.tabIndex;
+  const { commiting, createColumns, prefix } = useSelector((store: RootState)=>store.tabs.list[tabId]);
   const currentNetwork = useSelector((store: RootState) => store.walletConnection.network);
   const dispatch = useDispatch();
 
@@ -92,7 +93,7 @@ function CreateTable(props) {
   function createTableOnNetwork(e) {
     e.preventDefault();
     // @ts-ignore
-    dispatch(sendCreateQuery({query: columnsSummary(columns), options: {prefix: tableName}}));
+    dispatch(sendCreateQuery({query: columnsSummary(createColumns), tab: tabId, options: {prefix}}));
   }
 
   if(commiting) {
@@ -110,9 +111,9 @@ function CreateTable(props) {
           type="text" 
           pattern='[a-zA-Z0-9_]*'
           title={"Letter, numbers, and underscores only. First character cannot be a number"}
-          value={tableName} 
+          value={prefix} 
           onChange={e => {
-            dispatch(setPrefix(e.target.value));
+            dispatch(setPrefix({prefix: e.target.value, tabId: props.tabIndex}));
           }} />
       </label> 
       <h3>Columns</h3>
@@ -130,8 +131,8 @@ function CreateTable(props) {
           </tr>
         </thead>
         <tbody>
-          {columns.map((column, key) => {
-            return <CreateColumn key={key} slot={key} />
+          {createColumns.map((column, key) => {
+            return <CreateColumn key={key} slot={key} tabIndex={tabId} />
           })}
         </tbody>
         </table>
@@ -139,12 +140,12 @@ function CreateTable(props) {
 
         <button onClick={e => {
           e.preventDefault();
-          dispatch(addColumn(null));
+          dispatch(addColumn({tabId}));
         }}><i className="fa-solid fa-plus"></i></button>
 
         <button onClick={e => {
           e.preventDefault();
-          dispatch(removeColumn(null));
+          dispatch(removeColumn({tabId}));
         }}><i className="fa-solid fa-minus"></i></button>
 
       <button>Commit</button>

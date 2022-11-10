@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { queryTableland } from "../../store/tabsSlice";
 import { RootState } from '../../store/store';
+import { Flags } from 'react-feature-flags';
 
 function ExecuteSqlActions(props) {
 
@@ -26,15 +27,17 @@ function ExecuteSqlActions(props) {
   return (
     <ul className='action-icons-bar'>
       <li>
-        <button onClick={() => {
-          let savedQueries = JSON.parse(localStorage.getItem("savedQueries")) ;
-          savedQueries = Array.isArray(savedQueries) ? savedQueries : [];
-          savedQueries.push({
-            query: query,
-            name: tabContent.name
-          });
-          localStorage.setItem("savedQueries", JSON.stringify(savedQueries));
-        }}>Save</button> 
+        <Flags authorizedFlags={['savedQueries']}>
+          <button onClick={() => {
+            let savedQueries = JSON.parse(localStorage.getItem("savedQueries")) ;
+            savedQueries = Array.isArray(savedQueries) ? savedQueries : [];
+            savedQueries.push({
+              query: query,
+              name: tabContent.name
+            });
+            localStorage.setItem("savedQueries", JSON.stringify(savedQueries));
+          }}>Save</button> 
+        </Flags>
         <button onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
       </li>
     </ul>
