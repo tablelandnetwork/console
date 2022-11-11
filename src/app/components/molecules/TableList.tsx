@@ -15,11 +15,6 @@ function ColumnDetails(props) {
 
   return (
     <>
-      <li>
-        <span><strong>Name</strong></span>
-        <span><strong>Type</strong></span>
-        <span><strong>Constraints</strong></span>
-      </li>
     {table.schema.columns.map(column => {
       return (
         <li key={`${tableName}-${column.name}`}>
@@ -79,7 +74,7 @@ function TableListItem(props) {
   return (
     <li key={table.name}>
       <span className={`${open ? "highlight" : ""} table-actions-bar`} >
-        <span onClick={()=>setOpen(!open)}>{table.name} <i className="fa-solid fa-arrow-turn-down"></i></span>
+        <span onClick={()=>setOpen(!open)}>{table.name}</span>
         <span 
           className='table-insert-select' 
           onClick={populateQueryWithSelect}>

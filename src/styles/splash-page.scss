@@ -1,11 +1,40 @@
 .splash-page-connecter {
   grid-column: span 2;
-  background-image: url("/assets/splash-bg.jpg");
   background-position: center;
   background-size: cover;
   background-position: bottom;
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 10%;
+  padding-top: 30px;
+  flex-direction: column;
+  color: white;
+  align-items: center;
+  margin: 0 auto;
+  text-align: justify;
+  h1 {
+    font-family: 'Orbitron',sans-serif;
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 1.2;
+    
+  }
+  .content {
+    margin: 2rem;
+    max-width: 500px;
+    font-size: 1.2rem;
+    line-height: 2rem;
+  }
+}
+.splash-page-header {
+  background-color: var(--primaryLight);
+  button {
+    border: 0px;
+    color: white;
+    border-radius: 3px;
+    height: 50px;
+    margin: 0px;
+    font-size: 18px;
+    padding: 16px 14px;
+  }
 }

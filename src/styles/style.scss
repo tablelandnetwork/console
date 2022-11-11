@@ -13,9 +13,7 @@
 @import "../../node_modules/@rainbow-me/rainbowkit/dist/index.css";
 
 html,body {
-  height:100%;
-  background-color: var(--grey-dark);
-  background-color: var(--bg);
+  background: var(--bg);
 }
 html {
   background-color: var(--white);
@@ -40,7 +38,6 @@ html {
 }
 header, footer {
   padding: 10px;
-  background-color: var(--grey-dark-ish);
   background-color: var(--primary);
 }
 header {
@@ -48,16 +45,26 @@ header {
 }
 footer {
   grid-area: footer;
-  .dashboard-version {
-    color: black;
-    font-size: 2rem;
+  background-color: var(--paper);
+  border-top: 1px solid var(--bg);
+  margin-top: 16px;
+}
+.footer-links {
+  display: flex;
+  font-size: 1.2rem;
+  justify-content: center;
+  a {
+    padding: 10px;
+    color: var(--primary);
   }
 }
 
 h2 {
-  font-size: var(--font-large);
+  font-size: var(--font-semi-large);
   font-weight: 900;
   padding-bottom: 10px;
+  margin: 16px 0px;
+
 }
 h3 {
   font-size: 1.3rem;
@@ -91,16 +98,20 @@ main {
   grid-area: sidebar;
   display: flex;
   .actions-bar {
+    border-radius: 3px;
+    margin: 10px 20px 0px 10px;
+    margin-bottom: 0px;
     padding-top: 6px;
     background-color: var(--paper);
     display: flex;
     flex-direction: column;
     &--item {
-      padding: 16px;
-      border-radius: 8px;
+      padding: 14px 12px 12px 12px;
+      border-radius: 100%;
       background-color: var(--bg);
       margin: 5px 10px;
-      font-size: 1.6rem;
+      font-size: 16px;
+      aspect-ratio: 1;
       text-align: center;
       &.active {
         background-color: var(--black);
@@ -142,9 +153,7 @@ body {
   border-radius: 5px;
 }
 
-.results-will-load {
-  padding: 10px;
-}
+
 
 .cell-editor {
   display: grid;
@@ -266,7 +275,6 @@ ul.flags-list {
     background-color: var(--bg);
     border-radius: 5px;
     border-width: 1px;
-    border-color: var(--grey-mid);
     border-style: solid;
   }
   margin-bottom: 10px;
@@ -286,10 +294,10 @@ ul.flags-list {
   border-width: 0px;
   border-bottom-width: 2px;
   width: 100%;
+  border-color: var(--paper);
   &:focus {
-    background-color: var(--grey-dark-ish);
+    background-color: var(--bg);
     border-color: var(--white);
-    border-bottom: 1px solid var(--grey-mid);
   }
   &:focus-visible {
     outline: 0;
@@ -299,11 +307,11 @@ ul.flags-list {
 .table-insert-select {
   padding: 2px 5px;
   border-radius: 5px;
-  background-color: var(--grey-mid);
-  color: var(--white-muted);
+  background-color: var(--primary);
+  color: var(--paper);
   cursor: pointer;
-  &:hover {
-    color: var(--white);
+  &:active {
+    background-color: white;
   }
 }
 
@@ -339,4 +347,13 @@ ul.flags-list {
   &:hover span {
     display: block;
   }
+}
+
+.tally-popup-prompt {
+  position: fixed;
+  bottom: 1px;
+  right: 6px;
+  aspect-ratio: 1;
+  border-radius: 100%;
+
 }

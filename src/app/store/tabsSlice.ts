@@ -11,13 +11,6 @@ enum QueryTypeState {
   invalid = 'invalid'
 }
 
-interface QueryState {
-  value: string,
-  type: QueryTypeState
-}
-
-
-
 export const checkQueryType = createAsyncThunk('query/checkQueryType', async (action:any) => {
   const type = await getQueryType(action.query);
   return {
@@ -120,9 +113,24 @@ interface CreateColumn {
   default:  null | string
 }
 
+const createTableTab = {
+  name: "Create Table",
+  type: "create",
+  prefix: "",
+  commiting: false,
+  createColumns: [{
+    name: "id",
+    type: "integer", 
+    notNull: false, 
+    primaryKey: false, 
+    unique: false,
+    default:  null
+  }]
+};
+
 
 const initialState = {
-  list: [{
+  list: [createTableTab, {
     name: "Query 1",
     type: "query",
     columns: [],
@@ -146,8 +154,13 @@ const tabsSlice = createSlice({
     activateTab(store, action) {
       store.active = action.payload;
     },
-    closeTab(store, action) {
+    closeTab(store, action) { 
       store.list.splice(action.payload, 1);
+
+      if(store.active === action.payload && store.active!=0) {
+        store.active--;
+      }
+      
     },
     newQueryTab(store, action) {
       
@@ -164,26 +177,17 @@ const tabsSlice = createSlice({
       store.active = store.list.length - 1;
     },
     newCreateTableTab(store, action) {
-      store.list.push({
-        name: "Create Table",
-        type: "create",
-        prefix: "",
-        commiting: false,
-        createColumns: [{
-          name: "id",
-          type: "integer", 
-          notNull: false, 
-          primaryKey: false, 
-          unique: false,
-          default:  null
-        }]
-      });
+      store.list.push(createTableTab);
       store.active = store.list.length - 1;
     },
 
     startCommit(state, action) {
       const tab = action.payload.tabId;
       state.list[tab].commiting = true;
+    },
+    cancelCommit(state, action) {
+      const tab = action.payload.tabId;
+      state.list[tab].commiting = false;
     },
     setPrefix(state, action) {
       const tab = action.payload.tabId;
@@ -230,10 +234,6 @@ const tabsSlice = createSlice({
 
   },
   extraReducers(builder) {
-    builder.addCase(queryTableland.pending, (state, action) => {
-      // @ts-ignore
-      // state.list[action.payload.tab].status = "loading";
-    });
     builder.addCase(queryTableland.fulfilled, (state, action) => {   
       const { columns, rows, query, tab } = action.payload;
       state.list[tab].columns = columns;
@@ -246,5 +246,19 @@ const tabsSlice = createSlice({
   }
 })
 
-export const { closeTab, newQueryTab, newCreateTableTab, activateTab, updateQuery, renameTab,  addColumn, setPrefix, removeColumn, updateColumnProperty, startCommit } = tabsSlice.actions
+export const { 
+  closeTab, 
+  newQueryTab, 
+  newCreateTableTab, 
+  activateTab, 
+  updateQuery, 
+  renameTab,  
+  addColumn, 
+  setPrefix, 
+  removeColumn, 
+  updateColumnProperty, 
+  startCommit, 
+  cancelCommit
+} = tabsSlice.actions;
+
 export default tabsSlice.reducer

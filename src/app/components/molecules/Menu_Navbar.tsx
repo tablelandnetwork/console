@@ -9,7 +9,7 @@ function NavBar() {
     <ul className='navbar--menu'>
       <WalletConnect />
       <TransactionList />
-      <SettingsMenu />
+      {/* <SettingsMenu /> */}
     </ul>
   );
 }

@@ -1,5 +1,5 @@
 .table-container {
-  width: max-content;
+  width: 100%;
   overflow: hidden;
   overflow: scroll;
   padding-bottom: 10px;
@@ -19,7 +19,7 @@ table.tabula-rasa {
     padding: 10px 16px 10px 10px;
     position: relative;
     color: var(--white);
-    border: 1px solid var(--grey-mid-dark);
+    border: 1px solid var(--bg);
     border-top: 0px;
     border-right: 0px;
     border-left: 0px;
@@ -32,7 +32,6 @@ table.tabula-rasa {
     z-index: 1;
   }
   th {
-    background-color: var(--grey-dark-ish);
     text-align: left;
     color: var(--white);
     font-weight: 900;
@@ -57,7 +56,7 @@ table.tabula-rasa {
       // background-color: var(--grey-transparent-500);
     }
     &.selected {
-      background-color: var(--grey-mid-dark);
+      background-color: var(--bg);
     }
     &:hover {
       a {
@@ -96,7 +95,6 @@ table.tabula-rasa {
   border-collapse:separate;
   border-spacing:0 5px;
   th {
-    color: var(--grey-mid);
     font-weight: 900;
     text-align: left;
     padding: 5px 10px;
@@ -106,6 +104,7 @@ table.tabula-rasa {
       padding-top: 10px;
       td {
         background-color: var(--bg);
+        text-align: center;
       }
       td:first-of-type {
         border-top-left-radius: 8px;

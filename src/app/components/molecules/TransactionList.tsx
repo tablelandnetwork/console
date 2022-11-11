@@ -11,7 +11,7 @@ function TransactionList() {
   if(pendingWrites.length < 1) return null;
 
   let awaitingWallet = !!pendingWrites.filter(write => write.status==='pending-wallet').length;
-  let pending = pendingWrites.filter(write => write.status!=='complete').length;
+  let pending = pendingWrites.filter(write => (write.status!=='complete' && write.status!=='cancelled')).length;
   let icon = awaitingWallet ? <i className="fa-solid fa-circle-exclamation" title="Awaiting Wallet"></i> : <i className="fas fa-circle-notch fa-spin"></i>;
   if(!pending) {
     icon = <i className="fa-solid fa-check"></i>;

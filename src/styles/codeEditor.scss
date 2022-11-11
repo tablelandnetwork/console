@@ -1,9 +1,9 @@
 .editor {
   counter-reset: line;
-  // border: 1px solid var(--grey-mid);
-  
-  background-color: var(--grey-dark-ish);
 	background-color: var(--bg);
+	::placeholder { 
+		color: var(--primary);
+	}
 }
 
 .editor #codeEditor {
@@ -21,7 +21,7 @@
 .editor .editorLineNumber {
   position: absolute;
   left: 0px;
-  color: var(--grey-light);
+  color: var(--primary);
   text-align: right;
   width: 40px;
   font-weight: 100;

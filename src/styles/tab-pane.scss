@@ -7,6 +7,8 @@
     background-color: var(--black);
     padding: 10px;
     flex-grow: 1;
+    border-radius: 0px 3px 3px 3px;
+    margin-right: 16px;
     &.closed {
       display: none;
     }
@@ -23,15 +25,15 @@
     display: block;
     padding: 8px 16px;
     font-size: 1.1rem;
-    margin: 5px 5px 0px;
+    margin: 0px 5px 0px;
     transition: margin-top 200ms;
     border-radius: 5px 5px 0px 0px;
-    color: var(--grey-light);
     display: flex;
     align-items: center;
     padding: 10px;
-    &:hover {
-      color: var(--white);
+    color: var(--white);
+    &:active {
+      color: white;
     }
     &:first-child {
       margin-left: 0px;
@@ -47,11 +49,11 @@
   li.active {
     background-color: var(--black);
     color: var(--white);
-    border: 1px solid var(--primary);
   }
   li.not-active {
     background-color: var(--grey-dark-ish);
     background-color: var(--black);
+    opacity: .65;
   }
   li input {
     background-color: transparent;

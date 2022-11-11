@@ -18,8 +18,10 @@ function TabLabel(props) {
     dispatch(activateTab(key));
   }
 
-  function closeThisTab(key) {
-    dispatch(closeTab(key));
+  function closeThisTab(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(closeTab(props.tab));
   }
 
 
@@ -33,7 +35,7 @@ function TabLabel(props) {
       <input type="name" value={tab.name} onChange={(e) => {
         dispatch(renameTab({tab: props.tab, name: e.target.value}));
       }} /> 
-      <span onClick={() => closeThisTab(props.tab)}><i className="fa-solid fa-circle-xmark"></i></span></li>
+      <span onClick={closeThisTab}><i className="fa-solid fa-circle-xmark"></i></span></li>
   );
 
 }

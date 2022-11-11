@@ -39,7 +39,7 @@ function CustomConnectButton(props) {
                 if (!connected) {
                   return (
                     <button onClick={openConnectModal} type="button">
-                      Connect Wallet
+                      Wallet Login
                     </button>
                   );
                 }

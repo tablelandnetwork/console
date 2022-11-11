@@ -97,7 +97,9 @@ function CreateTable(props) {
   }
 
   if(commiting) {
-    return <Loading show={true} />
+    return <>
+      Commiting table: <Loading show={true} />
+    </>
   }
   
 

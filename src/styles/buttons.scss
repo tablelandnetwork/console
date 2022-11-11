@@ -10,7 +10,6 @@ button:not(.reset), select:not(.reset), .button {
   margin: 10px 0px;
   text-transform: uppercase;
   font-family: var(--main-font);
-  transition: color .5s, background-color .5s;
   border: 2px solid transparent;
   border: 1px solid var(--primary);
   & + button {
@@ -30,9 +29,11 @@ button:not(.reset), select:not(.reset), .button {
     }
   }
   &:disabled {
-    color: var(--grey-transparent-500);
-    background-color: var(--grey-mid);
-    border-color: var(--grey-mid);
+    opacity: .5;
+  }
+  &:active {
+    color: white;
+    border-color: white;
   }
   .reset-case {
     text-transform: none;
@@ -42,4 +43,19 @@ button:not(.reset), select:not(.reset), .button {
 .right-buttons {
   display: flex;
   justify-content: flex-end;
+}
+
+
+
+.splash-page-connecter {
+  --paper: #000;
+  font-size: 1.6rem;
+  button {
+    border-width: 0px;
+    color: white;
+    width: 300px;
+    height: 70px;
+    border-radius: 3px;
+    font-size: 20px;
+  }
 }

@@ -7,7 +7,8 @@ enum PendingWriteStatus {
   wallet = "pending-wallet",
   pendingNetwork = "pending-network",
   pendingValidator = "pending-validator",
-  complete = "complete"
+  complete = "complete",
+  cancelled = "cancelled"
 }
 
 interface PendingWrite {
