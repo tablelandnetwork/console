@@ -307,8 +307,8 @@ ul.flags-list {
 .table-insert-select {
   padding: 2px 5px;
   border-radius: 5px;
-  background-color: var(--primary);
-  color: var(--paper);
+  border: 1px solid var(--primary);
+  color: var(--primary);
   cursor: pointer;
   &:active {
     background-color: white;

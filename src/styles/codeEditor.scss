@@ -57,6 +57,14 @@ pre[class*="language-"]::-moz-selection,
 code[class*="language-"] ::-moz-selection,
 pre[class*="language-"] ::-moz-selection {
 	background: #363636;
+	padding: 10px 10px 10px 60px !important;
+}
+
+code[class*="language-"],
+pre[class*="language-"],
+code[class*="language-"],
+pre[class*="language-"] {
+	padding: 10px 10px 10px 60px !important;
 }
 
 code[class*="language-"]::selection,
@@ -64,6 +72,7 @@ pre[class*="language-"]::selection,
 code[class*="language-"] ::selection,
 pre[class*="language-"] ::selection {
 	background: #363636;
+	padding: 10px 10px 10px 60px !important;
 }
 
 :not(pre) > code[class*="language-"] {
@@ -76,7 +85,7 @@ pre[class*="language-"] {
 	overflow: auto;
 	position: relative;
 	margin: 0.5em 0;
-	padding: 1.25em 1em;
+	padding-left: 60px !important;
 }
 
 .language-css > code,

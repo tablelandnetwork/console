@@ -23,7 +23,9 @@ function Logo() {
           src="./assets/tableland-logo.svg" 
           className='navbar--logo' 
         /> 
-        Tableland Console
+        <span className="navbar--logo_text">
+          Tableland™ <span>Console</span>
+        </span>
     </Link>
   );
 }

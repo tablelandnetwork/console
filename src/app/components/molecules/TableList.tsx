@@ -4,6 +4,7 @@ import { newQueryTab } from "../../store/tabsSlice";
 import { getSchema } from "../../store/tablesSlice";
 import Loading from "../atoms/Loading";
 import { RootState } from '../../store/store';
+import { useAccount } from 'wagmi';
 
 function ColumnDetails(props) {
 
@@ -32,6 +33,9 @@ function ColumnDetails(props) {
 function TableColumnDetails(props) {
   const { open, tableName } = props;
   const dispatch = useDispatch();
+  const controller = useAccount();
+ 
+  
 
   const table = useSelector((store: RootState) => {
     return store.tables.myTables.find(table=>table.name===tableName);
@@ -50,6 +54,7 @@ function TableColumnDetails(props) {
   return (
     <ul className={`table-schema ${open ? 'open' : 'closed'}`} >
       <ColumnDetails tableName={tableName} />
+      <li><span className="controller">Controller: {controller.address}</span></li>
     </ul>
   );
 }
