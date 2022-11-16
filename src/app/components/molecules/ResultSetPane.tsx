@@ -13,7 +13,7 @@ export default function currentTabPane(props) {
   return (
     <div className='table-results'>
       {currentTab.error && <div className="error">Error<br></br>{currentTab.error}</div>}
-
+      {currentTab.message && <div className="message">{currentTab.message}</div>}
       {currentTab.status==="loading" ? <Loading /> : <Table tab={tab} />}
     </div>
   )

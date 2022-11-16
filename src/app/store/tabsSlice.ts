@@ -4,12 +4,6 @@ import store from './store';
 import { getQueryType } from '../database/databaseCalls';
 import { getTablelandConnection } from '../database/connectToTableland';
 
-enum QueryTypeState {
-  loading = 'loading',
-  read = 'read',
-  write = 'write',
-  invalid = 'invalid'
-}
 
 export const checkQueryType = createAsyncThunk('query/checkQueryType', async (action:any) => {
   const type = await getQueryType(action.query);
@@ -24,10 +18,11 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
   // @ts-ignore
   const { query, options, tab } = action;
 
+  store.dispatch(updateMessage({tabId: tab, message: null}));
+
   // @ts-ignore
   await getTablelandConnection();
-  let isWrite; 
-
+  let isWrite;
   
   try {
     // @ts-ignore
@@ -73,6 +68,7 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
       query: query,
       status: "complete"
     }));
+    store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
     
     return {query};
   } else {
@@ -99,6 +95,7 @@ interface Tab {
   queryType?: string,
   error?: string,
   status?: string,
+  message?: string,
   commiting: boolean,
   prefix?: string,
   createColumns?: CreateColumn[],
@@ -161,8 +158,11 @@ const tabsSlice = createSlice({
 
       if(store.active === action.payload && store.active!=0) {
         store.active--;
-      }
-      
+      }      
+    },
+    updateMessage(store, action) {
+      const tab = action.payload.tabId;
+      store.list[tab].message = action.payload.message;
     },
     newQueryTab(store, action) {     
 
@@ -265,7 +265,8 @@ export const {
   updateColumnProperty, 
   startCommit, 
   cancelCommit,
-  completeCommit
+  completeCommit,
+  updateMessage
 } = tabsSlice.actions;
 
 export default tabsSlice.reducer

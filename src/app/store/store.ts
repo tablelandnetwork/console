@@ -15,7 +15,6 @@ export const store = configureStore({
   reducer: {
     walletConnection: walletConnectionReducer,
     selectedCell: selectedCellReducer,
-    createTable: createTableReducer,
     browse: browseReducer,
     tables: tablesReducer,
     pendingWrites: pendingWritesReducer,
