@@ -6,6 +6,7 @@ import { sendCreateQuery,  columnsSummary } from '../../store/createTableSlice';
 import { addColumn, setPrefix, removeColumn, updateColumnProperty } from '../../store/tabsSlice';
 import Loading from '../atoms/Loading';
 import { RootState } from '../../store/store';
+import StepProgressBar from '../atoms/StepProgressBar';
 
 function CreateColumn(props) {
   const dispatch = useDispatch();
@@ -83,9 +84,13 @@ function CreateColumn(props) {
   )
 }
 
+function CreateTableReceipt(props) {
+  return "Table created."
+}
+
 function CreateTable(props) {
   const tabId = props.tabIndex;
-  const { commiting, createColumns, prefix } = useSelector((store: RootState)=>store.tabs.list[tabId]);
+  const { commiting, createColumns, prefix, successMessage } = useSelector((store: RootState)=>store.tabs.list[tabId]);
   const currentNetwork = useSelector((store: RootState) => store.walletConnection.network);
   const dispatch = useDispatch();
 
@@ -96,8 +101,20 @@ function CreateTable(props) {
     dispatch(sendCreateQuery({query: columnsSummary(createColumns), tab: tabId, options: {prefix}}));
   }
 
+  if(successMessage) {
+    return (
+      <div>
+        <StepProgressBar steps={3} step={3} />
+      {successMessage}
+      <br></br>---<br></br>
+      <button>Create another table</button>
+      </div>
+    );
+  }
+
   if(commiting) {
     return <>
+      <StepProgressBar steps={3} step={2} />
       Commiting table: <Loading show={true} />
     </>
   }
@@ -105,6 +122,7 @@ function CreateTable(props) {
 
   return (
     <form onSubmit={createTableOnNetwork}>
+      <StepProgressBar steps={3} step={1} />
       <h2>Create Table on {currentNetwork} <i className="fa-solid fa-circle-question tooltip"><span>Switch networks to change the network this table will be created on.</span></i></h2>
       <label className="create-table-prefix"><div>Table Prefix</div>
         <input 

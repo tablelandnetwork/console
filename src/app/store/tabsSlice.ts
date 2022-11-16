@@ -101,7 +101,9 @@ interface Tab {
   status?: string,
   commiting: boolean,
   prefix?: string,
-  createColumns?: CreateColumn[]
+  createColumns?: CreateColumn[],
+  successMessage?: string,
+  errorMessage?: string
 }
 
 interface CreateColumn {
@@ -162,8 +164,7 @@ const tabsSlice = createSlice({
       }
       
     },
-    newQueryTab(store, action) {
-      
+    newQueryTab(store, action) {     
 
       store.list.push({
         name: "Query",
@@ -188,6 +189,11 @@ const tabsSlice = createSlice({
     cancelCommit(state, action) {
       const tab = action.payload.tabId;
       state.list[tab].commiting = false;
+    },
+    completeCommit(state, action) {
+      const tab = action.payload.tabId;
+
+      state.list[tab].successMessage = action.payload.message;
     },
     setPrefix(state, action) {
       const tab = action.payload.tabId;
@@ -258,7 +264,8 @@ export const {
   removeColumn, 
   updateColumnProperty, 
   startCommit, 
-  cancelCommit
+  cancelCommit,
+  completeCommit
 } = tabsSlice.actions;
 
 export default tabsSlice.reducer

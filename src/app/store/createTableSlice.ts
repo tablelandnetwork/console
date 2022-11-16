@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getTablelandConnection } from '../database/connectToTableland';
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
-import { startCommit, cancelCommit } from '../store/tabsSlice';
+import { startCommit, cancelCommit, completeCommit } from '../store/tabsSlice';
 import { CreateTableReceipt } from '@tableland/sdk';
+import { refreshTables } from './tablesSlice';
 
 export const sendCreateQuery = createAsyncThunk("/send", async (details:any) => {
   const { query, options, tab } = details;
@@ -35,6 +36,9 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details:any) => 
     chain: txResult.chainId,
     tableName: txResult.name
   }));
+
+  store.dispatch(completeCommit({tabId: tab, message: `${txResult.name} created.`}));
+  store.dispatch(refreshTables());
 
 });
 

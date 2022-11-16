@@ -1,0 +1,35 @@
+.step-progress-bar {
+  display: flex;
+  padding: 20px;
+  &--stop {
+    display: flex;
+    flex-grow: 0;
+    border: 2px solid var(--primary); 
+    height: 10px;
+    width: 10px;
+    aspect-ratio: 1;
+    opacity: .3;
+    &.active {
+      opacity: 1;
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+  }
+  &--gap {
+    flex-grow: 1;
+    width: 95%;
+    margin: 0% 2.5%;
+    position: relative;
+    top: -4.5px;
+    border-bottom: 1px solid var(--primary);
+    opacity: .3;
+    transition: opacity .5s;
+    &.active {
+      opacity: 1;
+    }
+  }
+  &--wrapper {
+    display: flex;
+
+  }
+}
