@@ -156,7 +156,7 @@ const tabsSlice = createSlice({
     closeTab(store, action) { 
       store.list.splice(action.payload, 1);
 
-      if(store.active === action.payload && store.active!=0) {
+      if(store.active!=0) {
         store.active--;
       }      
     },
