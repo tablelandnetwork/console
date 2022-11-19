@@ -1,6 +1,5 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import selectedCellReducer from './selectedCellSlice';
-import createTableReducer from './createTableSlice';
 import browseReducer from './browseSlice';
 import tablesReducer from './tablesSlice';
 import pendingWritesReducer from './pendingWritesSlice';

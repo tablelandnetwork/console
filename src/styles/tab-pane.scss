@@ -7,7 +7,7 @@
     background-color: var(--black);
     padding: 16px 24px;
     flex-grow: 1;
-    border-radius: 0px 3px 3px 3px;
+    border-radius: 0px 0px 3px 3px;
     margin-right: 16px;
     &.closed {
       display: none;
@@ -18,7 +18,7 @@
 .tab-nav {
   margin-bottom: -1px;
   display: flex;
-  padding: 10px 15px 0px 0px; 
+  margin: 10px 16px 0px 0px; 
   max-width: 100%;
   overflow: scroll;
   li {

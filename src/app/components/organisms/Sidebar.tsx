@@ -115,7 +115,9 @@ function Sidebar(props) {
 
   return (
     <div className='sidebar'>
-      <ActionsBar />
+      <Flags authorizedFlags={['actionsBar']}>
+        <ActionsBar />
+      </Flags>
       {content}
     </div>
   );
