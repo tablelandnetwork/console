@@ -38,3 +38,16 @@
     padding: 16px 14px;
   }
 }
+
+.splash-page-connecter {
+  --darkest-primary: #000;
+  font-size: 1.6rem;
+  button {
+    border-width: 0px;
+    color: white;
+    width: 300px;
+    height: 70px;
+    border-radius: 3px;
+    font-size: 20px;
+  }
+}

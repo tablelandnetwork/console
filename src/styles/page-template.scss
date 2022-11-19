@@ -41,8 +41,7 @@
 }
 
 .table-results {
-  background-color: var(--grey-dark-ish);
-  background-color: var(--paper);
+  background-color: var(--darkest-primary);
   border-radius: 3px;
   overflow: scroll;
   grid-area: viewer;
@@ -56,11 +55,11 @@
   position: relative;
   margin-top: 10px;
   padding: 0px 10px;
-  background-color: var(--paper);
+  background-color: var(--darkest-primary);
   &--header {
     padding: 10px;
     font-size: 1.2rem;
-    border-bottom: 1px solid var(--bg);
+    border-bottom: 1px solid var(--dark-primary);
   }
   &--header {
     display: flex;
@@ -83,7 +82,7 @@
       right: 0px;
       left: 0px;
       display: grid;
-      color: var(--white);
+      color: var(--primary);
       grid-template-columns: 1fr min-content min-content;
       gap: 15px;
       cursor: pointer;
@@ -92,14 +91,14 @@
       i {
         color: var(--primary);
         &:hover {
-          color: var(--white);
+          color: var(--primary);
         }
         &:active {
           color: white;
         }
       }
       &:hover {
-        color: var(--white);
+        color: var(--primary);
       }
     }
     .table-schema {
@@ -113,7 +112,7 @@
       padding-bottom: 20px;
       .controller {
         display: block;
-        border-top: 1px solid var(--bg);
+        border-top: 1px solid var(--dark-primary);
       }
       &.closed {
         display: none;
@@ -137,17 +136,6 @@
 
 
 
-
-.tab-section {
-  resize: both;
-  flex-grow: 1;
-  background-color: var(--grey-dark);
-  border-radius: 10px;
-  padding: 10px;
-  min-height: 0px;
-  display: flex;
-  flex-direction: column;
-}
 
 .page-section {
   height: calc(100vh - 240px);

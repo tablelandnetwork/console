@@ -62,11 +62,8 @@
         font-weight: 200;
         padding: 0px 10px;
         display: block;
-        color: var(--black-near);
+        color: var(--darkest-primary);
         font-family: var(--main-font);
-        &:hover { 
-          color: var(--black);
-        }
       }
     }
   }
@@ -79,7 +76,7 @@
   right: 0;
   border-radius: 5px;
   margin: 0px;
-  background-color: var(--black);
+  background-color: var(--darkest-primary);
   padding: 16px;
   box-shadow: 0px 2px 5px #000;
   width: 400px;
@@ -102,10 +99,10 @@
       border: 0px;
       display: flex;
       justify-content: space-between;
-      color: var(--white-muted);
+      color: var(--white);
       transition: .2s;
       &:hover {
-        color: var(--white);
+        color: var(--primary);
       }
       &>i {
         margin-left: 15px;

@@ -6,6 +6,8 @@ import { Flags } from 'react-feature-flags';
 import { setFlag } from '../../store/flagSlice';
 import { RootState } from '../../store/store';
 
+// TODO: Seperate files for components
+
 function ActionsBar() {
 
   const dispatch = useDispatch();

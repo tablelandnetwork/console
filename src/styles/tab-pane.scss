@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  overflow: scroll;
+  overflow: auto;
   .single-tab-pane {
-    background-color: var(--black);
+    background-color: var(--darkest-primary);
     padding: 16px 24px;
     flex-grow: 1;
     border-radius: 0px 0px 3px 3px;
@@ -20,7 +20,7 @@
   display: flex;
   margin: 10px 16px 0px 0px; 
   max-width: 100%;
-  overflow: scroll;
+  overflow: auto;
   li {
     display: block;
     padding: 8px 16px;
@@ -31,7 +31,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    color: var(--white);
+    color: var(--primary);
     &:active {
       color: white;
     }
@@ -47,17 +47,16 @@
     }
   }
   li.active {
-    background-color: var(--black);
-    color: var(--white);
+    background-color: var(--darkest-primary);
+    color: var(--primary);
   }
   li.not-active {
-    background-color: var(--grey-dark-ish);
-    background-color: var(--black);
+    background-color: var(--darkest-primary);
     opacity: .65;
   }
   li input {
     background-color: transparent;
     border: 0px;
-    color: var(--white);
+    color: var(--primary);
   }
 }

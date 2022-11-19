@@ -1,23 +1,21 @@
 @import "colors";
 @import "reset";
-@import "animations";
 @import "navbar";
 @import "table";
 @import "codeEditor";
 @import "buttons";
 @import "page-template";
 @import "tab-nav";
-@import "writes";
 @import "tab-pane";
 @import "splash-page";
 @import "step-progress-bar";
 @import "../../node_modules/@rainbow-me/rainbowkit/dist/index.css";
 
 html,body {
-  background: var(--bg);
+  background: var(--dark-primary);
 }
 html {
-  background-color: var(--white);
+  background-color: var(--primary);
   --main-font: "AndaleMono", AndaleMono, monospace;
   --secondary-font: "Times New Roman", Times, serif;
   font-family: var(--main-font);  
@@ -30,7 +28,7 @@ html {
     --size-padding: 0;    
   }
 
-  color: var(--white);
+  color: var(--primary);
 
   --font-large: clamp(18px, 2vw, 36px);
   --font-small: clamp();
@@ -46,8 +44,8 @@ header {
 }
 footer {
   grid-area: footer;
-  background-color: var(--paper);
-  border-top: 1px solid var(--bg);
+  background-color: var(--darkest-primary);
+  border-top: 1px solid var(--dark-primary);
   margin-top: 16px;
 }
 .footer-links {
@@ -104,24 +102,21 @@ main {
     margin: 10px 20px 0px 0px;
     margin-bottom: 0px;
     padding-top: 6px;
-    background-color: var(--paper);
+    background-color: var(--darkest-primary);
     display: flex;
     flex-direction: column;
     &--item {
       padding: 14px 12px 12px 12px;
       border-radius: 100%;
-      background-color: var(--bg);
+      background-color: var(--dark-primary);
       margin: 5px 10px;
       font-size: 16px;
       aspect-ratio: 1;
       text-align: center;
       &.active {
-        background-color: var(--black);
+        background-color: var(--darkest-primary);
         background-color: var(--primary);
-        color: var(--paper);
-      }
-      &.disabled {
-        color: var(--grey-mid);
+        color: var(--darkest-primary);
       }
     }
   }
@@ -135,25 +130,6 @@ body {
   min-height: 100vh;
 }
 
-.the-bg {
-  position: fixed;
-  z-index: -1;
-  // background: linear-gradient(350deg, gray, var(--accent-color));
-  background-color: var(--grey-dark);
-  background-size: cover;
-  top: -10%;
-  left: 0;
-  right: 0;
-  bottom: -10%;
-  animation: animatedBackgroundTall 26s ease-out infinite alternate;
-}
-
-
-.simple-page {
-  padding: var(--size-padding);
-  background-color: var(--white-near);
-  border-radius: 5px;
-}
 
 
 
@@ -188,7 +164,7 @@ body {
 
 .tables-list {
   padding: 10px; 
-  color: var(--white);
+  color: var(--primary);
   border-radius: 3px;
   &--header {
     display: flex;
@@ -208,10 +184,7 @@ body {
     }
     a {
       text-decoration: none;
-      color: var(--white);
-      &:hover {
-        color: var(--grey-mid);
-      }
+      color: var(--primary);
     }
   }
 
@@ -262,9 +235,6 @@ ul.flags-list {
   }  
 }
 
-.connected-icon {
-  color: var(--bright-green);
-}
 
 .create-column {
   margin-left: 20px;
@@ -274,7 +244,7 @@ ul.flags-list {
   display: flex;
   align-items: center;
   .form-input {
-    background-color: var(--bg);
+    background-color: var(--dark-primary);
     border-radius: 5px;
     border-width: 1px;
     border-style: solid;
@@ -289,17 +259,17 @@ ul.flags-list {
 }
 
 .form-input {
-  color: var(--white);
+  color: var(--primary);
   background-color: transparent;
   border: transparent;
   border-radius: 0px;
   border-width: 0px;
   border-bottom-width: 2px;
   width: 100%;
-  border-color: var(--paper);
+  border-color: var(--darkest-primary);
   &:focus {
-    background-color: var(--bg);
-    border-color: var(--white);
+    background-color: var(--dark-primary);
+    border-color: var(--primary);
   }
   &:focus-visible {
     outline: 0;
@@ -326,8 +296,8 @@ ul.flags-list {
     position: absolute;
     top: calc(100% + 15px);
     left: -23px;
-    background: var(--black);
-    color: var(--white);
+    background: var(--darkest-primary);
+    color: var(--primary);
     padding: 5px 10px;
     border-radius: 5px;
     max-width: 200px;
@@ -340,7 +310,7 @@ ul.flags-list {
       border-width: 8px;
       border-color: transparent;
       border-style: solid;
-      border-bottom-color: var(--black);
+      border-bottom-color: var(--darkest-primary);
       left: 20px;
       top: -16px;
       content: '';

@@ -4,6 +4,7 @@ import { toggleMenu } from "../../store/pageStateSlice";
 import PendingWrites from "./PendingWrites";
 import { RootState } from '../../store/store';
 
+// TODO: More clear logic (perhaps comments) explaining pending icon
 
 function TransactionList() {
   const pendingWrites = useSelector((store: RootState) => store.pendingWrites);

@@ -1,32 +1,23 @@
-button:not(.reset), select:not(.reset), .button {
+button:not(.reset), 
+select:not(.reset), 
+.button {
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
-  color: var(--white);
-  background-color: var(--paper);
+  color: var(--primary);
+  background-color: var(--darkest-primary);
   border-radius: 5px;
   padding: 10px 20px;
   border: 0px;
   margin: 10px 0px;
   text-transform: uppercase;
   font-family: var(--main-font);
-  border: 2px solid transparent;
   border: 1px solid var(--primary);
   & + button {
     margin-left: 10px;
   }
   &:hover {
-    color: var(--white);    
-  }
-  &.case-matters {
-    text-transform: none;
-  }
-  &.subtle {
-    background-color: transparent;
-    color: var(--black-near);
-    &:hover {
-      background-color: var(--white-transparent-400);
-    }
+    color: var(--primary);    
   }
   &:disabled {
     opacity: .5;
@@ -34,28 +25,5 @@ button:not(.reset), select:not(.reset), .button {
   &:active {
     color: white;
     border-color: white;
-  }
-  .reset-case {
-    text-transform: none;
-  }
-}
-
-.right-buttons {
-  display: flex;
-  justify-content: flex-end;
-}
-
-
-
-.splash-page-connecter {
-  --paper: #000;
-  font-size: 1.6rem;
-  button {
-    border-width: 0px;
-    color: white;
-    width: 300px;
-    height: 70px;
-    border-radius: 3px;
-    font-size: 20px;
   }
 }

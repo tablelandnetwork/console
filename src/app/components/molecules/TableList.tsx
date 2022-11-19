@@ -6,6 +6,9 @@ import Loading from "../atoms/Loading";
 import { RootState } from '../../store/store';
 import { useAccount } from 'wagmi';
 
+
+// TODO: Refactor components into seperate files
+
 function ColumnDetails(props) {
 
   const { tableName } = props;

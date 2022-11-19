@@ -6,7 +6,7 @@ import { closeTab, newQueryTab, activateTab, renameTab } from '../../store/tabsS
 import CreateTable from './CreateTable';
 import { RootState } from '../../store/store';
 
-
+// TODO: Seperate files for components
 
 function TabLabel(props) {
   const dispatch = useDispatch();
@@ -39,6 +39,8 @@ function TabLabel(props) {
 
 }
 
+
+// TODO: Rename this component
 function ExecuteSqlSection() {
    
   const tabs = useSelector((store: RootState)=>store.tabs.list);

@@ -8,6 +8,8 @@ import Loading from '../atoms/Loading';
 import { RootState } from '../../store/store';
 import StepProgressBar from '../atoms/StepProgressBar';
 
+// TODO: Seperate components into files
+
 function CreateColumn(props) {
   const dispatch = useDispatch();
   const column = useSelector((store: RootState)=>store.tabs.list[props.tabIndex].createColumns[props.slot]);

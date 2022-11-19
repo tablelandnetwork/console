@@ -28,6 +28,8 @@ export default function TableListWithMeta() {
     dispatch(newCreateTableTab(null));
   }
 
+  // TODO: New component for list header
+
   return (
     <ul className='tables-to-add'>
       <li className="tables-to-add--header">

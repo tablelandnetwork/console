@@ -4,6 +4,8 @@ import { queryTableland } from "../../store/tabsSlice";
 import { RootState } from '../../store/store';
 import { Flags } from 'react-feature-flags';
 
+// TODO: Rename
+
 function ExecuteSqlActions(props) {
 
   const { tab } = props;

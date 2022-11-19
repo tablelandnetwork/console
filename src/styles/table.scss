@@ -18,8 +18,8 @@ table.tabula-rasa {
   th, td {
     padding: 10px 16px 10px 10px;
     position: relative;
-    color: var(--white);
-    border: 1px solid var(--bg);
+    color: var(--primary);
+    border: 1px solid var(--dark-primary);
     border-top: 0px;
     border-right: 0px;
     border-left: 0px;
@@ -33,7 +33,7 @@ table.tabula-rasa {
   }
   th {
     text-align: left;
-    color: var(--white);
+    color: var(--primary);
     font-weight: 900;
     &:first-of-type {
       border-left: 0px;
@@ -42,7 +42,6 @@ table.tabula-rasa {
 
   tr:hover {
     transition-duration: 200ms;
-    // background-color: var(--grey-mid-dark);
   }
 
   th {
@@ -51,12 +50,8 @@ table.tabula-rasa {
     text-transform: capitalize;
   }
   td {
-    
-    &:hover {
-      // background-color: var(--grey-transparent-500);
-    }
     &.selected {
-      background-color: var(--bg);
+      background-color: var(--dark-primary);
     }
     &:hover {
       a {
@@ -67,7 +62,7 @@ table.tabula-rasa {
     a {
       text-decoration: none;
 
-      color: var(--white);
+      color: var(--primary);
       &:before {
         content: "\f424";
         font-family: "Font Awesome 6 Free";
@@ -103,28 +98,8 @@ table.tabula-rasa {
     tr {
       padding-top: 10px;
       td {
-        background-color: var(--bg);
+        background-color: var(--dark-primary);
         text-align: center;
-      }
-      td:first-of-type {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
-      td:last-of-type {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        i {
-          border-radius: 50%;
-          display: block;
-          color: var(--white-muted);
-          padding: 10px;
-          margin: 0px 10px;
-        }
-        &:hover {
-          i {
-            color: var(--white);
-          }
-        }
       }
     }
   }

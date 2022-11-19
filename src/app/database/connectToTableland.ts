@@ -4,6 +4,9 @@ import store from '../store/store';
 import { networkSet } from '../store/walletConnectionSlice';
 const supportedChains = Object.entries(SUPPORTED_CHAINS);
 
+// TODO: Turn tableland connection into hook
+
+
 export function getActiveNetworks() {
   const { networksToShow } = store.getState().walletConnection;  
 

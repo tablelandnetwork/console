@@ -15,7 +15,15 @@ function PendingWrites(props) {
     <ul ref={ref} className={`submenu submenu--pending-writes ${openStatus}`}>
       {pendingWrites.map(pendingWrite => {
         return (                  
-            <li className='pending-write' key={pendingWrite.query}>{pendingWrite.query} <br></br>Status: {pendingWrite.status}</li>
+          <li 
+            className='pending-write' 
+            key={pendingWrite.query}>
+
+              {pendingWrite.query} 
+              <br></br>
+              Status: {pendingWrite.status}
+              
+          </li>
           );
       })}
     </ul>

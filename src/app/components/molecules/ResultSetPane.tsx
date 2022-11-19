@@ -6,15 +6,13 @@ import { RootState } from '../../store/store';
 
 export default function currentTabPane(props) {
   const { tab } = props;
-  const currentTab = useSelector((store: RootState) => store.tabs.list[tab]);
+  const { error, status, message } = useSelector((store: RootState) => store.tabs.list[tab]);
   
-
-
   return (
     <div className='table-results'>
-      {currentTab.error && <div className="error">Error<br></br>{currentTab.error}</div>}
-      {currentTab.message && <div className="message">{currentTab.message}</div>}
-      {currentTab.status==="loading" ? <Loading /> : <Table tab={tab} />}
+      {error && <div className="error">Error<br></br>{error}</div>}
+      {message && <div className="message">{message}</div>}
+      {status==="loading" ? <Loading /> : <Table tab={tab} />}
     </div>
   )
 }
