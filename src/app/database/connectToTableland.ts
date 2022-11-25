@@ -7,40 +7,6 @@ const supportedChains = Object.entries(SUPPORTED_CHAINS);
 // TODO: Turn tableland connection into hook
 
 
-export function getActiveNetworks() {
-  const { networksToShow } = store.getState().walletConnection;  
-
-  let activeChains = supportedChains.map(chain => {
-    return {
-      slug: chain[0],
-      ...chain[1]
-    }
-  })
-
-
-  
-  activeChains = activeChains.filter(chain => {
-    if(networksToShow==="mainnets" || networksToShow==="all") return true;
-    switch(chain.chainId) {
-      case 1:
-      case 10:
-      case 137:
-        return false;
-      default:
-        return true;
-    }
-  });
-
-  activeChains = activeChains.filter(chain => {
-    if(networksToShow==="testnets" || networksToShow==="all") return true;
-    if(chain.host.includes("staging")) return false;
-    if(chain.chainId===31337) return false;
-    return true;
-  });
-
-  return activeChains;
-}
-
 var tablelandConnection = connect({
   host: localStorage.getItem("validator") || "https://testnet.tableland.network"
 });
@@ -49,11 +15,8 @@ export function getTablelandConnection() {
   return tablelandConnection;
 }
 
-export async function startTableLand(provider) {
+export function startTableLand(chainId) {
 
-
-
-  const chainId = (await provider.getNetwork()).chainId;
 
   const supportedChains = Object.entries(SUPPORTED_CHAINS);
 
@@ -61,10 +24,11 @@ export async function startTableLand(provider) {
   
   // @ts-ignore
   store.dispatch(networkSet(currentChain[1].phrase) || "Ethereum Mainnet");
-  const tbl = await connect({
+  const tbl = connect({
     chain: currentChain[0] as ChainName,
     host: localStorage.getItem("validator") || currentChain[1].host
   });
+
 
   tablelandConnection = tbl;
   

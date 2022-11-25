@@ -1,34 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshTables } from "../../store/tablesSlice";
 import { newCreateTableTab } from "../../store/tabsSlice";
 import Loading from "../atoms/Loading";
 import TableList from "./TableList";
 import { RootState } from "../../store/store";
+import { useNetwork } from "wagmi";
 
 
 export default function TableListWithMeta() {
   const dispatch = useDispatch();
-  let refreshing = useSelector((store: RootState) => store.tables.refreshing);
-  const tblConnected = useSelector((store: RootState) => store.walletConnection.connected);
-  const [init, setInit] = useState(false);
 
-  if(!init && tblConnected) {
-    refreshMyTables();
-    setInit(true);
+  const networkChain = useNetwork().chain.id;
+
+  const [chainId, setChainId] = useState(networkChain);
+
+  if(networkChain!==chainId) {
+    setChainId(networkChain);
   }
+  let refreshing = useSelector((store: RootState) => store.tables.refreshing);
 
 
-  function refreshMyTables() {
+  async function refreshMyTables() {
     // @ts-ignore
     dispatch(refreshTables());
   }
 
+  useEffect(() => {
+    refreshMyTables();
+  }, [chainId]);
+
   function openCreateTableTab() {
     dispatch(newCreateTableTab(null));
   }
-
-  // TODO: New component for list header
 
   return (
     <ul className='tables-to-add'>
