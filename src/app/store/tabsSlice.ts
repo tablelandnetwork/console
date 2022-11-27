@@ -213,7 +213,13 @@ const tabsSlice = createSlice({
     },
     removeColumn(state, action) {
       const tab = action.payload.tabId;
-      state.list[tab].createColumns.pop();
+      if(action.payload.column) {
+        state.list[tab].createColumns.splice(action.payload.column, 1);
+
+      } else {
+        state.list[tab].createColumns.pop();        
+      }
+      
     },
     updateColumnProperty(state, action) {
       const { columnIndex, property, value, checked, tabId } = action.payload;

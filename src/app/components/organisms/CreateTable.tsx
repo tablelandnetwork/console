@@ -81,7 +81,11 @@ function CreateColumn(props) {
           onChange={setColumnProperty} 
         />
       </td>
-      <td><i className="fa-solid fa-x"></i></td>
+      <td><i onClick={e => {
+          e.preventDefault();
+          dispatch(removeColumn({tabId: props.tabIndex, column: props.slot}));
+
+      }} className="fa-solid fa-x"></i></td>
     </tr>
   )
 }
