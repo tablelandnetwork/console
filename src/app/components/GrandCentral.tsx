@@ -8,7 +8,8 @@ import SplashPage from './pages/SplashPage';
 function GrandCentral() {
 
   const { isConnected } = useAccount();
-  const chainId = useNetwork().chain.id;
+  const network = useNetwork();
+  const chainId = network?.chain?.id ? network.chain.id : 1;
 
   startTableLand(chainId);
 

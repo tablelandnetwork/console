@@ -111,6 +111,7 @@
       padding-right: 15px;
       padding-bottom: 20px;
       .controller {
+        grid-column: span 2;
         display: block;
         border-top: 1px solid var(--dark-primary);
       }
