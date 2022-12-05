@@ -38,7 +38,7 @@ function CustomConnectButton(props) {
               {(() => {
                 if (!connected) {
                   return (
-                    <button onClick={openConnectModal} type="button">
+                    <button className="button-default" onClick={openConnectModal} type="button">
                       Wallet Login
                     </button>
                   );
@@ -46,7 +46,7 @@ function CustomConnectButton(props) {
   
                 if (chain.unsupported) {
                   return (
-                    <button onClick={openChainModal} type="button">
+                    <button className="button-default" onClick={openChainModal} type="button">
                       Wrong network
                     </button>
                   );
@@ -55,6 +55,7 @@ function CustomConnectButton(props) {
                 return (
                   <div style={{ display: 'flex', gap: 12 }}>
                     <button
+                      className="button-default"
                       onClick={openChainModal}
                       style={{ display: 'flex', alignItems: 'center' }}
                       type="button"
@@ -82,7 +83,9 @@ function CustomConnectButton(props) {
                       {chain.name}
                     </button>
   
-                    <button onClick={openAccountModal} type="button">
+                    <button
+                      className="button-default"
+                      onClick={openAccountModal} type="button">
                       {account.displayName}
                       {account.displayBalance
                         ? ` (${account.displayBalance})`

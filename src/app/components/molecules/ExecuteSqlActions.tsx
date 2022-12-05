@@ -30,7 +30,7 @@ function ExecuteSqlActions(props) {
     <ul className='action-icons-bar'>
       <li>
         <Flags authorizedFlags={['savedQueries']}>
-          <button onClick={() => {
+          <button className="button-default" onClick={() => {
             let savedQueries = JSON.parse(localStorage.getItem("savedQueries")) ;
             savedQueries = Array.isArray(savedQueries) ? savedQueries : [];
             savedQueries.push({
@@ -40,7 +40,7 @@ function ExecuteSqlActions(props) {
             localStorage.setItem("savedQueries", JSON.stringify(savedQueries));
           }}>Save</button> 
         </Flags>
-        <button onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
+        <button className="button-default" onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
       </li>
     </ul>
   );

@@ -43,7 +43,7 @@ export default function TableListWithMeta() {
             onClick={refreshMyTables}      
             className="fa-solid fa-arrow-rotate-right"
           ></i>
-          <button onClick={openCreateTableTab}>Create Table</button>
+          <button className="button-default" onClick={openCreateTableTab}>Create Table</button>
         </div>
       </li>
       {refreshing ? <Loading /> : <TableList />}

@@ -113,7 +113,7 @@ function CreateTable(props) {
         <StepProgressBar steps={3} step={3} />
       {successMessage}
       <br></br>---<br></br>
-      <button>Create another table</button>
+      <button className="button-default">Create another table</button>
       </div>
     );
   }
@@ -164,17 +164,21 @@ function CreateTable(props) {
         </table>
       </div>
 
-        <button onClick={e => {
-          e.preventDefault();
-          dispatch(addColumn({tabId}));
+        <button 
+          className="button-default"
+          onClick={e => {
+            e.preventDefault();
+            dispatch(addColumn({tabId}));
         }}><i className="fa-solid fa-plus"></i></button>
 
-        <button onClick={e => {
-          e.preventDefault();
-          dispatch(removeColumn({tabId}));
+        <button
+          className="button-default"
+          onClick={e => {
+            e.preventDefault();
+            dispatch(removeColumn({tabId}));
         }}><i className="fa-solid fa-minus"></i></button>
 
-      <button>Commit</button>
+      <button className="button-default">Commit</button>
     </form>
   );
 }

@@ -75,18 +75,21 @@ function TableListItem(props) {
 
   function populateQueryWithSelect() {
     let q = `SELECT * FROM ${table.name} LIMIT 50;`;
-    dispatch(newQueryTab({query: q}));
+    dispatch(newQueryTab({query: q, title: `Query: ${table.name}`}));
   }
 
 
   return (
     <li key={table.name}>
       <span className={`${open ? "highlight" : ""} table-actions-bar`} >
-        <span onClick={()=>setOpen(!open)}>{table.name}</span>
+        <span onClick={()=>setOpen(!open)}> 
+          {open ? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>
+          }  {table.name}
+        </span>
         <span 
-          className='table-insert-select' 
+          className='table-insert-select button-default' 
           onClick={populateQueryWithSelect}>
-          SELECT
+          QUERY
         </span>
         <i className="fa-regular fa-copy" title="Copy table name" onClick={() => navigator.clipboard.writeText(table.name)}></i>
       </span>

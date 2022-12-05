@@ -34,9 +34,9 @@ function CustomValidatorOptions(props) {
           onKeyUp={hostTextUpdate}
         />
       </label>
-      <button onClick={setCustomValidator}>Change Validator</button>
+      <button className="button-default" onClick={setCustomValidator}>Change Validator</button>
       {customHost && (
-        <button onClick={clearCustomValidator}>
+        <button className="button-default" onClick={clearCustomValidator}>
           Clear Custom Validator
         </button>
       )}

@@ -1,6 +1,6 @@
-button:not(.reset), 
 select:not(.reset), 
-.button {
+.button,
+.button-default {
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
@@ -13,11 +13,14 @@ select:not(.reset),
   text-transform: uppercase;
   font-family: var(--main-font);
   border: 1px solid var(--primary);
+  transition: background-color .2s;
   & + button {
     margin-left: 10px;
   }
   &:hover {
-    color: var(--primary);    
+    color: var(--primary);   
+    background-color: var(--hover-primary);
+
   }
   &:disabled {
     opacity: .5;

@@ -167,7 +167,7 @@ const tabsSlice = createSlice({
     newQueryTab(store, action) {     
 
       store.list.push({
-        name: "Query",
+        name: action.payload.title || "Query",
         type: "query",
         query: action.payload?.query || "",
         columns: [],

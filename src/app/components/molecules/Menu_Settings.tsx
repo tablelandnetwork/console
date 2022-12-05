@@ -17,6 +17,7 @@ function SettingsMenu() {
     <Flags authorizedFlags={['customValidator']}>
       <li>
         <button 
+          className="button-default"
           onClick={() => dispatch(toggleMenu("settingsMenu"))}
         >
           <i className="fa-solid fa-ellipsis"></i>

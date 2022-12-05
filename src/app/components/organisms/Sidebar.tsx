@@ -85,7 +85,7 @@ function FlagsToggler() {
         })
       }
       <li>
-        <button onClick={() => {
+        <button className="button-default" onClick={() => {
           flags.forEach(flag => {
             dispatch(setFlag({name: flag.name, isActive: false}));
           });

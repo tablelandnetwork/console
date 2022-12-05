@@ -19,7 +19,7 @@ function TransactionList() {
   }
   return (
     <li>
-      <button onClick={() => {
+      <button className="button-default" onClick={() => {
         dispatch(toggleMenu("transactionsMenu"));
       }}>Commits {!pending ? "Complete" : "Pending"}: {pending || pendingWrites.length}/{pendingWrites.length} {icon}</button>
       <PendingWrites />

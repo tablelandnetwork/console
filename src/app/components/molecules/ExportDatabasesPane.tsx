@@ -15,7 +15,7 @@ function ExportDatabases(props) {
           </div>
         )
       })}
-      <button>Export Tables to SQLite Database</button>
+      <button className="button-default">Export Tables to SQLite Database</button>
     </div>
   );
 }

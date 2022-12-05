@@ -26,7 +26,7 @@ function TallyPopup(props) {
 
 
   return (
-    <button className='tally-popup-prompt' onClick={openPopup}>
+    <button className='button-default tally-popup-prompt' onClick={openPopup}>
       <i className="fa-regular fa-comment"></i>
     </button>
   );
