@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { queryTableland } from "../../store/tabsSlice";
 import { RootState } from '../../store/store';
 import { Flags } from 'react-feature-flags';
+import Loading from "../atoms/Loading";
 
 // TODO: Rename
 
@@ -24,7 +25,6 @@ function ExecuteSqlActions(props) {
       // @ts-ignore
       dispatch(queryTableland({query: query, tab: tab}));
   }
-
   
   return (
     <ul className='action-icons-bar'>
@@ -40,7 +40,10 @@ function ExecuteSqlActions(props) {
             localStorage.setItem("savedQueries", JSON.stringify(savedQueries));
           }}>Save</button> 
         </Flags>
-        <button className="button-default" onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
+        {!tabContent.loading && (
+          <button className="button-default" onClick={sendQuery} disabled={!(query.length) || queryType==='invalid'}>{ queryType==='write' ? 'Commit' : 'Query' }</button>
+        )}
+        
       </li>
     </ul>
   );

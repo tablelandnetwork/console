@@ -4,7 +4,7 @@ import { newQueryTab } from "../../store/tabsSlice";
 import { getSchema } from "../../store/tablesSlice";
 import Loading from "../atoms/Loading";
 import { RootState } from '../../store/store';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork } from 'wagmi';
 
 
 // TODO: Refactor components into seperate files
@@ -102,6 +102,15 @@ function TableListItem(props) {
 function TableList() {
 
   const tables = useSelector((store: RootState) => store.tables.myTables);
+  const network = useNetwork();
+  
+  if(tables.length===0) {
+    return (
+      <div className="no-tables-message message">
+        You have no tables on the {network.chain.name} chain. Create a table to get started.
+      </div>
+    );
+  }
 
   return (
     <>

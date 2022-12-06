@@ -41,7 +41,7 @@ export default function TableListWithMeta() {
         <div className="icons">
           <i 
             onClick={refreshMyTables}      
-            className="fa-solid fa-arrow-rotate-right"
+            className="fa-solid fa-arrow-rotate-right refresh-icon"
           ></i>
           <button className="button-default" onClick={openCreateTableTab}>Create Table</button>
         </div>

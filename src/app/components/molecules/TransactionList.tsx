@@ -15,13 +15,15 @@ function TransactionList() {
   let pending = pendingWrites.filter(write => (write.status!=='complete' && write.status!=='cancelled')).length;
   let icon = awaitingWallet ? <i className="fa-solid fa-circle-exclamation" title="Awaiting Wallet"></i> : <i className="fas fa-circle-notch fa-spin"></i>;
   if(!pending) {
-    icon = <i className="fa-solid fa-check"></i>;
+    icon = <></>;//<i className="fa-solid fa-check"></i>;
   }
   return (
     <li>
       <button className="button-default" onClick={() => {
         dispatch(toggleMenu("transactionsMenu"));
-      }}>Commits {!pending ? "Complete" : "Pending"}: {pending || pendingWrites.length}/{pendingWrites.length} {icon}</button>
+      }}>Commits {!pending ? "" : "Pending"}
+      {//: {pending || pendingWrites.length}/{pendingWrites.length} 
+      } {icon}</button>
       <PendingWrites />
     </li>
   )

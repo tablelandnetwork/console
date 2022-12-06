@@ -30,3 +30,12 @@ select:not(.reset),
     border-color: white;
   }
 }
+
+.refresh-icon {
+  &:hover {
+    opacity: .6;
+  }
+  &:active {
+    color: white;
+  }
+}

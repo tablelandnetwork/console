@@ -85,7 +85,7 @@ function CreateColumn(props) {
           e.preventDefault();
           dispatch(removeColumn({tabId: props.tabIndex, column: props.slot}));
 
-      }} className="fa-solid fa-x"></i></td>
+      }} className="fa-solid fa-x remove-column-x"></i></td>
     </tr>
   )
 }

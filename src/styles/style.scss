@@ -330,3 +330,22 @@ ul.flags-list {
   border-radius: 100%;
 
 }
+
+.no-tables-message {
+  padding: 10px;
+  display: block;
+  
+}
+
+.remove-column-x {
+  margin: 0px 16px;
+  color: var(--primary);
+  display: block;
+  &:hover {
+    opacity: .5;
+  }
+  &:active {
+    opacity: 1;
+    color: white;
+  }
+}

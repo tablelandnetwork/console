@@ -17,6 +17,7 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
 
   // @ts-ignore
   const { query, options, tab } = action;
+  store.dispatch(setLoadingStatus({tab, loading: true}));
 
   store.dispatch(updateMessage({tabId: tab, message: null}));
 
@@ -50,25 +51,31 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
       }));
     });
     // @ts-ignore
-    res = getTablelandConnection().write(query).catch(e=>{
+    store.dispatch(updatePendingWrite({
+      query: query,
+      status: "pending-network"
+    }));
+    // @ts-ignore
+    res = getTablelandConnection().write(query).then(r => {
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "complete"
+      }));
+      store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
+    }).catch(e=>{
       console.log("Write cancelled");
       console.log(e);
       store.dispatch(updatePendingWrite({
         query: query,
         status: "cancelled"
       }));
+      store.dispatch(updateMessage({tabId: tab, error: `Query failed. ${e.message}`}));
+      store.dispatch(setLoadingStatus({tab, loading: false}));
     });
-    // @ts-ignore
-    store.dispatch(updatePendingWrite({
-      query: query,
-      status: "pending-network"
-    }));
+
     await res;
-    store.dispatch(updatePendingWrite({
-      query: query,
-      status: "complete"
-    }));
-    store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
+
+    
     
     return {query};
   } else {
@@ -82,6 +89,8 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
     }
     
   }
+  
+  store.dispatch(setLoadingStatus({tab, loading: false}));
   return {...res, ...options, query, tab};
 });
 
@@ -100,7 +109,8 @@ interface Tab {
   prefix?: string,
   createColumns?: CreateColumn[],
   successMessage?: string,
-  errorMessage?: string
+  errorMessage?: string,
+  loading?: boolean
 }
 
 interface CreateColumn {
@@ -144,6 +154,9 @@ const tabsSlice = createSlice({
   name: 'tabs',
   initialState, 
   reducers: {
+    setLoadingStatus(store, action) {
+      store.list[action.payload.tab].loading = action.payload.loading; 
+    },
     updateQuery(store, action) {
       store.list[action.payload.tab].query = action.payload.query;
     },
@@ -163,6 +176,7 @@ const tabsSlice = createSlice({
     updateMessage(store, action) {
       const tab = action.payload.tabId;
       store.list[tab].message = action.payload.message;
+      store.list[tab].error = action.payload.error;
     },
     newQueryTab(store, action) {     
 
@@ -247,10 +261,11 @@ const tabsSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(queryTableland.fulfilled, (state, action) => {   
-      const { columns, rows, query, tab } = action.payload;
+      const { columns, rows, query, tab, error } = action.payload;
       state.list[tab].columns = columns;
       state.list[tab].rows = rows;
       state.list[tab].query = query;
+      state.list[tab].error = error;
     }),
     builder.addCase(checkQueryType.fulfilled, (state, action) => {
       state.list[action.payload.tab].queryType = action.payload.type;
@@ -272,7 +287,8 @@ export const {
   startCommit, 
   cancelCommit,
   completeCommit,
-  updateMessage
+  updateMessage,
+  setLoadingStatus
 } = tabsSlice.actions;
 
 export default tabsSlice.reducer

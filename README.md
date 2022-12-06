@@ -10,7 +10,7 @@ npx mix
 npm start
 ```
 
-By default, the Tableland UI will appear at port 3111
+By default, the Tableland UI will appear at port 8080
 
 ## For developers
 
