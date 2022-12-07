@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import QueryPane from '../molecules/QueryPane';
 import ResultSetPane from '../molecules/ResultSetPane';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,10 +25,21 @@ function TabLabel(props) {
   }
 
 
+
+  const ref = useRef();
+
+  
+  useEffect(() => {
+    // @ts-ignore
+    ref?.current?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'center' });
+  }, []);
+
+
   return (
     <li
       className={props.tab===currentTab ? "active" : "not-active"}
       onClick={() => switchToTab(props.tab)}
+      ref={ref}
     >
       {tab.type === "create" ? <i className="fa-regular fa-square-plus"></i> : <i className="fa-solid fa-terminal"></i>}
       <input type="name" style={{"pointerEvents": props.tab!==currentTab ? "none" : "initial"}}  value={tab.name} onChange={(e) => {
@@ -52,7 +63,7 @@ function ExecuteSqlSection() {
   }
 
 
-
+  
 
   return (
       <div className='tabs-pane'>

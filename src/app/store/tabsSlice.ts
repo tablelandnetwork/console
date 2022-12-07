@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
-import { getQueryType } from '../database/databaseCalls';
 import { getTablelandConnection } from '../database/connectToTableland';
 
 
 export const checkQueryType = createAsyncThunk('query/checkQueryType', async (action:any) => {
-  const type = await getQueryType(action.query);
+
+  const { type } = await sqlparser.normalize(action.query);
+
+
+  
   return {
     type,
     tab: action.tab
@@ -23,20 +26,12 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
 
   // @ts-ignore
   await getTablelandConnection();
-  let isWrite;
-  
-  try {
-    // @ts-ignore
-    await sqlparser.parse(query + "INSERT INTO SOMETHING (id) VALUES ('se');");
-    isWrite = true;
 
 
-  } catch(e) {
-    isWrite = false;
-  }
+  const {type} = await sqlparser.normalize(query);
 
   let res; 
-  if(isWrite) {
+  if(type==="write") {
     store.dispatch(addPendingWrite({
       query: query,
       status: "pending-wallet"
@@ -62,6 +57,7 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
         status: "complete"
       }));
       store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
+      store.dispatch(setLoadingStatus({tab, loading: false}));
     }).catch(e=>{
       console.log("Write cancelled");
       console.log(e);
@@ -181,7 +177,7 @@ const tabsSlice = createSlice({
     newQueryTab(store, action) {     
 
       store.list.push({
-        name: action.payload.title || "Query",
+        name: action.payload?.title || "Query",
         type: "query",
         query: action.payload?.query || "",
         columns: [],

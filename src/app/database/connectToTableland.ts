@@ -25,6 +25,7 @@ export function startTableLand(chainId) {
   // @ts-ignore
   store.dispatch(networkSet(currentChain[1].phrase) || "Ethereum Mainnet");
   const tbl = connect({
+    rpcRelay: false,
     chain: currentChain[0] as ChainName,
     host: localStorage.getItem("validator") || currentChain[1].host
   });

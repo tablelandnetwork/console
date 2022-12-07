@@ -96,7 +96,7 @@ function CreateTableReceipt(props) {
 
 function CreateTable(props) {
   const tabId = props.tabIndex;
-  const { commiting, createColumns, prefix, successMessage } = useSelector((store: RootState)=>store.tabs.list[tabId]);
+  const { commiting, createColumns, prefix, successMessage, error } = useSelector((store: RootState)=>store.tabs.list[tabId]);
   const currentNetwork = useSelector((store: RootState) => store.walletConnection.network);
   const dispatch = useDispatch();
 
@@ -128,6 +128,7 @@ function CreateTable(props) {
 
   return (
     <form onSubmit={createTableOnNetwork}>
+      {error && <div className="error">Error<br></br>{error}</div>}
       <StepProgressBar steps={3} step={1} />
       <h2>Create Table on {currentNetwork} <i className="fa-solid fa-circle-question tooltip"><span>Switch networks to change the network this table will be created on.</span></i></h2>
       <label className="create-table-prefix"><div>Table Prefix</div>
