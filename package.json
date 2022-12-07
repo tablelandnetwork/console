@@ -34,6 +34,7 @@
     "react-router-dom": "^6.3.0",
     "react-simple-code-editor": "^0.13.1",
     "redux": "^4.2.0",
+    "uuid": "^9.0.0",
     "wagmi": "^0.7.10"
   },
   "devDependencies": {

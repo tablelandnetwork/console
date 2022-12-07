@@ -5,6 +5,7 @@ import { getSchema } from "../../store/tablesSlice";
 import Loading from "../atoms/Loading";
 import { RootState } from '../../store/store';
 import { useAccount, useNetwork } from 'wagmi';
+import { activateToast } from "../../store/toastsSlice";
 
 
 // TODO: Refactor components into seperate files
@@ -91,7 +92,11 @@ function TableListItem(props) {
           onClick={populateQueryWithSelect}>
           QUERY
         </span>
-        <i className="fa-regular fa-copy" title="Copy table name" onClick={() => navigator.clipboard.writeText(table.name)}></i>
+        <i className="fa-regular fa-copy" title="Copy table name" onClick={() => {
+          navigator.clipboard.writeText(table.name);
+          // @ts-ignore
+          dispatch(activateToast({message: `Copied: ${table.name}`, type: "success"}));
+        }}></i>
       </span>
       <TableColumnDetails open={open} setOpen={setOpen} tableName={table.name} />
 

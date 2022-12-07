@@ -8,6 +8,7 @@ import pageStateReducer from './pageStateSlice';
 import tabsReducer from './tabsSlice';
 import sidebarReducer from './sidebarSlice';
 import flagsReducer from './flagSlice';
+import toastsReducer from './toastsSlice';
 
 
 export const store = configureStore({
@@ -20,7 +21,8 @@ export const store = configureStore({
     pageState: pageStateReducer,
     tabs: tabsReducer,
     sidebar: sidebarReducer,
-    flags: flagsReducer
+    flags: flagsReducer,
+    toasts: toastsReducer
   }
 });
 export type RootState = ReturnType<typeof store.getState>;
