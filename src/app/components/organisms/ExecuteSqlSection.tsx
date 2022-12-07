@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import QueryPane from '../molecules/QueryPane';
 import ResultSetPane from '../molecules/ResultSetPane';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +6,7 @@ import { closeTab, newQueryTab, activateTab, renameTab } from '../../store/tabsS
 import CreateTable from './CreateTable';
 import { RootState } from '../../store/store';
 
-
+// TODO: Seperate files for components
 
 function TabLabel(props) {
   const dispatch = useDispatch();
@@ -18,26 +18,40 @@ function TabLabel(props) {
     dispatch(activateTab(key));
   }
 
-  function closeThisTab(key) {
-    dispatch(closeTab(key));
+  function closeThisTab(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(closeTab(props.tab));
   }
+
+
+
+  const ref = useRef();
+
+  
+  useEffect(() => {
+    // @ts-ignore
+    ref?.current?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'center' });
+  }, []);
 
 
   return (
     <li
       className={props.tab===currentTab ? "active" : "not-active"}
       onClick={() => switchToTab(props.tab)}
-
+      ref={ref}
     >
       {tab.type === "create" ? <i className="fa-regular fa-square-plus"></i> : <i className="fa-solid fa-terminal"></i>}
-      <input type="name" value={tab.name} onChange={(e) => {
+      <input type="name" style={{"pointerEvents": props.tab!==currentTab ? "none" : "initial"}}  value={tab.name} onChange={(e) => {
         dispatch(renameTab({tab: props.tab, name: e.target.value}));
       }} /> 
-      <span onClick={() => closeThisTab(props.tab)}><i className="fa-solid fa-circle-xmark"></i></span></li>
+      <span onClick={closeThisTab}><i className="fa-solid fa-circle-xmark"></i></span></li>
   );
 
 }
 
+
+// TODO: Rename this component
 function ExecuteSqlSection() {
    
   const tabs = useSelector((store: RootState)=>store.tabs.list);
@@ -49,7 +63,7 @@ function ExecuteSqlSection() {
   }
 
 
-
+  
 
   return (
       <div className='tabs-pane'>

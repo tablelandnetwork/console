@@ -6,6 +6,8 @@ import { Flags } from 'react-feature-flags';
 import { setFlag } from '../../store/flagSlice';
 import { RootState } from '../../store/store';
 
+// TODO: Seperate files for components
+
 function ActionsBar() {
 
   const dispatch = useDispatch();
@@ -83,7 +85,7 @@ function FlagsToggler() {
         })
       }
       <li>
-        <button onClick={() => {
+        <button className="button-default" onClick={() => {
           flags.forEach(flag => {
             dispatch(setFlag({name: flag.name, isActive: false}));
           });
@@ -115,7 +117,9 @@ function Sidebar(props) {
 
   return (
     <div className='sidebar'>
-      <ActionsBar />
+      <Flags authorizedFlags={['actionsBar']}>
+        <ActionsBar />
+      </Flags>
       {content}
     </div>
   );

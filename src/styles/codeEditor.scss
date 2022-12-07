@@ -1,9 +1,9 @@
 .editor {
   counter-reset: line;
-  // border: 1px solid var(--grey-mid);
-  
-  background-color: var(--grey-dark-ish);
-	background-color: var(--bg);
+	background-color: var(--dark-primary);
+	::placeholder { 
+		color: var(--primary);
+	}
 }
 
 .editor #codeEditor {
@@ -21,7 +21,7 @@
 .editor .editorLineNumber {
   position: absolute;
   left: 0px;
-  color: var(--grey-light);
+  color: var(--primary);
   text-align: right;
   width: 40px;
   font-weight: 100;
@@ -57,6 +57,14 @@ pre[class*="language-"]::-moz-selection,
 code[class*="language-"] ::-moz-selection,
 pre[class*="language-"] ::-moz-selection {
 	background: #363636;
+	padding: 10px 10px 10px 60px !important;
+}
+
+code[class*="language-"],
+pre[class*="language-"],
+code[class*="language-"],
+pre[class*="language-"] {
+	padding: 10px 10px 10px 60px !important;
 }
 
 code[class*="language-"]::selection,
@@ -64,6 +72,7 @@ pre[class*="language-"]::selection,
 code[class*="language-"] ::selection,
 pre[class*="language-"] ::selection {
 	background: #363636;
+	padding: 10px 10px 10px 60px !important;
 }
 
 :not(pre) > code[class*="language-"] {
@@ -76,7 +85,7 @@ pre[class*="language-"] {
 	overflow: auto;
 	position: relative;
 	margin: 0.5em 0;
-	padding: 1.25em 1em;
+	padding-left: 60px !important;
 }
 
 .language-css > code,

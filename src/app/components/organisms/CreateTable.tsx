@@ -6,6 +6,9 @@ import { sendCreateQuery,  columnsSummary } from '../../store/createTableSlice';
 import { addColumn, setPrefix, removeColumn, updateColumnProperty } from '../../store/tabsSlice';
 import Loading from '../atoms/Loading';
 import { RootState } from '../../store/store';
+import StepProgressBar from '../atoms/StepProgressBar';
+
+// TODO: Seperate components into files
 
 function CreateColumn(props) {
   const dispatch = useDispatch();
@@ -78,14 +81,22 @@ function CreateColumn(props) {
           onChange={setColumnProperty} 
         />
       </td>
-      <td><i className="fa-solid fa-x"></i></td>
+      <td><i onClick={e => {
+          e.preventDefault();
+          dispatch(removeColumn({tabId: props.tabIndex, column: props.slot}));
+
+      }} className="fa-solid fa-x remove-column-x"></i></td>
     </tr>
   )
 }
 
+function CreateTableReceipt(props) {
+  return "Table created."
+}
+
 function CreateTable(props) {
   const tabId = props.tabIndex;
-  const { commiting, createColumns, prefix } = useSelector((store: RootState)=>store.tabs.list[tabId]);
+  const { commiting, createColumns, prefix, successMessage, error } = useSelector((store: RootState)=>store.tabs.list[tabId]);
   const currentNetwork = useSelector((store: RootState) => store.walletConnection.network);
   const dispatch = useDispatch();
 
@@ -96,13 +107,29 @@ function CreateTable(props) {
     dispatch(sendCreateQuery({query: columnsSummary(createColumns), tab: tabId, options: {prefix}}));
   }
 
+  if(successMessage) {
+    return (
+      <div>
+        <StepProgressBar steps={3} step={3} />
+      {successMessage}
+      <br></br>---<br></br>
+      <button className="button-default">Create another table</button>
+      </div>
+    );
+  }
+
   if(commiting) {
-    return <Loading show={true} />
+    return <>
+      <StepProgressBar steps={3} step={2} />
+      Commiting table: <Loading show={true} />
+    </>
   }
   
 
   return (
     <form onSubmit={createTableOnNetwork}>
+      {error && <div className="error">Error<br></br>{error}</div>}
+      <StepProgressBar steps={3} step={1} />
       <h2>Create Table on {currentNetwork} <i className="fa-solid fa-circle-question tooltip"><span>Switch networks to change the network this table will be created on.</span></i></h2>
       <label className="create-table-prefix"><div>Table Prefix</div>
         <input 
@@ -138,17 +165,21 @@ function CreateTable(props) {
         </table>
       </div>
 
-        <button onClick={e => {
-          e.preventDefault();
-          dispatch(addColumn({tabId}));
+        <button 
+          className="button-default"
+          onClick={e => {
+            e.preventDefault();
+            dispatch(addColumn({tabId}));
         }}><i className="fa-solid fa-plus"></i></button>
 
-        <button onClick={e => {
-          e.preventDefault();
-          dispatch(removeColumn({tabId}));
+        <button
+          className="button-default"
+          onClick={e => {
+            e.preventDefault();
+            dispatch(removeColumn({tabId}));
         }}><i className="fa-solid fa-minus"></i></button>
 
-      <button>Commit</button>
+      <button className="button-default">Commit</button>
     </form>
   );
 }

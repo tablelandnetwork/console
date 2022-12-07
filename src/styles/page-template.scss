@@ -30,10 +30,7 @@
       overflow: scroll;  
       min-height: 100%;
       height: 100%;
-      // border-radius: 8px;
-      border: 1px solid var(--grey-mid);
       padding-bottom: 50px;
-      background-color: var(--grey-dark-ish);
     }
     .editor {
       min-height: 100%;
@@ -44,9 +41,7 @@
 }
 
 .table-results {
-  border: 1px solid var(--grey-mid);
-  background-color: var(--grey-dark-ish);
-  background-color: var(--paper);
+  background-color: var(--darkest-primary);
   border-radius: 3px;
   overflow: scroll;
   grid-area: viewer;
@@ -54,20 +49,25 @@
 
 .tables-to-add {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 3px;
   overflow: scroll;
   grid-area: list;
   position: relative;
+  margin-top: 10px;
+  padding: 0px 10px;
+  background-color: var(--darkest-primary);
   &--header {
     padding: 10px;
     font-size: 1.2rem;
-    border-bottom: 1px solid var(--grey-mid);
+    border-bottom: 1px solid var(--dark-primary);
   }
   &--header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .icons {
       display: flex;
+      align-items: center;
       i {
         margin: 0px 10px;
         &.highlight {
@@ -78,30 +78,27 @@
   }
   & > li {
     .table-actions-bar {
-      &.highlight {
-        background-color: var(--grey-mid);
-        .table-insert-select {
-          background-color: var(--grey-dark-ish);
-        }
-      }
       position: sticky;
       right: 0px;
       left: 0px;
       display: grid;
-      color: var(--white);
+      color: var(--primary);
       grid-template-columns: 1fr min-content min-content;
       gap: 15px;
       cursor: pointer;
       padding: 8px 10px;
       font-weight: 900;
       i {
-        color: var(--grey-mid);
+        color: var(--primary);
         &:hover {
-          color: var(--white);
+          color: var(--primary);
+        }
+        &:active {
+          color: white;
         }
       }
       &:hover {
-        color: var(--white);
+        color: var(--primary);
       }
     }
     .table-schema {
@@ -109,10 +106,17 @@
       max-width: 100%;
       display: grid;
       grid-template-columns: max-content max-content max-content;
-      color: var(--white-muted);   
+      opacity: .9; 
       padding-left: 15px;
       padding-right: 15px;
       padding-bottom: 20px;
+      .controller {
+        grid-column: 1 / -1;
+        display: block;
+        border-top: 1px solid var(--dark-primary);
+        max-width: min-content;
+        overflow: scroll;
+      }
       &.closed {
         display: none;
       }
@@ -121,7 +125,6 @@
 
         span {
           padding: 10px 30px 10px 10px;     
-          border-bottom: 1px solid var(--grey-dark);
           strong {
             font-weight: 900;
           }
@@ -136,17 +139,6 @@
 
 
 
-
-.tab-section {
-  resize: both;
-  flex-grow: 1;
-  background-color: var(--grey-dark);
-  border-radius: 10px;
-  padding: 10px;
-  min-height: 0px;
-  display: flex;
-  flex-direction: column;
-}
 
 .page-section {
   height: calc(100vh - 240px);

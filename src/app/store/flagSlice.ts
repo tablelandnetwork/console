@@ -8,7 +8,8 @@ const flagSlice = createSlice({
     {name: "prefabQueries", isActive: localStorage.getItem("flag--prefabQueries")==="active"},
     {name: "accessControl", isActive: localStorage.getItem("flag--accessControl")==="active"},
     {name: "networkFocus", isActive: localStorage.getItem("flag--networkFocus")==="active"},
-    {name: "customValidator", isActive: localStorage.getItem("flag--customValidator")==="active"}
+    {name: "customValidator", isActive: localStorage.getItem("flag--customValidator")==="active"},
+    {name: "actionsBar", isActive: localStorage.getItem("flag--actionsBar")==="active"}
   ], 
   reducers: {
     setFlag(state, action) {

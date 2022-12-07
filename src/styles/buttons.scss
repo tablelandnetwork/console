@@ -1,45 +1,41 @@
-button:not(.reset), select:not(.reset), .button {
+select:not(.reset), 
+.button,
+.button-default {
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
-  color: var(--white);
-  background-color: var(--paper);
+  color: var(--primary);
+  background-color: var(--darkest-primary);
   border-radius: 5px;
   padding: 10px 20px;
   border: 0px;
   margin: 10px 0px;
   text-transform: uppercase;
   font-family: var(--main-font);
-  transition: color .5s, background-color .5s;
-  border: 2px solid transparent;
   border: 1px solid var(--primary);
+  transition: background-color .2s;
   & + button {
     margin-left: 10px;
   }
   &:hover {
-    color: var(--white);    
-  }
-  &.case-matters {
-    text-transform: none;
-  }
-  &.subtle {
-    background-color: transparent;
-    color: var(--black-near);
-    &:hover {
-      background-color: var(--white-transparent-400);
-    }
+    color: var(--primary);   
+    background-color: var(--hover-primary);
+
   }
   &:disabled {
-    color: var(--grey-transparent-500);
-    background-color: var(--grey-mid);
-    border-color: var(--grey-mid);
+    opacity: .5;
   }
-  .reset-case {
-    text-transform: none;
+  &:active {
+    color: white;
+    border-color: white;
   }
 }
 
-.right-buttons {
-  display: flex;
-  justify-content: flex-end;
+.refresh-icon {
+  &:hover {
+    opacity: .6;
+  }
+  &:active {
+    color: white;
+  }
 }

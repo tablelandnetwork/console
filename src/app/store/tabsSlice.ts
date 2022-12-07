@@ -1,25 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
-import { getQueryType } from '../database/databaseCalls';
 import { getTablelandConnection } from '../database/connectToTableland';
-
-enum QueryTypeState {
-  loading = 'loading',
-  read = 'read',
-  write = 'write',
-  invalid = 'invalid'
-}
-
-interface QueryState {
-  value: string,
-  type: QueryTypeState
-}
-
 
 
 export const checkQueryType = createAsyncThunk('query/checkQueryType', async (action:any) => {
-  const type = await getQueryType(action.query);
+
+  const { type } = await sqlparser.normalize(action.query);
+
+
+  
   return {
     type,
     tab: action.tab
@@ -30,24 +20,18 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
 
   // @ts-ignore
   const { query, options, tab } = action;
+  store.dispatch(setLoadingStatus({tab, loading: true}));
+
+  store.dispatch(updateMessage({tabId: tab, message: null}));
 
   // @ts-ignore
   await getTablelandConnection();
-  let isWrite; 
-
-  
-  try {
-    // @ts-ignore
-    await sqlparser.parse(query + "INSERT INTO SOMETHING (id) VALUES ('se');");
-    isWrite = true;
 
 
-  } catch(e) {
-    isWrite = false;
-  }
+  const {type} = await sqlparser.normalize(query);
 
   let res; 
-  if(isWrite) {
+  if(type==="write") {
     store.dispatch(addPendingWrite({
       query: query,
       status: "pending-wallet"
@@ -62,24 +46,32 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
       }));
     });
     // @ts-ignore
-    res = getTablelandConnection().write(query).catch(e=>{
+    store.dispatch(updatePendingWrite({
+      query: query,
+      status: "pending-network"
+    }));
+    // @ts-ignore
+    res = getTablelandConnection().write(query).then(r => {
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "complete"
+      }));
+      store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
+      store.dispatch(setLoadingStatus({tab, loading: false}));
+    }).catch(e=>{
       console.log("Write cancelled");
       console.log(e);
       store.dispatch(updatePendingWrite({
         query: query,
         status: "cancelled"
       }));
+      store.dispatch(updateMessage({tabId: tab, error: `Query failed. ${e.message}`}));
+      store.dispatch(setLoadingStatus({tab, loading: false}));
     });
-    // @ts-ignore
-    store.dispatch(updatePendingWrite({
-      query: query,
-      status: "pending-network"
-    }));
+
     await res;
-    store.dispatch(updatePendingWrite({
-      query: query,
-      status: "complete"
-    }));
+
+    
     
     return {query};
   } else {
@@ -93,6 +85,8 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', async (ac
     }
     
   }
+  
+  store.dispatch(setLoadingStatus({tab, loading: false}));
   return {...res, ...options, query, tab};
 });
 
@@ -106,9 +100,13 @@ interface Tab {
   queryType?: string,
   error?: string,
   status?: string,
+  message?: string,
   commiting: boolean,
   prefix?: string,
-  createColumns?: CreateColumn[]
+  createColumns?: CreateColumn[],
+  successMessage?: string,
+  errorMessage?: string,
+  loading?: boolean
 }
 
 interface CreateColumn {
@@ -120,9 +118,24 @@ interface CreateColumn {
   default:  null | string
 }
 
+const createTableTab = {
+  name: "Create Table",
+  type: "create",
+  prefix: "",
+  commiting: false,
+  createColumns: [{
+    name: "id",
+    type: "integer", 
+    notNull: false, 
+    primaryKey: false, 
+    unique: false,
+    default:  null
+  }]
+};
+
 
 const initialState = {
-  list: [{
+  list: [createTableTab, {
     name: "Query 1",
     type: "query",
     columns: [],
@@ -137,6 +150,9 @@ const tabsSlice = createSlice({
   name: 'tabs',
   initialState, 
   reducers: {
+    setLoadingStatus(store, action) {
+      store.list[action.payload.tab].loading = action.payload.loading; 
+    },
     updateQuery(store, action) {
       store.list[action.payload.tab].query = action.payload.query;
     },
@@ -146,14 +162,22 @@ const tabsSlice = createSlice({
     activateTab(store, action) {
       store.active = action.payload;
     },
-    closeTab(store, action) {
+    closeTab(store, action) { 
       store.list.splice(action.payload, 1);
+
+      if(store.active!=0) {
+        store.active--;
+      }      
     },
-    newQueryTab(store, action) {
-      
+    updateMessage(store, action) {
+      const tab = action.payload.tabId;
+      store.list[tab].message = action.payload.message;
+      store.list[tab].error = action.payload.error;
+    },
+    newQueryTab(store, action) {     
 
       store.list.push({
-        name: "Query",
+        name: action.payload?.title || "Query",
         type: "query",
         query: action.payload?.query || "",
         columns: [],
@@ -164,26 +188,22 @@ const tabsSlice = createSlice({
       store.active = store.list.length - 1;
     },
     newCreateTableTab(store, action) {
-      store.list.push({
-        name: "Create Table",
-        type: "create",
-        prefix: "",
-        commiting: false,
-        createColumns: [{
-          name: "id",
-          type: "integer", 
-          notNull: false, 
-          primaryKey: false, 
-          unique: false,
-          default:  null
-        }]
-      });
+      store.list.push(createTableTab);
       store.active = store.list.length - 1;
     },
 
     startCommit(state, action) {
       const tab = action.payload.tabId;
       state.list[tab].commiting = true;
+    },
+    cancelCommit(state, action) {
+      const tab = action.payload.tabId;
+      state.list[tab].commiting = false;
+    },
+    completeCommit(state, action) {
+      const tab = action.payload.tabId;
+
+      state.list[tab].successMessage = action.payload.message;
     },
     setPrefix(state, action) {
       const tab = action.payload.tabId;
@@ -203,7 +223,13 @@ const tabsSlice = createSlice({
     },
     removeColumn(state, action) {
       const tab = action.payload.tabId;
-      state.list[tab].createColumns.pop();
+      if(action.payload.column) {
+        state.list[tab].createColumns.splice(action.payload.column, 1);
+
+      } else {
+        state.list[tab].createColumns.pop();        
+      }
+      
     },
     updateColumnProperty(state, action) {
       const { columnIndex, property, value, checked, tabId } = action.payload;
@@ -230,15 +256,12 @@ const tabsSlice = createSlice({
 
   },
   extraReducers(builder) {
-    builder.addCase(queryTableland.pending, (state, action) => {
-      // @ts-ignore
-      // state.list[action.payload.tab].status = "loading";
-    });
     builder.addCase(queryTableland.fulfilled, (state, action) => {   
-      const { columns, rows, query, tab } = action.payload;
+      const { columns, rows, query, tab, error } = action.payload;
       state.list[tab].columns = columns;
       state.list[tab].rows = rows;
       state.list[tab].query = query;
+      state.list[tab].error = error;
     }),
     builder.addCase(checkQueryType.fulfilled, (state, action) => {
       state.list[action.payload.tab].queryType = action.payload.type;
@@ -246,5 +269,22 @@ const tabsSlice = createSlice({
   }
 })
 
-export const { closeTab, newQueryTab, newCreateTableTab, activateTab, updateQuery, renameTab,  addColumn, setPrefix, removeColumn, updateColumnProperty, startCommit } = tabsSlice.actions
+export const { 
+  closeTab, 
+  newQueryTab, 
+  newCreateTableTab, 
+  activateTab, 
+  updateQuery, 
+  renameTab,  
+  addColumn, 
+  setPrefix, 
+  removeColumn, 
+  updateColumnProperty, 
+  startCommit, 
+  cancelCommit,
+  completeCommit,
+  updateMessage,
+  setLoadingStatus
+} = tabsSlice.actions;
+
 export default tabsSlice.reducer

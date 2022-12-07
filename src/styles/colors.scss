@@ -1,51 +1,29 @@
 html {
-
   --primary: #75B6B5;
+  --dark-primary: #162929;
+  --darkest-primary: #101E1E;
   --inactive: #326563;
+  --hover-primary: rgb(38, 70, 70);
+
   --primaryLight: #F4706B;
-  --bg: #162929;
-  --paper: #101E1E;
-
-  // Grey
-  --grey-light: #bbb;
-  --grey-mid: #777;
-  --grey-mid-dark: #444;
-  --grey-dark: #191919;
-  --grey-dark-ish: #262626;
-  --grey-active: rgb(47, 47, 54);
-  --grey-transparent-500: rgba(155,155,155, .5);
-
-  // White
-  --white: var(--primary);
-  --white-near: #f5f5f5;
-  --white-transparent-400: rgba(255,255,255,.4);
-  --white-muted: #ccc;
-
-  // Black
-  --black: #000;
-  --black: var(--paper);
-  --black-near: #080808;
-
-  // Colorful
   --error-light: rgb(255, 160, 160);
   --error-dark: #200;
+}
 
-  --primary: #75B6B5;
+*::-webkit-scrollbar {
 
-  --accent-color: #e8c9f3;
-  --primary-color: #ff6567;
-  --secondary-color: #6067eb;
-  --bright-green: #0f0;
+  position: absolute;
+  background-color: #101E1E;
+}
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
 
+*::-webkit-scrollbar-thumb {
+	background-color:rgb(70, 70, 70);
+}
 
-  ---negative-space-absolute: var(--black);
-
-  html[data-theme='light'] {
-    ---negative-space-absolute: var(--white);
-    ---negative-space-near: var(--white-near);
-    ---negative-space-muted: var(--white-near);
-
-    ---grey-near-negative: var(--grey-light);
-    ---grey-near-positive: var(--grey-dark);
-  }
+*::-webkit-scrollbar-corner {
+  background-color: transparent;
+  background-color: #101E1E;
 }

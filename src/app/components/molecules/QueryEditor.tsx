@@ -9,7 +9,6 @@ function QueryEditor(props) {
   const dispatch = useDispatch();
   const query = useSelector((store: RootState) => store.tabs.list[props.tab].query);
 
-
   return (
     <CodeEditor onChange={code=>{
       dispatch(updateQuery({query: code, tab: props.tab}));

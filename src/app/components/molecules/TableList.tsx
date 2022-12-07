@@ -4,6 +4,11 @@ import { newQueryTab } from "../../store/tabsSlice";
 import { getSchema } from "../../store/tablesSlice";
 import Loading from "../atoms/Loading";
 import { RootState } from '../../store/store';
+import { useAccount, useNetwork } from 'wagmi';
+import { activateToast } from "../../store/toastsSlice";
+
+
+// TODO: Refactor components into seperate files
 
 function ColumnDetails(props) {
 
@@ -15,11 +20,6 @@ function ColumnDetails(props) {
 
   return (
     <>
-      <li>
-        <span><strong>Name</strong></span>
-        <span><strong>Type</strong></span>
-        <span><strong>Constraints</strong></span>
-      </li>
     {table.schema.columns.map(column => {
       return (
         <li key={`${tableName}-${column.name}`}>
@@ -37,6 +37,9 @@ function ColumnDetails(props) {
 function TableColumnDetails(props) {
   const { open, tableName } = props;
   const dispatch = useDispatch();
+  const controller = useAccount();
+ 
+  
 
   const table = useSelector((store: RootState) => {
     return store.tables.myTables.find(table=>table.name===tableName);
@@ -55,6 +58,7 @@ function TableColumnDetails(props) {
   return (
     <ul className={`table-schema ${open ? 'open' : 'closed'}`} >
       <ColumnDetails tableName={tableName} />
+      <li><span className="controller">Controller: {controller.address}</span></li>
     </ul>
   );
 }
@@ -72,20 +76,27 @@ function TableListItem(props) {
 
   function populateQueryWithSelect() {
     let q = `SELECT * FROM ${table.name} LIMIT 50;`;
-    dispatch(newQueryTab({query: q}));
+    dispatch(newQueryTab({query: q, title: `Query: ${table.name}`}));
   }
 
 
   return (
     <li key={table.name}>
       <span className={`${open ? "highlight" : ""} table-actions-bar`} >
-        <span onClick={()=>setOpen(!open)}>{table.name} <i className="fa-solid fa-arrow-turn-down"></i></span>
-        <span 
-          className='table-insert-select' 
-          onClick={populateQueryWithSelect}>
-          SELECT
+        <span onClick={()=>setOpen(!open)}> 
+          {open ? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>
+          }  {table.name}
         </span>
-        <i className="fa-regular fa-copy" title="Copy table name" onClick={() => navigator.clipboard.writeText(table.name)}></i>
+        <span 
+          className='table-insert-select button-default' 
+          onClick={populateQueryWithSelect}>
+          QUERY
+        </span>
+        <i className="fa-regular fa-copy" title="Copy table name" onClick={() => {
+          navigator.clipboard.writeText(table.name);
+          // @ts-ignore
+          dispatch(activateToast({message: `Copied: ${table.name}`, type: "success"}));
+        }}></i>
       </span>
       <TableColumnDetails open={open} setOpen={setOpen} tableName={table.name} />
 
@@ -96,6 +107,15 @@ function TableListItem(props) {
 function TableList() {
 
   const tables = useSelector((store: RootState) => store.tables.myTables);
+  const network = useNetwork();
+  
+  if(tables.length===0) {
+    return (
+      <div className="no-tables-message message">
+        You have no tables on the {network.chain.name} chain. Create a table to get started.
+      </div>
+    );
+  }
 
   return (
     <>
