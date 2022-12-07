@@ -20,7 +20,7 @@ import { publicProvider } from 'wagmi/providers/public';
 
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.arbitrumGoerli, chain.goerli],
+  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.arbitrumGoerli, chain.goerli, chain.polygonMumbai, chain.optimismGoerli],
   [
     publicProvider(),
   ]
