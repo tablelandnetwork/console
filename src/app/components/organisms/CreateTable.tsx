@@ -43,7 +43,6 @@ function CreateColumn(props) {
           value={column.type}   
           onChange={setColumnProperty}   
         >
-          <option value="any">Any</option>
           <option value="text">Text</option>
           <option value="integer">Integer</option>
         </select>
