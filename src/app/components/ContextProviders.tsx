@@ -5,6 +5,10 @@ import { BrowserRouter } from 'react-router-dom';
 import store from '../store/store';
 import GrandCentral from './GrandCentral';
 
+import init from '@tableland/sqlparser';
+
+init();
+
 import {
   getDefaultWallets,
   RainbowKitProvider,
