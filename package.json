@@ -9,7 +9,7 @@
     "start": "node src/server/server.js",
     "mix:main": "npx mix watch",
     "mix:static": "npx mix watch --mix-config=static.mix.cjs",
-    "prepare": ""
+    "prepare": "npx mix"
   },
   "author": "",
   "license": "ISC",
