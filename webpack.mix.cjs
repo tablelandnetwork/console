@@ -34,6 +34,7 @@ mix
   .webpackConfig(webpackConfig)
   .sass("src/styles/style.scss", "public/styles")
   .ts('src/app/app.tsx', 'public/js')
+  .ts('src/app/components/ContextProviders.tsx', 'public/js')
   .copy('node_modules/@urdeveloper/sql.js/dist/sql-wasm.wasm', 'dist/public/js')
   .copy('src/assets', 'dist/public/assets')
   .copy('src/app/index.html', 'dist/public')
