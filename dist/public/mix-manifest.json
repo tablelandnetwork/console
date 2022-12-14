@@ -1,0 +1,13 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/js/ContextProviders.js": "/js/ContextProviders.js",
+    "/styles/style.css": "/styles/style.css",
+    "/js/sql-wasm.wasm": "/js/sql-wasm.wasm",
+    "/assets/favicon.ico": "/assets/favicon.ico",
+    "/assets/splash-bg.jpg": "/assets/splash-bg.jpg",
+    "/assets/tableland-dashboard.svg": "/assets/tableland-dashboard.svg",
+    "/assets/tableland-logo.svg": "/assets/tableland-logo.svg",
+    "/assets/tableland.svg": "/assets/tableland.svg",
+    "/assets/tableland_logo_only.svg": "/assets/tableland_logo_only.svg",
+    "/index.html": "/index.html"
+}
