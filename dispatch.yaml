@@ -5,3 +5,5 @@ dispatch:
     service: default
   - url: "render.tableland.xyz/*"
     service: table-nft-svg
+  - url: "testnets.render.tableland.xyz/*"
+    service: table-nft-svg
