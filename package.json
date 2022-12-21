@@ -4,10 +4,11 @@
   "description": "A UI for Tableland",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: You didnt specify test. Wack.\" && exit 1",
+    "test": "echo \"Error: You didnt specify test. Wack.\"",
     "start": "node src/server/server.js",
     "mix:main": "npx mix watch",
-    "mix:static": "npx mix watch --mix-config=static.mix.cjs"
+    "mix:static": "npx mix watch --mix-config=static.mix.cjs",
+    "build": "npx mix"
   },
   "author": "",
   "license": "ISC",
