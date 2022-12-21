@@ -8,7 +8,7 @@
     "start": "node src/server/server.js",
     "mix:main": "npx mix watch",
     "mix:static": "npx mix watch --mix-config=static.mix.cjs",
-    "build": "npx mix"
+    "build": "npx laravel-mix"
   },
   "author": "",
   "license": "ISC",
