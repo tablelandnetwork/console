@@ -26,7 +26,8 @@ jobs:
       # - run: npm test
       - uses: aquiladev/ipfs-action@master
         with:
-          path: ./dist
+          path: ./dist/public
+          pinName: tableland-console-${{ github.sha }}
           service: pinata
           pinataKey: ${{ secrets.PINATA_KEY }}
           pinataSecret: ${{ secrets.PINATA_SECRET }}
