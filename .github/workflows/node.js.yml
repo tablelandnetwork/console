@@ -24,3 +24,10 @@ jobs:
       - run: npm install
       - run: npm run build
       # - run: npm test
+      - uses: aquiladev/ipfs-action@master
+        with:
+          path: ./dist
+          service: pinata
+          pinataKey: ${{ secrets.PINATA_KEY }}
+          pinataSecret: ${{ secrets.PINATA_SECRET }}
+
