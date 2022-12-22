@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ action-to-ipfs ]
+    branches: [ main ]
   pull_request:
-    branches: [ action-to-ipfs ]
+    branches: [ main ]
 
 jobs:
   build:
