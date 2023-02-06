@@ -2,16 +2,17 @@ import React, { useRef, useEffect } from 'react';
 import QueryPane from '../molecules/QueryPane';
 import ResultSetPane from '../molecules/ResultSetPane';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeTab, newQueryTab, activateTab, renameTab } from '../../store/tabsSlice';
+import { closeTab, newQueryTab, activateTab, renameTab, getTabIndexById } from '../../store/tabsSlice';
 import CreateTable from './CreateTable';
 import { RootState } from '../../store/store';
+import { v4 as uuidv4 } from 'uuid';
 
 // TODO: Seperate files for components
 
 function TabLabel(props) {
   const dispatch = useDispatch();
   const currentTab = useSelector((store: RootState)=>store.tabs.active);
-  const tab = useSelector((store: RootState) => store.tabs.list[props.tab]);
+  const tab = useSelector((store: RootState) => store.tabs.list[getTabIndexById(store.tabs.list, props.tabId)]);
 
 
   function switchToTab(key) {
@@ -21,7 +22,7 @@ function TabLabel(props) {
   function closeThisTab(e) {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(closeTab(props.tab));
+    dispatch(closeTab({tabId: props.tabId}));
   }
 
 
@@ -37,13 +38,13 @@ function TabLabel(props) {
 
   return (
     <li
-      className={props.tab===currentTab ? "active" : "not-active"}
-      onClick={() => switchToTab(props.tab)}
+      className={props.tabId===currentTab ? "active" : "not-active"}
+      onClick={() => switchToTab(props.tabId)}
       ref={ref}
     >
       {tab.type === "create" ? <i className="fa-regular fa-square-plus"></i> : <i className="fa-solid fa-terminal"></i>}
-      <input type="name" style={{"pointerEvents": props.tab!==currentTab ? "none" : "initial"}}  value={tab.name} onChange={(e) => {
-        dispatch(renameTab({tab: props.tab, name: e.target.value}));
+      <input type="name" style={{"pointerEvents": props.tabId!==currentTab ? "none" : "initial"}}  value={tab.name} onChange={(e) => {
+        dispatch(renameTab({tab: props.tabId, name: e.target.value}));
       }} /> 
       <span onClick={closeThisTab}><i className="fa-solid fa-circle-xmark"></i></span></li>
   );
@@ -59,7 +60,7 @@ function ExecuteSqlSection() {
   const dispatch = useDispatch();
 
   function openQueryTab() {
-    dispatch(newQueryTab(null));
+    dispatch(newQueryTab({tabId: uuidv4()}));
   }
 
 
@@ -70,26 +71,26 @@ function ExecuteSqlSection() {
         <div>
           <ul className="tab-nav">
             {tabs.map((tab, key) => {
-              return <TabLabel tab={key} key={key} />
+              return <TabLabel key={tab.tabId}  tabId={tab.tabId} />
             })}
             <li onClick={openQueryTab} ><i className="fa-solid fa-circle-plus highlight"></i></li>
           </ul>
         </div>
         {tabs.map((tab, key) => {
-          const className = currentTab === key ? "open" : "closed";
+          const className = currentTab === tab.tabId ? "open" : "closed";
           if(tab.type==="create") {
             return (
-              <div key={key} className={`${className} single-tab-pane`}>
-                <CreateTable tabIndex={key} />
+              <div key={tab.tabId}  className={`${className} single-tab-pane`}>
+                <CreateTable tabId={tab.tabId} />
               </div>
             );
           }
     
           return (
-            <div key={key} className={`${className} single-tab-pane`}>
-              <QueryPane tab={key} />
+            <div key={tab.tabId}  className={`${className} single-tab-pane`}>
+              <QueryPane tabId={tab.tabId} />
 
-              <ResultSetPane tab={key} />
+              <ResultSetPane tabId={tab.tabId} />
             </div>
           );
         })}

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { newQueryTab } from "../../store/tabsSlice";
-import { RootState } from '../../store/store';
-import { Address, useAccount, useNetwork } from 'wagmi';
+import { newQueryTab, queryTableland } from "../../store/tabsSlice";
+import { RootState, useAppDispatch } from '../../store/store';
+import { useAccount, useNetwork } from 'wagmi';
 import { activateToast } from "../../store/toastsSlice";
-import Loading from "../atoms/Loading";
-import { getTablelandConnection } from "../../database/connectToTableland";
+import { v4 as uuidv4 } from 'uuid';
 
 
 // TODO: Refactor components into seperate files
@@ -54,7 +53,7 @@ function TableListItem(props) {
 
   const { tableName } = props;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const table = useSelector((store: RootState) => {
     return store.tables.list.find(table=>table.name===tableName);
@@ -62,7 +61,9 @@ function TableListItem(props) {
 
   function populateQueryWithSelect() {
     let q = `SELECT * FROM ${table.name} LIMIT 50;`;
-    dispatch(newQueryTab({query: q, title: `Query: ${table.name}`}));
+    const newTabId = uuidv4()
+    dispatch(newQueryTab({query: q, title: `Query: ${table.name}`, tabId: newTabId}));    
+    dispatch(queryTableland({query: q, tabId: newTabId}));
   }
 
 

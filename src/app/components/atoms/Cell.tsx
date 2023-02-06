@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectedCellUpdated } from '../../store/selectedCellSlice';
 import CodeEditor from './CodeEditor';
 import { RootState } from '../../store/store';
+import { getTabIndexById } from '../../store/tabsSlice';
 
 function Cell(props) {
   const { row, column } = props;
   const dispatch = useDispatch();
-  const cell = useSelector((store: RootState) => store.tabs.list[props.tab].rows[props.row][props.column]);
+  const cell = useSelector((store: RootState) => store.tabs.list[getTabIndexById(store.tabs.list, props.tabId)]).rows[props.row][props.column];
   const selectedCell = useSelector((store: RootState) => store.selectedCell);
   const selectedClass = (
     row === selectedCell.row

@@ -1,16 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { queryTableland } from "../../store/tabsSlice";
+import { getTabIndexById, queryTableland } from "../../store/tabsSlice";
 import { RootState, useAppDispatch } from '../../store/store';
 import { Flags } from 'react-feature-flags';
 
 // TODO: Rename
 function ExecuteSqlActions(props) {
 
-  const { tab } = props;
-  const tabContent = useSelector((store: RootState) => store.tabs.list[tab]);
-  const query = useSelector((store: RootState) => store.tabs.list[tab].query);
-  const queryType = useSelector((store: RootState) => store.tabs.list[tab].queryType);
+
+  const { tabId } = props;
+  const tabContent = useSelector((store: RootState) => store.tabs.list[getTabIndexById(store.tabs.list, tabId)]);
+  const query = useSelector((store: RootState) => store.tabs.list[getTabIndexById(store.tabs.list, tabId)].query);
+  const queryType = useSelector((store: RootState) => store.tabs.list[getTabIndexById(store.tabs.list, tabId)].queryType);
   const dispatch = useAppDispatch();
 
 
@@ -21,7 +22,7 @@ function ExecuteSqlActions(props) {
   function sendQuery(event) {
       event.preventDefault();
 
-      dispatch(queryTableland({query: query, tab: tab}));
+      dispatch(queryTableland({query: query, tabId}));
   }
   
   return (

@@ -3,17 +3,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendCreateQuery,  columnsSummary } from '../../store/createTableSlice';
-import { addColumn, setPrefix, removeColumn, updateColumnProperty } from '../../store/tabsSlice';
+import { addColumn, setPrefix, removeColumn, updateColumnProperty, getTabIndexById } from '../../store/tabsSlice';
 import Loading from '../atoms/Loading';
 import { RootState, useAppDispatch } from '../../store/store';
 import StepProgressBar from '../atoms/StepProgressBar';
 import { useNetwork } from 'wagmi';
 
-// TODO: Seperate components into files
-
 function CreateColumn(props) {
   const dispatch = useDispatch();
-  const column = useSelector((store: RootState)=>store.tabs.list[props.tabIndex].createColumns[props.slot]);
+  const column = useSelector((store: RootState)=>store.tabs.list[getTabIndexById(store.tabs.list, props.tabIndex)].createColumns[props.slot]);
 
   const setColumnProperty = function(e) {
     dispatch(updateColumnProperty({
@@ -90,13 +88,9 @@ function CreateColumn(props) {
   )
 }
 
-function CreateTableReceipt(props) {
-  return "Table created."
-}
-
 function CreateTable(props) {
-  const tabId = props.tabIndex;
-  const { commiting, createColumns, prefix, successMessage, error } = useSelector((store: RootState)=>store.tabs.list[tabId]);
+  const tabId = props.tabId;
+  const { commiting, createColumns, prefix, successMessage, error } = useSelector((store: RootState)=>store.tabs.list[getTabIndexById(store.tabs.list, tabId)]);
   const currentNetwork = useNetwork().chain.name;
   const dispatch = useAppDispatch();
   useNetwork();
@@ -104,7 +98,7 @@ function CreateTable(props) {
 
   function createTableOnNetwork(e) {
     e.preventDefault();
-    dispatch(sendCreateQuery({query: columnsSummary(createColumns), tab: tabId, options: {prefix}}));
+    dispatch(sendCreateQuery({query: columnsSummary(createColumns), tabId, options: {prefix}}));
   }
 
   if(successMessage) {
