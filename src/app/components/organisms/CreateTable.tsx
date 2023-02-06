@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { sendCreateQuery,  columnsSummary } from '../../store/createTableSlice';
 import { addColumn, setPrefix, removeColumn, updateColumnProperty } from '../../store/tabsSlice';
 import Loading from '../atoms/Loading';
-import { RootState } from '../../store/store';
+import { RootState, useAppDispatch } from '../../store/store';
 import StepProgressBar from '../atoms/StepProgressBar';
+import { useNetwork } from 'wagmi';
 
 // TODO: Seperate components into files
 
@@ -96,13 +97,13 @@ function CreateTableReceipt(props) {
 function CreateTable(props) {
   const tabId = props.tabIndex;
   const { commiting, createColumns, prefix, successMessage, error } = useSelector((store: RootState)=>store.tabs.list[tabId]);
-  const currentNetwork = useSelector((store: RootState) => store.walletConnection.network);
-  const dispatch = useDispatch();
+  const currentNetwork = useNetwork().chain.name;
+  const dispatch = useAppDispatch();
+  useNetwork();
 
 
   function createTableOnNetwork(e) {
     e.preventDefault();
-    // @ts-ignore
     dispatch(sendCreateQuery({query: columnsSummary(createColumns), tab: tabId, options: {prefix}}));
   }
 

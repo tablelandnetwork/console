@@ -1,19 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { queryTableland } from "../../store/tabsSlice";
-import { RootState } from '../../store/store';
+import { RootState, useAppDispatch } from '../../store/store';
 import { Flags } from 'react-feature-flags';
-import Loading from "../atoms/Loading";
 
 // TODO: Rename
-
 function ExecuteSqlActions(props) {
 
   const { tab } = props;
   const tabContent = useSelector((store: RootState) => store.tabs.list[tab]);
   const query = useSelector((store: RootState) => store.tabs.list[tab].query);
   const queryType = useSelector((store: RootState) => store.tabs.list[tab].queryType);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
 
   function copyQueryText() {
@@ -22,7 +20,7 @@ function ExecuteSqlActions(props) {
 
   function sendQuery(event) {
       event.preventDefault();
-      // @ts-ignore
+
       dispatch(queryTableland({query: query, tab: tab}));
   }
   

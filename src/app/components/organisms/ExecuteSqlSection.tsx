@@ -30,8 +30,8 @@ function TabLabel(props) {
 
   
   useEffect(() => {
-    // @ts-ignore
-    ref?.current?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'center' });
+    if(ref && ref.current)
+    (ref?.current as any).scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'center' });
   }, []);
 
 
