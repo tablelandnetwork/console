@@ -8,7 +8,8 @@ import GrandCentral from './GrandCentral';
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  darkTheme
+  darkTheme,
+  Chain
 } from '@rainbow-me/rainbowkit';
 import {
   chain,
@@ -19,8 +20,30 @@ import {
 import { publicProvider } from 'wagmi/providers/public';
 
 
+const localTableland: Chain = {
+  id: 31337,
+  name: 'Local Tableland',
+  network: 'local-tableland',
+  iconUrl: 'https://example.com/icon.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'LocalTableland',
+    symbol: 'LCTBL',
+  },
+  rpcUrls: {
+    default: "localhost:8080",
+  },
+  // blockExplorers: {
+  //   default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+  //   etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+  // },
+  testnet: true,
+};
+
+
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.arbitrumGoerli, chain.goerli, chain.polygonMumbai, chain.optimismGoerli],
+  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.arbitrumGoerli, chain.goerli, chain.polygonMumbai, chain.optimismGoerli, localTableland],
   [
     publicProvider(),
   ]
