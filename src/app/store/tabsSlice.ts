@@ -4,7 +4,7 @@ import store from './store';
 import { getTablelandConnection } from '../database/connectToTableland';
 
 import { v4 as uuidv4 } from 'uuid';
-
+import { Result } from '@tableland/sdk';
 
 interface TablelandQueryDispatch {
   query: string;
@@ -28,7 +28,6 @@ interface TablelandQueryResult extends ResultSet {
   tabId: string;
   query: string;
 }
-
 
 interface Tab {
   tabId: string;
@@ -108,6 +107,7 @@ async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<Tab
       }));
       store.dispatch(updateMessage({tabId, message: `Query successfully commited to network: ${query}`}));
       store.dispatch(setLoadingStatus({tabId, loading: false}));
+      return r;
     }).catch(e=>{
       console.log("Write cancelled");
       console.log(e);
@@ -119,9 +119,16 @@ async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<Tab
       store.dispatch(setLoadingStatus({tabId, loading: false}));
     });
 
-    await res;
+    const tx = await res as Result;
     
-    return {query, columns: [], tabId, error, rows: []};
+    const abt = await tx.meta.txn.wait();
+
+    const newTableResults = await getTablelandConnection().database.prepare(`SELECT * FROM ${abt.name} LIMIT 50;`).all();
+
+    const { columns, rows } = transformTableData(newTableResults.results as any);
+
+
+    return {query, columns, tabId, error, rows};
   } else {
     try {
       res = await getTablelandConnection().database.prepare(query).all();
@@ -152,9 +159,6 @@ async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<Tab
 
 
 export const queryTableland = createAsyncThunk('tablelandQuery/query', handleTablelandQuery);
-
-
-
 
 const createTableTab = {
   tabId: uuidv4(),
