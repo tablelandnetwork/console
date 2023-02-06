@@ -4,91 +4,28 @@ import store from './store';
 import { getTablelandConnection } from '../database/connectToTableland';
 
 
-export const checkQueryType = createAsyncThunk('query/checkQueryType', async (action:any) => {
-
-  const { type } = await sqlparser.normalize(action.query);
 
 
-  
-  return {
-    type,
-    tab: action.tab
-  }
-});
+interface TablelandQueryDispatch {
+  query: string;
+  options?: any;
+  tab: number;
+}
 
-export const queryTableland = createAsyncThunk('tablelandQuery/query', async (action) => {
+interface InputRow {
+  [key: string]: any;
+}
 
-  // @ts-ignore
-  const { query, options, tab } = action;
-  store.dispatch(setLoadingStatus({tab, loading: true}));
+interface ResultSet {
+  columns: Array<{ name: string }>;
+  rows: Array<Array<any>>;
+}
 
-  store.dispatch(updateMessage({tabId: tab, message: null}));
-
-  // @ts-ignore
-  await getTablelandConnection();
-
-
-  const {type} = await sqlparser.normalize(query);
-
-  let res; 
-  if(type==="write") {
-    store.dispatch(addPendingWrite({
-      query: query,
-      status: "pending-wallet"
-    }));
-    // @ts-ignore
-    await getTablelandConnection().siwe().catch(e=>{
-      console.log("SIWE cancelled");
-      console.log(e);
-      store.dispatch(updatePendingWrite({
-        query: query,
-        status: "cancelled"
-      }));
-    });
-    // @ts-ignore
-    store.dispatch(updatePendingWrite({
-      query: query,
-      status: "pending-network"
-    }));
-    // @ts-ignore
-    res = getTablelandConnection().write(query).then(r => {
-      store.dispatch(updatePendingWrite({
-        query: query,
-        status: "complete"
-      }));
-      store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
-      store.dispatch(setLoadingStatus({tab, loading: false}));
-    }).catch(e=>{
-      console.log("Write cancelled");
-      console.log(e);
-      store.dispatch(updatePendingWrite({
-        query: query,
-        status: "cancelled"
-      }));
-      store.dispatch(updateMessage({tabId: tab, error: `Query failed. ${e.message}`}));
-      store.dispatch(setLoadingStatus({tab, loading: false}));
-    });
-
-    await res;
-
-    
-    
-    return {query};
-  } else {
-    try {
-      // @ts-ignore
-      res = await getTablelandConnection().read(query);
-    } catch(e) {
-      res = {
-        error: `${e}`
-      }
-    }
-    
-  }
-  
-  store.dispatch(setLoadingStatus({tab, loading: false}));
-  return {...res, ...options, query, tab};
-});
+interface TablelandQueryResult extends ResultSet {
+  error: string;
+  tab: number;
+  query: string;
+}
 
 
 interface Tab {
@@ -117,6 +54,101 @@ interface CreateColumn {
   unique: boolean,
   default:  null | string
 }
+
+export const checkQueryType = createAsyncThunk('query/checkQueryType', async (action:any) => {
+
+  const { type } = await sqlparser.normalize(action.query).catch(e => {
+    return {type: "invalid"}
+  });
+
+  return {
+    type,
+    tab: action.tab
+  }
+});
+
+function transformTableData(obj: Array<InputRow>): ResultSet {
+  const columns = Object.keys(obj[0]).map(key => ({ name: key }));
+  const rows = obj.map(row => Object.values(row));
+  return { columns, rows };
+}
+
+async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<TablelandQueryResult> {
+  let error;
+  const { query, tab } = action;
+  store.dispatch(setLoadingStatus({tab, loading: true}));
+
+  store.dispatch(updateMessage({tabId: tab, message: null}));
+
+  await getTablelandConnection();
+
+
+  const {type} = await sqlparser.normalize(query);
+
+  let res; 
+  if(type!=="read") {
+    store.dispatch(addPendingWrite({
+      query: query,
+      status: "pending-wallet"
+    }));
+
+    store.dispatch(updatePendingWrite({
+      query: query,
+      status: "pending-network"
+    }));
+
+    res = getTablelandConnection().database.prepare(query).all().then(r => {
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "complete"
+      }));
+      store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
+      store.dispatch(setLoadingStatus({tab, loading: false}));
+    }).catch(e=>{
+      console.log("Write cancelled");
+      console.log(e);
+      store.dispatch(updatePendingWrite({
+        query: query,
+        status: "cancelled"
+      }));
+      store.dispatch(updateMessage({tabId: tab, error: `Query failed. ${e.message}`}));
+      store.dispatch(setLoadingStatus({tab, loading: false}));
+    });
+
+    await res;
+
+    
+    
+    return {query, columns: [], tab, error, rows: []};
+  } else {
+    try {
+      res = await getTablelandConnection().database.prepare(query).all();
+    } catch(e) {
+      res = {
+        error: `${e}`
+      }
+    }
+    
+  }
+
+  const { columns, rows } = transformTableData(res.results);
+  store.dispatch(setLoadingStatus({tab, loading: false}));
+  return {
+    columns, 
+    rows, 
+    tab, 
+    query, 
+    error 
+  }
+  
+
+}
+
+
+export const queryTableland = createAsyncThunk('tablelandQuery/query', handleTablelandQuery);
+
+
+
 
 const createTableTab = {
   name: "Create Table",
@@ -214,7 +246,7 @@ const tabsSlice = createSlice({
 
       state.list[tab].createColumns.push({
         name: "", 
-        type: "any",
+        type: "text",
         notNull: false, 
         primaryKey: false, 
         unique: false,
@@ -231,41 +263,29 @@ const tabsSlice = createSlice({
       }
       
     },
-    updateColumnProperty(state, action) {
-      const { columnIndex, property, value, checked, tabId } = action.payload;
-
-      let newVal;
-      switch(property) {
-        case "notNull": 
-        case "primaryKey":
-        case "unique":          
-          newVal = checked;
-          break;
-        case "default":
-        case "name": 
-        case "type":
-          newVal = value;
-          break;
-      }
-
-
+    updateColumnProperty(state, { payload: { columnIndex, property, value, checked, tabId }}) {
+      const newVal = (property === "notNull" || property === "primaryKey" || property === "unique")
+        ? checked
+        : value;
+    
       state.list[tabId].createColumns[columnIndex][property] = newVal;
-
     }
 
 
   },
   extraReducers(builder) {
-    builder.addCase(queryTableland.fulfilled, (state, action) => {   
-      const { columns, rows, query, tab, error } = action.payload;
-      state.list[tab].columns = columns;
-      state.list[tab].rows = rows;
-      state.list[tab].query = query;
-      state.list[tab].error = error;
+    builder.addCase(queryTableland.fulfilled, (state, { payload: { columns, rows, query, tab, error }}) => {
+      state.list[tab] = { ...state.list[tab], columns, rows, query, error };
     }),
     builder.addCase(checkQueryType.fulfilled, (state, action) => {
       state.list[action.payload.tab].queryType = action.payload.type;
-    })
+    });
+    builder.addCase(queryTableland.rejected, (state, action: any) => {
+      console.log(action);
+      const { tab } = action.meta.arg;
+      state.list[tab].loading = false;
+      state.list[tab].error = action.error.message + (action.error.message == "obj is undefined") ? `${action.error.message }: this may be because you are querying a network to which you aren't connected.` : "";
+    });
   }
 })
 

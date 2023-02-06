@@ -1,37 +1,29 @@
-import { connect, SUPPORTED_CHAINS } from '@tableland/sdk';
-import { ChainName } from '@tableland/sdk';
-import store from '../store/store';
-import { networkSet } from '../store/walletConnectionSlice';
-const supportedChains = Object.entries(SUPPORTED_CHAINS);
+import { Database, Registry, Validator } from '@tableland/sdk';
+import { Signer } from 'ethers';
 
-// TODO: Turn tableland connection into hook
+var tablelandConnection: TablelandConnections;
 
-
-var tablelandConnection = connect({
-  host: localStorage.getItem("validator") || "https://testnet.tableland.network"
-});
+interface TablelandConnections {
+  database: Database;
+  validator: Validator;
+  registry?: Registry;
+}
 
 export function getTablelandConnection() {
   return tablelandConnection;
 }
 
-export function startTableLand(chainId) {
-
-
-  const supportedChains = Object.entries(SUPPORTED_CHAINS);
-
-  let currentChain = supportedChains.find(chain => chain[1].chainId === chainId);
-  
-  // @ts-ignore
-  store.dispatch(networkSet(currentChain[1].phrase) || "Ethereum Mainnet");
-  const tbl = connect({
-    rpcRelay: false,
-    chain: currentChain[0] as ChainName,
-    host: localStorage.getItem("validator") || currentChain[1].host
+export function startTableLand(signer: Signer, chain: number): TablelandConnections {
+  const database = new Database({
+    signer,
+    baseUrl: localStorage.getItem("validator") || undefined
   });
 
+  const validator = Validator.forChain(chain);
 
-  tablelandConnection = tbl;
+  const registry = signer && new Registry({signer});
+
+  tablelandConnection = { database, validator, registry };
   
-  return tbl;
+  return tablelandConnection;
 }

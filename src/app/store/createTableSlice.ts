@@ -3,42 +3,48 @@ import { getTablelandConnection } from '../database/connectToTableland';
 import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
 import { startCommit, cancelCommit, completeCommit, updateMessage } from '../store/tabsSlice';
-import { CreateTableReceipt } from '@tableland/sdk';
 import { refreshTables } from './tablesSlice';
+import { Result } from '@tableland/sdk';
 
 export const sendCreateQuery = createAsyncThunk("/send", async (details:any) => {
+  
   const { query, options, tab } = details;
 
-  const fauxQuery = `CREATE TABLE ${options.prefix} (${query});`;  
+  const fullQuery = `CREATE TABLE ${options.prefix} (${query});`;  
   store.dispatch(startCommit({tabId: tab}));
   store.dispatch(addPendingWrite({
-    query: fauxQuery,
+    query: fullQuery,
     status: "pending-wallet"
   }));
-  const tx = getTablelandConnection().create(query, options).catch(e=>{
+  const tx = getTablelandConnection().database.prepare(fullQuery).all().catch(e=>{
     console.log("Create failed");
     console.log(e);
     store.dispatch(updatePendingWrite({
-      query: fauxQuery,
+      query: fullQuery,
       status: "cancelled"
     }));
     store.dispatch(cancelCommit({tabId:tab}));
     store.dispatch(updateMessage({tabId: tab, error: e.message}));
-  });;
+  });
   store.dispatch(updatePendingWrite({
-    query: fauxQuery,
+    query: fullQuery,
     status: "pending-network"
   }));
-  const txResult = await tx as CreateTableReceipt; 
+  const txResult = await tx as Result<unknown>;
+  const receipt = await txResult.meta.txn.wait();
+
   store.dispatch(updatePendingWrite({
-    query: fauxQuery,
+    query: fullQuery,
     status: "complete",
-    hash: txResult.txnHash,
-    chain: txResult.chainId,
-    tableName: txResult.name
+    hash: txResult.meta.txn.transactionHash,
+    chain: txResult.meta.txn.chainId,
+    tableName: await receipt.name
   }));
 
-  store.dispatch(completeCommit({tabId: tab, message: `${txResult.name} created.`}));
+  store.dispatch(completeCommit({tabId: tab, message: `${receipt.name} created.`}));
+  // @ts-ignore 
+  fathom.trackGoal('2QDPIHSR', 0);
+
   store.dispatch(refreshTables());
 
 });
@@ -92,7 +98,7 @@ const createTableSlice = createSlice({
     addColumn(state, action) {
       state.columns.push({
         name: "", 
-        type: "any",
+        type: "text",
         notNull: false, 
         primaryKey: false, 
         unique: false,

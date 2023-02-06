@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { newQueryTab } from "../../store/tabsSlice";
-import { getSchema } from "../../store/tablesSlice";
-import Loading from "../atoms/Loading";
 import { RootState } from '../../store/store';
-import { useAccount, useNetwork } from 'wagmi';
+import { Address, useAccount, useNetwork } from 'wagmi';
 import { activateToast } from "../../store/toastsSlice";
+import Loading from "../atoms/Loading";
+import { getTablelandConnection } from "../../database/connectToTableland";
 
 
 // TODO: Refactor components into seperate files
@@ -15,7 +15,7 @@ function ColumnDetails(props) {
   const { tableName } = props;
 
   const table = useSelector((store: RootState) => {
-    return store.tables.myTables.find(table=>table.name===tableName);
+    return store.tables.list.find(table=>table.name===tableName);
   });
 
   return (
@@ -25,7 +25,7 @@ function ColumnDetails(props) {
         <li key={`${tableName}-${column.name}`}>
           <span>{column.name}</span>
           <span>{column.type}</span>
-          <span>{column.constraints.join(" ")}</span>
+          <span>{column?.constraints?.join(" ")}</span>
         </li>
       )
     })}
@@ -34,31 +34,17 @@ function ColumnDetails(props) {
   );
 }
 
+
+
 function TableColumnDetails(props) {
   const { open, tableName } = props;
-  const dispatch = useDispatch();
   const controller = useAccount();
- 
-  
 
-  const table = useSelector((store: RootState) => {
-    return store.tables.myTables.find(table=>table.name===tableName);
-  });
-
-
-
-  if(!table.schema && open) {
-    // @ts-ignore
-    dispatch(getSchema({tableName}));
-  }
-  if(!table.schema) {
-    return <Loading show={open} />
-  }
 
   return (
     <ul className={`table-schema ${open ? 'open' : 'closed'}`} >
       <ColumnDetails tableName={tableName} />
-      <li><span className="controller">Controller: {controller.address}</span></li>
+      <li><span className="controller">Controller: {controller.address} <i className="fa-solid fa-arrow-up-from-bracket"></i></span></li>
     </ul>
   );
 }
@@ -71,7 +57,7 @@ function TableListItem(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const table = useSelector((store: RootState) => {
-    return store.tables.myTables.find(table=>table.name===tableName);
+    return store.tables.list.find(table=>table.name===tableName);
   });
 
   function populateQueryWithSelect() {
@@ -94,7 +80,6 @@ function TableListItem(props) {
         </span>
         <i className="fa-regular fa-copy" title="Copy table name" onClick={() => {
           navigator.clipboard.writeText(table.name);
-          // @ts-ignore
           dispatch(activateToast({message: `Copied: ${table.name}`, type: "success"}));
         }}></i>
       </span>
@@ -106,10 +91,12 @@ function TableListItem(props) {
 
 function TableList() {
 
-  const tables = useSelector((store: RootState) => store.tables.myTables);
-  const network = useNetwork();
+
+  const list = useSelector((store: RootState) => store.tables.list);
+
+  const network = useNetwork();  
   
-  if(tables.length===0) {
+  if(list.length===0) {
     return (
       <div className="no-tables-message message">
         You have no tables on the {network.chain.name} chain. Create a table to get started.
@@ -120,7 +107,7 @@ function TableList() {
   return (
     <>
     {
-      tables.map(table => <TableListItem key={table.name} tableName={table.name} />)
+      list.map(table => <TableListItem key={table.name} tableName={table.name} />)
     }
     </>
   )

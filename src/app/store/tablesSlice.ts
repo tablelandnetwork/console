@@ -5,7 +5,9 @@ export const getSchema = createAsyncThunk('tables/getSchema', async (action: any
 
   const { tableName } = action;
 
-  const schema = await getTablelandConnection().schema(tableName);
+  const table = await getTablelandConnection().validator.getTableById(tableName);
+
+  const schema = table.schema;
 
   return {
     schema,
@@ -13,43 +15,86 @@ export const getSchema = createAsyncThunk('tables/getSchema', async (action: any
   }
 });
 
+function rateLimitedTableMetaFetch(tables: Array<{chainId: number, tableId: string}>): Promise<Array<TableMeta>> {
+  return new Promise((resolve, reject) => {
+      let i = 0;
+      const results: Array<any> = [];
+
+      // WHY? Why set interval?
+      // Answer: The validator rate limits requests.
+      const intervalId = setInterval(() => {
+          if (i > tables.length) {
+              clearInterval(intervalId);
+
+              resolve(results);
+              return;
+          }
+          // perform the call with the current element of the array
+          const call = async () => { 
+              return getTablelandConnection().validator.getTableById({...tables[i]});
+
+
+          }
+          call()
+              .then(result => {                
+                  results.push(result);
+              })
+              .catch(error => {
+                console.error(error.message);
+                console.error(`Table ${tables[i].tableId} does not exist. The table's Create statement may have been malformed.`);
+              });
+          i++;
+      }, 100);
+  });
+}
+
+
 export const refreshTables = createAsyncThunk('tables/refreshTables', async (action) => {
 
-  const tables = await getTablelandConnection().list();
+  const tables = await getTablelandConnection().registry.listTables();
 
-  return tables.map(table => {
-    // table.owned = true;
-    return table;
-  });
+  const gotem = await rateLimitedTableMetaFetch(tables);
+  return gotem;
 
 });
 
 
+
+interface TableMeta {
+  name: string;
+  schema: {
+    constraints: Array<string>;
+    columns: Array<{name: string, type: string, constraints: Array<string>}>;
+  }
+}
+
+interface Tables {
+  list: Array<TableMeta>;
+  refreshing: boolean;
+
+}
+
+const initialState: Tables = {
+  list: [], 
+  refreshing: false
+}
+
 const tablesSlice = createSlice({
   name: 'tables',
-  initialState: {
-    myTables: [], 
-    starredTables: JSON.parse(localStorage.getItem('star_tables')) || [],
-    refreshing: false
-  }, 
-  reducers: {
-    addToStarredTables: (state, action) => {
-      state.starredTables.push(action.payload);
-    }
-  },
+  initialState, 
+  reducers: {},
   extraReducers(builder) {
     builder.addCase(refreshTables.pending, (state, action) => {
       state.refreshing = true;
     });
     builder.addCase(refreshTables.fulfilled, (state, action) => {
       state.refreshing = false;
-      state.myTables = action.payload;
+      state.list = action.payload;
     });
-    builder.addCase(getSchema.fulfilled, (state, action) => {
-      const key = state.myTables.findIndex(table => table.name === action.payload.tableName);
-      state.myTables[key].schema = action.payload.schema;
+    builder.addCase(refreshTables.rejected, (state, action) => {
+      state.refreshing = false;
     });
   }
 })
-export const {  addToStarredTables } = tablesSlice.actions
+export const {  } = tablesSlice.actions
 export default tablesSlice.reducer

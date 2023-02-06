@@ -4,12 +4,12 @@ import { refreshTables } from "../../store/tablesSlice";
 import { newCreateTableTab } from "../../store/tabsSlice";
 import Loading from "../atoms/Loading";
 import TableList from "./TableList";
-import { RootState } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 import { useNetwork } from "wagmi";
 
 
 export default function TableListWithMeta() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const networkChain = useNetwork().chain.id;
 
@@ -21,13 +21,14 @@ export default function TableListWithMeta() {
   let refreshing = useSelector((store: RootState) => store.tables.refreshing);
 
 
-  async function refreshMyTables() {
-    // @ts-ignore
+  async function refreshlist() {
     dispatch(refreshTables());
   }
 
   useEffect(() => {
-    refreshMyTables();
+    setTimeout(() => {
+      refreshlist();
+    }, 500)
   }, [chainId]);
 
   function openCreateTableTab() {
@@ -40,13 +41,13 @@ export default function TableListWithMeta() {
         <strong>Your tables</strong>
         <div className="icons">
           <i 
-            onClick={refreshMyTables}      
+            onClick={refreshlist}      
             className="fa-solid fa-arrow-rotate-right refresh-icon"
           ></i>
           <button className="button-default" onClick={openCreateTableTab}>Create Table</button>
         </div>
       </li>
-      {refreshing ? <Loading /> : <TableList />}
+      {refreshing ? <Loading show={true} /> : <TableList />}
     </ul>
   )
 }
