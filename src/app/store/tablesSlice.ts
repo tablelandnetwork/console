@@ -23,25 +23,29 @@ function rateLimitedTableMetaFetch(tables: Array<{chainId: number, tableId: stri
       // WHY? Why set interval?
       // Answer: The validator rate limits requests.
       const intervalId = setInterval(() => {
-          if (i > tables.length) {
+          if (i === tables.length) {
               clearInterval(intervalId);
-
-              resolve(results);
+              setTimeout(() => {
+                // We have to wait for the final interval to complete.
+                resolve(results);
+              }, 300)
+              
               return;
           }
+          const ii = i;
           // perform the call with the current element of the array
           const call = async () => { 
-              return getTablelandConnection().validator.getTableById({...tables[i]});
-
+              return getTablelandConnection().validator.getTableById(tables[ii]);
 
           }
+
           call()
               .then(result => {                
                   results.push(result);
               })
               .catch(error => {
                 console.error(error.message);
-                console.error(`Table ${tables[i].tableId} does not exist. The table's Create statement may have been malformed.`);
+                console.error(`Table ${tables[ii].tableId} does not exist. The table's Create statement may have been malformed.`);
               });
           i++;
       }, 100);

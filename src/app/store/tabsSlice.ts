@@ -3,13 +3,13 @@ import { addPendingWrite, updatePendingWrite } from './pendingWritesSlice';
 import store from './store';
 import { getTablelandConnection } from '../database/connectToTableland';
 
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface TablelandQueryDispatch {
   query: string;
   options?: any;
-  tab: number;
+  tabId: string;
 }
 
 interface InputRow {
@@ -21,14 +21,17 @@ interface ResultSet {
   rows: Array<Array<any>>;
 }
 
+export type UUID = string;
+
 interface TablelandQueryResult extends ResultSet {
   error: string;
-  tab: number;
+  tabId: string;
   query: string;
 }
 
 
 interface Tab {
+  tabId: string;
   name: string,
   type: string,
   columns?: any[],
@@ -63,11 +66,12 @@ export const checkQueryType = createAsyncThunk('query/checkQueryType', async (ac
 
   return {
     type,
-    tab: action.tab
+    tabId: action.tabId
   }
 });
 
 function transformTableData(obj: Array<InputRow>): ResultSet {
+  if(obj.length < 1) return {columns: [], rows: []};
   const columns = Object.keys(obj[0]).map(key => ({ name: key }));
   const rows = obj.map(row => Object.values(row));
   return { columns, rows };
@@ -75,10 +79,10 @@ function transformTableData(obj: Array<InputRow>): ResultSet {
 
 async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<TablelandQueryResult> {
   let error;
-  const { query, tab } = action;
-  store.dispatch(setLoadingStatus({tab, loading: true}));
+  const { query, tabId } = action;
+  store.dispatch(setLoadingStatus({tabId, loading: true}));
 
-  store.dispatch(updateMessage({tabId: tab, message: null}));
+  store.dispatch(updateMessage({tabId: tabId, message: null}));
 
   await getTablelandConnection();
 
@@ -102,8 +106,8 @@ async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<Tab
         query: query,
         status: "complete"
       }));
-      store.dispatch(updateMessage({tabId: tab, message: `Query successfully commited to network: ${query}`}));
-      store.dispatch(setLoadingStatus({tab, loading: false}));
+      store.dispatch(updateMessage({tabId, message: `Query successfully commited to network: ${query}`}));
+      store.dispatch(setLoadingStatus({tabId, loading: false}));
     }).catch(e=>{
       console.log("Write cancelled");
       console.log(e);
@@ -111,15 +115,13 @@ async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<Tab
         query: query,
         status: "cancelled"
       }));
-      store.dispatch(updateMessage({tabId: tab, error: `Query failed. ${e.message}`}));
-      store.dispatch(setLoadingStatus({tab, loading: false}));
+      store.dispatch(updateMessage({tabId, error: `Query failed. ${e.message}`}));
+      store.dispatch(setLoadingStatus({tabId, loading: false}));
     });
 
     await res;
-
     
-    
-    return {query, columns: [], tab, error, rows: []};
+    return {query, columns: [], tabId, error, rows: []};
   } else {
     try {
       res = await getTablelandConnection().database.prepare(query).all();
@@ -130,16 +132,20 @@ async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<Tab
     }
     
   }
-
-  const { columns, rows } = transformTableData(res.results);
-  store.dispatch(setLoadingStatus({tab, loading: false}));
-  return {
-    columns, 
-    rows, 
-    tab, 
-    query, 
-    error 
+  try {
+    const { columns, rows } = transformTableData(res.results);
+    store.dispatch(setLoadingStatus({tabId, loading: false}));
+    return {
+      columns, 
+      rows, 
+      tabId, 
+      query, 
+      error 
+    }
+  } catch (e) {
+    console.log(e);
   }
+
   
 
 }
@@ -151,6 +157,7 @@ export const queryTableland = createAsyncThunk('tablelandQuery/query', handleTab
 
 
 const createTableTab = {
+  tabId: uuidv4(),
   name: "Create Table",
   type: "create",
   prefix: "",
@@ -165,9 +172,11 @@ const createTableTab = {
   }]
 };
 
+const initId = uuidv4();
 
 const initialState = {
   list: [createTableTab, {
+    tabId: initId,
     name: "Query 1",
     type: "query",
     columns: [],
@@ -175,40 +184,49 @@ const initialState = {
     query: ``,
     queryType: "read"
   }] as Tab[],
-  active: 0
+  active: initId
 };
+
+export function getTabIndexById(tabList: Array<Tab>, id): number {
+  return tabList.findIndex((item => item.tabId===id))
+}
 
 const tabsSlice = createSlice({
   name: 'tabs',
   initialState, 
   reducers: {
     setLoadingStatus(store, action) {
-      store.list[action.payload.tab].loading = action.payload.loading; 
+      const tabIndex = getTabIndexById(store.list, action.payload.tabId);
+      store.list[tabIndex].loading = action.payload.loading; 
     },
     updateQuery(store, action) {
-      store.list[action.payload.tab].query = action.payload.query;
+      const tabIndex = getTabIndexById(store.list, action.payload.tabId);
+      store.list[tabIndex].query = action.payload.query;
     },
     renameTab(store, action) {
-      store.list[action.payload.tab].name = action.payload.name;
+      const tabIndex = getTabIndexById(store.list, action.payload.tabId);
+      store.list[tabIndex].name = action.payload.name;
     },
     activateTab(store, action) {
       store.active = action.payload;
     },
     closeTab(store, action) { 
-      store.list.splice(action.payload, 1);
-
+      const tabIndex = getTabIndexById(store.list, action.payload.tabId);
+      
       if(store.active!=0) {
-        store.active--;
+        store.active = store.list[tabIndex - 1].tabId;
       }      
+      store.list.splice(tabIndex, 1);
     },
-    updateMessage(store, action) {
-      const tab = action.payload.tabId;
-      store.list[tab].message = action.payload.message;
-      store.list[tab].error = action.payload.error;
+    updateMessage(state, action) {
+      const tabIndex = getTabIndexById(state.list, action.payload.tabId);
+      state.list[tabIndex].message = action.payload.message;
+      state.list[tabIndex].error = action.payload.error;
     },
     newQueryTab(store, action) {     
 
       store.list.push({
+        tabId: action.payload.tabId || uuidv4(),
         name: action.payload?.title || "Query",
         type: "query",
         query: action.payload?.query || "",
@@ -217,32 +235,33 @@ const tabsSlice = createSlice({
         queryType: "",
         commiting: false
       });
-      store.active = store.list.length - 1;
+      store.active = action.payload.tabId;
+
+      
     },
     newCreateTableTab(store, action) {
       store.list.push(createTableTab);
       store.active = store.list.length - 1;
     },
-
     startCommit(state, action) {
-      const tab = action.payload.tabId;
+      const tab = getTabIndexById(state.list, action.payload.tabId);
       state.list[tab].commiting = true;
     },
     cancelCommit(state, action) {
-      const tab = action.payload.tabId;
+      const tab = getTabIndexById(state.list, action.payload.tabId);
       state.list[tab].commiting = false;
     },
     completeCommit(state, action) {
-      const tab = action.payload.tabId;
+      const tab = getTabIndexById(state.list, action.payload.tabId);
 
       state.list[tab].successMessage = action.payload.message;
     },
     setPrefix(state, action) {
-      const tab = action.payload.tabId;
+      const tab = getTabIndexById(state.list, action.payload.tabId);
       state.list[tab].prefix = action.payload.prefix;
     },
     addColumn(state, action) {
-      const tab = action.payload.tabId;
+      const tab = getTabIndexById(state.list, action.payload.tabId);
 
       state.list[tab].createColumns.push({
         name: "", 
@@ -254,7 +273,7 @@ const tabsSlice = createSlice({
       });
     },
     removeColumn(state, action) {
-      const tab = action.payload.tabId;
+      const tab = getTabIndexById(state.list, action.payload.tabId);
       if(action.payload.column) {
         state.list[tab].createColumns.splice(action.payload.column, 1);
 
@@ -264,27 +283,29 @@ const tabsSlice = createSlice({
       
     },
     updateColumnProperty(state, { payload: { columnIndex, property, value, checked, tabId }}) {
+      const tab = getTabIndexById(state.list, tabId);
       const newVal = (property === "notNull" || property === "primaryKey" || property === "unique")
         ? checked
         : value;
     
-      state.list[tabId].createColumns[columnIndex][property] = newVal;
+      state.list[tab].createColumns[columnIndex][property] = newVal;
     }
-
-
   },
   extraReducers(builder) {
-    builder.addCase(queryTableland.fulfilled, (state, { payload: { columns, rows, query, tab, error }}) => {
-      state.list[tab] = { ...state.list[tab], columns, rows, query, error };
+    builder.addCase(queryTableland.fulfilled, (state, { payload: { columns, rows, query, tabId, error }}) => {
+      const tabIndex = getTabIndexById(state.list, tabId);
+      state.list[tabIndex] = { ...state.list[tabIndex], columns, rows, query, error };
     }),
     builder.addCase(checkQueryType.fulfilled, (state, action) => {
-      state.list[action.payload.tab].queryType = action.payload.type;
+      const tab = getTabIndexById(state.list, action.payload.tabId);
+      state.list[tab].queryType = action.payload.type;
     });
     builder.addCase(queryTableland.rejected, (state, action: any) => {
-      console.log(action);
-      const { tab } = action.meta.arg;
-      state.list[tab].loading = false;
-      state.list[tab].error = action.error.message + (action.error.message == "obj is undefined") ? `${action.error.message }: this may be because you are querying a network to which you aren't connected.` : "";
+
+      console.error(action.error);
+      const tabIndex = getTabIndexById(state.list, action.meta.arg.tabId);
+      state.list[tabIndex].loading = false;
+      state.list[tabIndex].error = action.error.message + (action.error.message != "obj is undefined") ? `${action.error.message }: this may be because you are querying a network to which you aren't connected.` : "";
     });
   }
 })

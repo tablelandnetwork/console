@@ -8,10 +8,10 @@ import { Result } from '@tableland/sdk';
 
 export const sendCreateQuery = createAsyncThunk("/send", async (details:any) => {
   
-  const { query, options, tab } = details;
+  const { query, options, tabId } = details;
 
   const fullQuery = `CREATE TABLE ${options.prefix} (${query});`;  
-  store.dispatch(startCommit({tabId: tab}));
+  store.dispatch(startCommit({tabId}));
   store.dispatch(addPendingWrite({
     query: fullQuery,
     status: "pending-wallet"
@@ -23,8 +23,8 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details:any) => 
       query: fullQuery,
       status: "cancelled"
     }));
-    store.dispatch(cancelCommit({tabId:tab}));
-    store.dispatch(updateMessage({tabId: tab, error: e.message}));
+    store.dispatch(cancelCommit({tabId}));
+    store.dispatch(updateMessage({tabId, error: e.message}));
   });
   store.dispatch(updatePendingWrite({
     query: fullQuery,
@@ -41,7 +41,7 @@ export const sendCreateQuery = createAsyncThunk("/send", async (details:any) => 
     tableName: await receipt.name
   }));
 
-  store.dispatch(completeCommit({tabId: tab, message: `${receipt.name} created.`}));
+  store.dispatch(completeCommit({tabId, message: `${receipt.name} created.`}));
   // @ts-ignore 
   fathom.trackGoal('2QDPIHSR', 0);
 

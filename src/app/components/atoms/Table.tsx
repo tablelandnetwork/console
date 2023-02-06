@@ -7,8 +7,8 @@ function Table(props) {
   return (
     <div className='table-container'>
       <table className='tabula-rasa'>           
-        <TableHeader tab={props.tab} />
-        <TableBody tab={props.tab} />
+        <TableHeader tabId={props.tabId} />
+        <TableBody tabId={props.tabId} />
       </table>
     </div>
   );
