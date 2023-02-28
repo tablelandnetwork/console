@@ -134,7 +134,7 @@ function CreateTable(props) {
           title={"Letter, numbers, and underscores only. First character cannot be a number"}
           value={prefix} 
           onChange={e => {
-            dispatch(setPrefix({prefix: e.target.value, tabId: props.tabIndex}));
+            dispatch(setPrefix({prefix: e.target.value, tabId}));
           }} />
       </label> 
       <h3>Columns</h3>
