@@ -16,7 +16,7 @@
     "@jlongster/sql.js": "^1.6.7",
     "@rainbow-me/rainbowkit": "^0.7.4",
     "@reduxjs/toolkit": "^1.8.2",
-    "@tableland/sdk": "^4.0.0",
+    "@tableland/sdk": "^4.0.1",
     "@tableland/sqlparser": "^1.0.4",
     "@types/react-redux": "^7.1.25",
     "@urdeveloper/sql.js": "1.6.2",
