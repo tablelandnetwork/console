@@ -30,12 +30,12 @@ const webpackConfig = {
 }};
 
 mix
-  .setPublicPath("./dist/public")
+  .setPublicPath("./public")
   .webpackConfig(webpackConfig)
   .sass("src/styles/style.scss", "public/styles")
   .ts('src/app/app.tsx', 'public/js')
-  .copy('node_modules/@urdeveloper/sql.js/dist/sql-wasm.wasm', 'dist/public/js')
-  .copy('src/assets', 'dist/public/assets')
-  .copy('src/app/index.html', 'dist/public')
+  .copy('node_modules/@urdeveloper/sql.js/dist/sql-wasm.wasm', 'public/js')
+  .copy('src/assets', 'public/assets')
+  .copy('src/app/index.html', 'public')
   .react()
   .sourceMaps();
