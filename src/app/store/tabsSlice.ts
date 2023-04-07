@@ -160,26 +160,28 @@ async function handleTablelandQuery(action: TablelandQueryDispatch): Promise<Tab
 
 export const queryTableland = createAsyncThunk('tablelandQuery/query', handleTablelandQuery);
 
-const createTableTab = {
-  tabId: uuidv4(),
-  name: "Create Table",
-  type: "create",
-  prefix: "",
-  commiting: false,
-  createColumns: [{
-    name: "id",
-    type: "integer", 
-    notNull: false, 
-    primaryKey: false, 
-    unique: false,
-    default:  null
-  }]
+const createTableTab = function() {
+  return {
+    tabId: uuidv4(),
+    name: "Create Table",
+    type: "create",
+    prefix: "",
+    commiting: false,
+    createColumns: [{
+      name: "id",
+      type: "integer", 
+      notNull: false, 
+      primaryKey: false, 
+      unique: false,
+      default:  null
+    }]
+  } as Tab;
 };
 
 const initId = uuidv4();
 
 const initialState = {
-  list: [createTableTab, {
+  list: [createTableTab(), {
     tabId: initId,
     name: "Query 1",
     type: "query",
@@ -216,10 +218,13 @@ const tabsSlice = createSlice({
     },
     closeTab(store, action) { 
       const tabIndex = getTabIndexById(store.list, action.payload.tabId);
+
+      // If we're closing the active tab, set the active tab to the next tab
+      if(store.active==action.payload.tabId) {
+        store.active = store.list[tabIndex + 1]?.tabId || store.list[tabIndex - 1]?.tabId;
+      }
       
-      if(store.active!=0) {
-        store.active = store.list[tabIndex - 1].tabId;
-      }      
+     
       store.list.splice(tabIndex, 1);
     },
     updateMessage(state, action) {
@@ -244,8 +249,9 @@ const tabsSlice = createSlice({
       
     },
     newCreateTableTab(store, action) {
-      store.list.push(createTableTab);
-      store.active = store.list.length - 1;
+      const newCreate = createTableTab();
+      store.list.push(newCreate);
+      store.active = newCreate.tabId;
     },
     startCommit(state, action) {
       const tab = getTabIndexById(state.list, action.payload.tabId);
