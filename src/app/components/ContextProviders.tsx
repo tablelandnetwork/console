@@ -32,12 +32,7 @@ const localTableland: Chain = {
     symbol: 'LCTBL',
   },
   rpcUrls: {
-    default:  {
-      http: ["localhost:8080"]      
-    },
-    public:  {
-      http: ["localhost:8080"]      
-    },
+    default: "localhost:8080"
   },
   // blockExplorers: {
   //   default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
