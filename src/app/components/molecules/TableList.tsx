@@ -116,7 +116,7 @@ function TableList() {
       malformedTables.length > 0 && showMalformed && (
         <div className="malformed-tables-message message">
           <div className="error">
-            These tables are malformed and cannot be queried: {malformedTables.join(", ")}
+            You own malformed table. This may be because of malformed create statements. These have been omitted. {malformedTables.join(", ")}
             <br />
               <i className="fa fa-x exit" onClick={()=>setShowMalformed(!showMalformed)}></i>
           </div>
