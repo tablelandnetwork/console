@@ -92,8 +92,10 @@ function TableListItem(props) {
 
 function TableList() {
 
-
+  const malformedTables = useSelector((store: RootState) => store.pageState.malformedTables);
   const list = useSelector((store: RootState) => store.tables.list);
+
+  const [showMalformed, setShowMalformed] = useState(true);
 
   const network = useNetwork();  
   
@@ -109,6 +111,17 @@ function TableList() {
     <>
     {
       list.map(table => <TableListItem key={table.name} tableName={table.name} />)
+    }
+    {
+      malformedTables.length > 0 && showMalformed && (
+        <div className="malformed-tables-message message">
+          <div className="error">
+            These tables are malformed and cannot be queried: {malformedTables.join(", ")}
+            <br />
+              <i className="fa fa-x exit" onClick={()=>setShowMalformed(!showMalformed)}></i>
+          </div>
+        </div>
+      )
     }
     </>
   )
