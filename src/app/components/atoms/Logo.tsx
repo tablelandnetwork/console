@@ -10,7 +10,7 @@ function Logo() {
           className='navbar--logo' 
         /> 
         <span className="navbar--logo_text">
-          Tableland™ <span>Console</span>
+          Tableland <span>Console</span>
         </span>
     </Link>
   );
