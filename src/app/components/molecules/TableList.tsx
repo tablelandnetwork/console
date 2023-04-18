@@ -116,7 +116,7 @@ function TableList() {
       malformedTables.length > 0 && showMalformed && (
         <div className="malformed-tables-message message">
           <div className="error">
-            You own malformed table. This may be because of malformed create statements. These have been omitted. {malformedTables.join(", ")}
+            You own at least one malformed table. This may be because of malformed create statements. These have been omitted. {malformedTables.join(", ")}
             <br />
               <i className="fa fa-x exit" onClick={()=>setShowMalformed(!showMalformed)}></i>
           </div>
