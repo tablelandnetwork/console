@@ -12,12 +12,12 @@ import {
   Chain
 } from '@rainbow-me/rainbowkit';
 import {
-  chain,
   configureChains,
   createClient,
   WagmiConfig,
 } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
+import * as chain from 'wagmi/chains';
 
 
 const localTableland: Chain = {
@@ -32,7 +32,7 @@ const localTableland: Chain = {
     symbol: 'LCTBL',
   },
   rpcUrls: {
-    default: "localhost:8080",
+    default: "localhost:8080"
   },
   // blockExplorers: {
   //   default: { name: 'SnowTrace', url: 'https://snowtrace.io' },

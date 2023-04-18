@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   settingsMenu: false,
   transactionsMenu: false,
-  chainMenu: false
+  chainMenu: false,
+  malformedTables: []
 };
 
 const pageStateSlice = createSlice({
@@ -21,9 +22,12 @@ const pageStateSlice = createSlice({
     },
     toggleMenu(state, action) {
       state[action.payload] = !state[action.payload]
+    },
+    addMalformedTable(state, action) {
+      state.malformedTables.push(action.payload);
     }
   }
 })
 
-export const { closeMenu, toggleMenu } = pageStateSlice.actions
+export const { closeMenu, toggleMenu, addMalformedTable } = pageStateSlice.actions
 export default pageStateSlice.reducer

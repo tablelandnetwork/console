@@ -155,6 +155,15 @@ body {
   color: var(--error-dark);
   font-weight: 900;
   margin-bottom: 10px;
+  position: relative;
+  padding-right: 35px;
+  .exit {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding:10px;
+    cursor: pointer;
+  }
 }
 
 

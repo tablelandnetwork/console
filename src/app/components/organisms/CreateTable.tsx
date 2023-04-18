@@ -133,6 +133,7 @@ function CreateTable(props) {
           pattern='[a-zA-Z0-9_]*'
           title={"Letter, numbers, and underscores only. First character cannot be a number"}
           value={prefix} 
+          required={true}
           onChange={e => {
             dispatch(setPrefix({prefix: e.target.value, tabId}));
           }} />

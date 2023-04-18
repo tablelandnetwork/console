@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getTablelandConnection } from '../database/connectToTableland';
+import { addMalformedTable } from './pageStateSlice';
+import store from './store';
 
 export const getSchema = createAsyncThunk('tables/getSchema', async (action: any) => {
 
@@ -44,8 +46,7 @@ function rateLimitedTableMetaFetch(tables: Array<{chainId: number, tableId: stri
                   results.push(result);
               })
               .catch(error => {
-                console.error(error.message);
-                console.error(`Table ${tables[ii].tableId} does not exist. The table's Create statement may have been malformed.`);
+                store.dispatch(addMalformedTable(tables[ii].tableId));  
               });
           i++;
       }, 100);
