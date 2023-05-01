@@ -15,7 +15,7 @@
   "dependencies": {
     "@jlongster/sql.js": "^1.6.7",
     "@rainbow-me/rainbowkit": "^0.7.4",
-    "@reduxjs/toolkit": "^1.8.2",
+    "@reduxjs/toolkit": "^1.9.5",
     "@tableland/sdk": "^4.1.0",
     "@tableland/sqlparser": "^1.0.4",
     "@types/react-redux": "^7.1.25",
