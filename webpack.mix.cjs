@@ -1,20 +1,24 @@
-const mix = require('laravel-mix');
-const webpack = require('webpack');
+const mix = require("laravel-mix");
+const webpack = require("webpack");
+require("dotenv").config({ path: "./.env" });
 
 const webpackConfig = {
   plugins: [
     new webpack.DefinePlugin({
-      VERSION: JSON.stringify(require("./package.json").version)
-    })
+      VERSION: JSON.stringify(require("./package.json").version),
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+    }),
   ],
   module: {
     rules: [
       {
         resolve: {
-            fullySpecified: false
-        }
-      }
-    ]
+          fullySpecified: false,
+        },
+      },
+    ],
   },
   resolve: {
     fallback: {
@@ -25,17 +29,18 @@ const webpackConfig = {
       os: false,
       https: false,
       http: false,
-      stream: false
-    }
-}};
+      stream: false,
+    },
+  },
+};
 
 mix
   .setPublicPath("./public")
   .webpackConfig(webpackConfig)
   .sass("src/styles/style.scss", "public/styles")
-  .ts('src/app/app.tsx', 'public/js')
-  .copy('node_modules/@urdeveloper/sql.js/dist/sql-wasm.wasm', 'public/js')
-  .copy('src/assets', 'public/assets')
-  .copy('src/app/index.html', 'public')
+  .ts("src/app/app.tsx", "public/js")
+  .copy("node_modules/@urdeveloper/sql.js/dist/sql-wasm.wasm", "public/js")
+  .copy("src/assets", "public/assets")
+  .copy("src/app/index.html", "public")
   .react()
   .sourceMaps();

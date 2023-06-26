@@ -13,37 +13,14 @@ import {
 } from '@rainbow-me/rainbowkit';
 import {
   configureChains,
-  createClient,
+    createConfig,
   WagmiConfig,
 } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import * as chain from 'wagmi/chains';
 
-
-const localTableland: Chain = {
-  id: 31337,
-  name: 'Local Tableland',
-  network: 'local-tableland',
-  iconUrl: 'https://example.com/icon.svg',
-  iconBackground: '#fff',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'LocalTableland',
-    symbol: 'LCTBL',
-  },
-  rpcUrls: {
-    default: "localhost:8080"
-  },
-  // blockExplorers: {
-  //   default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-  //   etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-  // },
-  testnet: true,
-};
-
-
-const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.arbitrumGoerli, chain.goerli, chain.polygonMumbai, chain.optimismGoerli, localTableland],
+const { chains, publicClient } = configureChains(
+  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.arbitrumGoerli, chain.sepolia, chain.polygonMumbai, chain.optimismGoerli, chain.filecoinCalibration, chain.localhost],
   [
     publicProvider(),
   ]
@@ -51,13 +28,14 @@ const { chains, provider } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName: 'Tableland Dashboard',
-  chains
+  chains,
+  projectId:process.env.REACT_APP_WALLET_CONNECT_API_KEY ?? "",
 });
 
-const wagmiClient = createClient({
+const wagmiClient = createConfig({
   autoConnect: true,
   connectors,
-  provider
+  publicClient
 });
 
 function Main() { 
@@ -65,7 +43,7 @@ function Main() {
   return (
     <Provider store={store}>
       <FlagsProvider value={store.getState().flags}>
-        <WagmiConfig client={wagmiClient}>
+        <WagmiConfig config={wagmiClient}>
           <RainbowKitProvider theme={darkTheme()} chains={chains}>
             <BrowserRouter>
               <GrandCentral />
