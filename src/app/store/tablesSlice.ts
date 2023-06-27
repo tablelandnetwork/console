@@ -1,92 +1,96 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getTablelandConnection } from '../database/connectToTableland';
-import { addMalformedTable } from './pageStateSlice';
-import store from './store';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getTablelandConnection } from "../database/connectToTableland";
+import { addMalformedTable } from "./pageStateSlice";
+import store from "./store";
 
-export const getSchema = createAsyncThunk('tables/getSchema', async (action: any) => {
+export const getSchema = createAsyncThunk(
+  "tables/getSchema",
+  async (action: any) => {
+    const { tableName } = action;
 
-  const { tableName } = action;
+    const table = await getTablelandConnection().validator.getTableById(
+      tableName
+    );
 
-  const table = await getTablelandConnection().validator.getTableById(tableName);
+    const schema = table.schema;
 
-  const schema = table.schema;
-
-  return {
-    schema,
-    tableName
+    return {
+      schema,
+      tableName,
+    };
   }
-});
+);
 
-function rateLimitedTableMetaFetch(tables: Array<{chainId: number, tableId: string}>): Promise<Array<TableMeta>> {
+function rateLimitedTableMetaFetch(
+  tables: Array<{ chainId: number; tableId: string }>
+): Promise<Array<TableMeta>> {
   return new Promise((resolve, reject) => {
-      let i = 0;
-      const results: Array<any> = [];
+    let i = 0;
+    const results: Array<any> = [];
 
-      // WHY? Why set interval?
-      // Answer: The validator rate limits requests.
-      const intervalId = setInterval(() => {
-          if (i === tables.length) {
-              clearInterval(intervalId);
-              setTimeout(() => {
-                // We have to wait for the final interval to complete.
-                resolve(results);
-              }, 300)
-              
-              return;
-          }
-          const ii = i;
-          // perform the call with the current element of the array
-          const call = async () => { 
-              return getTablelandConnection().validator.getTableById(tables[ii]);
+    // WHY? Why set interval?
+    // Answer: The validator rate limits requests.
+    const intervalId = setInterval(() => {
+      if (i === tables.length) {
+        clearInterval(intervalId);
+        setTimeout(() => {
+          // We have to wait for the final interval to complete.
+          resolve(results);
+        }, 300);
 
-          }
+        return;
+      }
+      const ii = i;
+      // perform the call with the current element of the array
+      const call = async () => {
+        return getTablelandConnection().validator.getTableById(tables[ii]);
+      };
 
-          call()
-              .then(result => {                
-                  results.push(result);
-              })
-              .catch(error => {
-                store.dispatch(addMalformedTable(tables[ii].tableId));  
-              });
-          i++;
-      }, 100);
+      call()
+        .then((result) => {
+          results.push(result);
+        })
+        .catch((error) => {
+          store.dispatch(addMalformedTable(tables[ii].tableId));
+        });
+      i++;
+    }, 100);
   });
 }
 
+export const refreshTables = createAsyncThunk(
+  "tables/refreshTables",
+  async (action) => {
+    const tables = await (
+      getTablelandConnection().registry as any
+    ).listTables();
 
-export const refreshTables = createAsyncThunk('tables/refreshTables', async (action) => {
-
-  const tables = await getTablelandConnection().registry.listTables();
-
-  const gotem = await rateLimitedTableMetaFetch(tables);
-  return gotem;
-
-});
-
-
+    const gotem = await rateLimitedTableMetaFetch(tables);
+    return gotem;
+  }
+);
 
 interface TableMeta {
   name: string;
   schema: {
     constraints: Array<string>;
-    columns: Array<{name: string, type: string, constraints: Array<string>}>;
-  }
+    columns: Array<{ name: string; type: string; constraints: Array<string> }>;
+  };
 }
 
 interface Tables {
   list: Array<TableMeta>;
   refreshing: boolean;
-
 }
 
 const initialState: Tables = {
-  list: [], 
-  refreshing: false
-}
+  list: [],
+  refreshing: false,
+};
 
 const tablesSlice = createSlice({
-  name: 'tables',
-  initialState, 
+  name: "tables",
+  initialState,
   reducers: {},
   extraReducers(builder) {
     builder.addCase(refreshTables.pending, (state, action) => {
@@ -99,7 +103,7 @@ const tablesSlice = createSlice({
     builder.addCase(refreshTables.rejected, (state, action) => {
       state.refreshing = false;
     });
-  }
-})
-export const {  } = tablesSlice.actions
-export default tablesSlice.reducer
+  },
+});
+export const {} = tablesSlice.actions;
+export default tablesSlice.reducer;

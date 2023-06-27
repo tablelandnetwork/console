@@ -10,7 +10,7 @@ function GrandCentral() {
   const { isConnected } = useAccount();
   const network = useNetwork();
   const chainId = network?.chain?.id ? network.chain.id : 1;
-  const signer = useSigner();
+  const signer = useSigner() as any;
 
   startTableLand(signer, chainId);
 

@@ -7,19 +7,17 @@ import TableList from "./TableList";
 import { RootState, useAppDispatch } from "../../store/store";
 import { useNetwork } from "wagmi";
 
-
 export default function TableListWithMeta() {
   const dispatch = useAppDispatch();
 
-  const networkChain = useNetwork().chain.id;
+  const networkChain = (useNetwork().chain as any).id;
 
   const [chainId, setChainId] = useState(networkChain);
 
-  if(networkChain!==chainId) {
+  if (networkChain !== chainId) {
     setChainId(networkChain);
   }
   let refreshing = useSelector((store: RootState) => store.tables.refreshing);
-
 
   async function refreshlist() {
     dispatch(refreshTables());
@@ -28,7 +26,7 @@ export default function TableListWithMeta() {
   useEffect(() => {
     setTimeout(() => {
       refreshlist();
-    }, 500)
+    }, 500);
   }, [chainId]);
 
   function openCreateTableTab() {
@@ -36,18 +34,20 @@ export default function TableListWithMeta() {
   }
 
   return (
-    <ul className='tables-to-add'>
+    <ul className="tables-to-add">
       <li className="tables-to-add--header">
         <strong>Your tables</strong>
         <div className="icons">
-          <i 
-            onClick={refreshlist}      
+          <i
+            onClick={refreshlist}
             className="fa-solid fa-arrow-rotate-right refresh-icon"
           ></i>
-          <button className="button-default" onClick={openCreateTableTab}>Create Table</button>
+          <button className="button-default" onClick={openCreateTableTab}>
+            Create Table
+          </button>
         </div>
       </li>
       {refreshing ? <Loading show={true} /> : <TableList />}
     </ul>
-  )
+  );
 }

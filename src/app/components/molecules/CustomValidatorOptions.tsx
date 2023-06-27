@@ -1,22 +1,23 @@
-import React from 'react';
-import { changeValidatorHost } from '../../store/walletConnectionSlice';
-import { Flags } from 'react-feature-flags';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-
+import React from "react";
+import { changeValidatorHost } from "../../store/walletConnectionSlice";
+import { Flags } from "react-feature-flags";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 function CustomValidatorOptions(props) {
   const dispatch = useDispatch();
-  const { customHost } = useSelector((store: RootState) => store.walletConnection);
+  const { customHost } = useSelector(
+    (store: RootState) => store.walletConnection
+  );
 
   function setCustomValidator() {
-    localStorage.setItem("validator", customHost);
+    localStorage.setItem("validator", customHost as any);
     location.reload();
   }
 
   function clearCustomValidator() {
     localStorage.setItem("validator", "");
-    location.reload();  
+    location.reload();
   }
 
   function hostTextUpdate(e) {
@@ -27,14 +28,16 @@ function CustomValidatorOptions(props) {
     <div>
       <label htmlFor="validatorUrl">
         Validator Url
-        <input 
-          type="text" 
-          name="validatorUrl" 
-          defaultValue={customHost}
+        <input
+          type="text"
+          name="validatorUrl"
+          defaultValue={customHost as any}
           onKeyUp={hostTextUpdate}
         />
       </label>
-      <button className="button-default" onClick={setCustomValidator}>Change Validator</button>
+      <button className="button-default" onClick={setCustomValidator}>
+        Change Validator
+      </button>
       {customHost && (
         <button className="button-default" onClick={clearCustomValidator}>
           Clear Custom Validator
