@@ -1,11 +1,9 @@
 import * as React from "react";
-import { type WalletClient, useWalletClient, usePublicClient } from "wagmi";
-import { type PublicClient } from '@wagmi/core'
+import { type WalletClient, useWalletClient } from "wagmi";
 import { providers, type Signer } from "ethers";
-function walletClientToSigner(walletClient: WalletClient): Signer {
-  
-  const { account, chain } = walletClient;
 
+function walletClientToSigner(walletClient: WalletClient): Signer {
+  const { account, chain } = walletClient;
   const network = {
     chainId: chain.id,
     name: chain.name,
