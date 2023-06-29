@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
 
-function Footer() {
-
+function Footer(): React.JSX.Element {
   return (
     <footer>
-      <li className='footer-links'>
+      <li className="footer-links">
         <a href="https://discord.gg/dc8EBEhGbg" target="_blank">
           <i className="fa-brands fa-discord"></i>
         </a>
@@ -18,7 +17,7 @@ function Footer() {
           <i className="fa-solid fa-book"></i>
         </a>
       </li>
-    </footer>  
+    </footer>
   );
 }
 export default Footer;

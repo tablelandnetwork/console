@@ -1,19 +1,18 @@
-import React from 'react';
+import React from "react";
 
-function StepProgressBar(props) {
-
+function StepProgressBar(props: any): React.JSX.Element {
   const steps = new Array(props.steps);
   steps.fill(0);
 
   return (
-    <div className='step-progress-bar'>
+    <div className="step-progress-bar">
       {steps.map((step, key) => {
-        if(key===0) {
+        if (key === 0) {
           return (
-            <div key={key} className='step-progress-bar--stop active'></div>
-          );        
+            <div key={key} className="step-progress-bar--stop active"></div>
+          );
         }
-        const activeState = key>=props.step ? "" : "active";
+        const activeState = key >= props.step ? "" : "active";
         return (
           <React.Fragment key={key}>
             <div className={`step-progress-bar--gap ${activeState}`}></div>

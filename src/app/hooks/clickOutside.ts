@@ -2,12 +2,10 @@ import { useEffect } from "react";
 import { closeMenu } from "../store/pageStateSlice";
 import store from "../store/store";
 
-
-
-export function useCloseOnClickOutside(ref, itemToClose) {
+export function useCloseOnClickOutside(ref: any, itemToClose: any): void {
   useEffect(
     () => {
-      const listener = (event) => {
+      const listener = (event: any): any => {
         // Do nothing if clicking ref's element or descendent elements
         if (!ref.current || ref.current.contains(event.target)) {
           return;

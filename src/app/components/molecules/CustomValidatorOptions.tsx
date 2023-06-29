@@ -1,25 +1,25 @@
-import React from 'react';
-import { changeValidatorHost } from '../../store/walletConnectionSlice';
-import { Flags } from 'react-feature-flags';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeValidatorHost } from "../../store/walletConnectionSlice";
+import { type RootState } from "../../store/store";
 
-
-function CustomValidatorOptions(props) {
+function CustomValidatorOptions(props: any): React.JSX.Element {
   const dispatch = useDispatch();
-  const { customHost } = useSelector((store: RootState) => store.walletConnection);
+  const { customHost } = useSelector(
+    (store: RootState) => store.walletConnection
+  );
 
-  function setCustomValidator() {
-    localStorage.setItem("validator", customHost);
+  function setCustomValidator(): void {
+    localStorage.setItem("validator", customHost as any);
     location.reload();
   }
 
-  function clearCustomValidator() {
+  function clearCustomValidator(): void {
     localStorage.setItem("validator", "");
-    location.reload();  
+    location.reload();
   }
 
-  function hostTextUpdate(e) {
+  function hostTextUpdate(e: any): void {
     dispatch(changeValidatorHost(e.target.value));
   }
 
@@ -27,14 +27,16 @@ function CustomValidatorOptions(props) {
     <div>
       <label htmlFor="validatorUrl">
         Validator Url
-        <input 
-          type="text" 
-          name="validatorUrl" 
-          defaultValue={customHost}
+        <input
+          type="text"
+          name="validatorUrl"
+          defaultValue={customHost as any}
           onKeyUp={hostTextUpdate}
         />
       </label>
-      <button className="button-default" onClick={setCustomValidator}>Change Validator</button>
+      <button className="button-default" onClick={setCustomValidator}>
+        Change Validator
+      </button>
       {customHost && (
         <button className="button-default" onClick={clearCustomValidator}>
           Clear Custom Validator

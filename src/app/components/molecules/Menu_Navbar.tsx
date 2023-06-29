@@ -1,12 +1,11 @@
-import React from 'react';
-import SettingsMenu from './Menu_Settings';
-import { WalletConnect } from './Menu_Wallet';
-import TransactionList from './TransactionList';
+import React from "react";
+import SettingsMenu from "./Menu_Settings";
+import { WalletConnect } from "./Menu_Wallet";
+import TransactionList from "./TransactionList";
 
-function NavBar() {
-
+function NavBar(): React.JSX.Element {
   return (
-    <ul className='navbar--menu'>
+    <ul className="navbar--menu">
       <WalletConnect />
       <TransactionList />
       <SettingsMenu />
