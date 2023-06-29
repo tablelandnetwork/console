@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedCellUpdated } from "../../store/selectedCellSlice";
-import CodeEditor from "./CodeEditor";
-import { RootState } from "../../store/store";
+import { type RootState } from "../../store/store";
 import { getTabIndexById } from "../../store/tabsSlice";
+import CodeEditor from "./CodeEditor";
 
-function Cell(props) {
+function Cell(props: any): React.JSX.Element {
   const { row, column } = props;
   const dispatch = useDispatch();
   const cell = useSelector(

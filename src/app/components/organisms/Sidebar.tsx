@@ -1,27 +1,27 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSidebarMode } from "../../store/sidebarSlice";
-import TableListPane from "../molecules/TableListPane";
 import { Flags } from "react-feature-flags";
+import TableListPane from "../molecules/TableListPane";
+import { setSidebarMode } from "../../store/sidebarSlice";
 import { setFlag } from "../../store/flagSlice";
-import { RootState } from "../../store/store";
+import { type RootState } from "../../store/store";
 
 // TODO: Seperate files for components
 
-function ActionsBar() {
+function ActionsBar(): React.JSX.Element {
   const dispatch = useDispatch();
   const activeSidebarItem = useSelector(
     (store: RootState) => store.sidebar.mode
   );
 
-  function active(tab) {
+  function active(tab: any): string | undefined {
     if (tab === activeSidebarItem) return "active";
   }
 
   return (
     <ul className="actions-bar">
       <li
-        className={`actions-bar--item ${active("default")}`}
+        className={`actions-bar--item ${active("default") ?? ""}`}
         onClick={() => {
           dispatch(setSidebarMode("default"));
         }}
@@ -30,7 +30,7 @@ function ActionsBar() {
       </li>
       <Flags authorizedFlags={["toggleFlags"]}>
         <li
-          className={`actions-bar--item ${active("flags")}`}
+          className={`actions-bar--item ${active("flags") ?? ""}`}
           onClick={() => {
             dispatch(setSidebarMode("flags"));
           }}
@@ -40,7 +40,7 @@ function ActionsBar() {
       </Flags>
       <Flags authorizedFlags={["savedQueries"]}>
         <li
-          className={`actions-bar--item ${active("savedTabs")}`}
+          className={`actions-bar--item ${active("savedTabs") ?? ""}`}
           onClick={() => {
             dispatch(setSidebarMode("savedTabs"));
           }}
@@ -67,7 +67,7 @@ function ActionsBar() {
   );
 }
 
-function SavedTabs() {
+function SavedTabs(): React.JSX.Element {
   let saved = JSON.parse(localStorage.getItem("savedQueries") as any);
   saved = Array.isArray(saved) ? saved : [];
 
@@ -84,7 +84,7 @@ function SavedTabs() {
   );
 }
 
-function FlagsToggler() {
+function FlagsToggler(): React.JSX.Element {
   const flags = useSelector((store: RootState) => store.flags);
   const dispatch = useDispatch();
   return (
@@ -117,7 +117,7 @@ function FlagsToggler() {
   );
 }
 
-function Sidebar(props) {
+function Sidebar(props: any): React.JSX.Element {
   const sidebarMode = useSelector((store: RootState) => store.sidebar.mode);
 
   let content: React.JSX.Element | null = null;

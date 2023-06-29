@@ -2,7 +2,6 @@
   "env": {
     "browser": true,
     "es2022": true,
-    "mocha": true,
     "node": true
   },
   "plugins": ["@typescript-eslint", "import"],

@@ -8,9 +8,9 @@
     "start": "node src/server/server.js",
     "mix:main": "npx mix watch",
     "mix:static": "npx mix watch --mix-config=static.mix.cjs",
-    "lint": "eslint '**/*.{js,ts}'",
+    "lint": "eslint '**/*.{js,ts,jsx,tsx}'",
     "lint:fix": "npm run lint -- --fix",
-    "prettier": "prettier '**/*.{js,ts,json,md}' --check",
+    "prettier": "prettier '**/*.{js,ts,jsx,tsx,json,md}' --check",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
     "build": "npx laravel-mix"

@@ -1,26 +1,25 @@
 import React from "react";
-import { changeValidatorHost } from "../../store/walletConnectionSlice";
-import { Flags } from "react-feature-flags";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { changeValidatorHost } from "../../store/walletConnectionSlice";
+import { type RootState } from "../../store/store";
 
-function CustomValidatorOptions(props) {
+function CustomValidatorOptions(props: any): React.JSX.Element {
   const dispatch = useDispatch();
   const { customHost } = useSelector(
     (store: RootState) => store.walletConnection
   );
 
-  function setCustomValidator() {
+  function setCustomValidator(): void {
     localStorage.setItem("validator", customHost as any);
     location.reload();
   }
 
-  function clearCustomValidator() {
+  function clearCustomValidator(): void {
     localStorage.setItem("validator", "");
     location.reload();
   }
 
-  function hostTextUpdate(e) {
+  function hostTextUpdate(e: any): void {
     dispatch(changeValidatorHost(e.target.value));
   }
 

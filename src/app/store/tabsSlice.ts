@@ -331,6 +331,7 @@ const tabsSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(
       queryTableland.fulfilled,
+      // @ts-expect-error tabsSlice error with TablelandQueryResult | undefined
       (state, { payload: { columns, rows, query, tabId, error } }) => {
         const tabIndex = getTabIndexById(state.list, tabId);
         state.list[tabIndex] = {

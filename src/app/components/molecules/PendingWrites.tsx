@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { useCloseOnClickOutside } from "../../hooks/clickOutside";
-import { RootState } from "../../store/store";
+import { type RootState } from "../../store/store";
 
-function PendingWrites(props) {
+function PendingWrites(props: any): React.JSX.Element {
   const ref = useRef();
   const pendingWrites = useSelector((store: RootState) => store.pendingWrites);
   const openState = useSelector(
@@ -13,7 +13,7 @@ function PendingWrites(props) {
   useCloseOnClickOutside(ref, "transactionsMenu");
 
   return (
-    // @ts-ignore
+    // @ts-expect-error PendingWrites returns JSX
     <ul ref={ref} className={`submenu submenu--pending-writes ${openStatus}`}>
       {pendingWrites.map((pendingWrite) => {
         return (

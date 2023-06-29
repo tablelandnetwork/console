@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { getTabIndexById, queryTableland } from "../../store/tabsSlice";
-import { RootState, useAppDispatch } from "../../store/store";
 import { Flags } from "react-feature-flags";
+import { getTabIndexById, queryTableland } from "../../store/tabsSlice";
+import { type RootState, useAppDispatch } from "../../store/store";
 
 // TODO: Rename
-function ExecuteSqlActions(props) {
+function ExecuteSqlActions(props: any): React.JSX.Element {
   const { tabId } = props;
   const tabContent = useSelector(
     (store: RootState) =>
@@ -21,18 +21,9 @@ function ExecuteSqlActions(props) {
   );
   const dispatch = useAppDispatch();
 
-  function copyQueryText() {
-    navigator.clipboard.writeText(
-      `${window.location.protocol}//${
-        window.location.host
-      }/execute?query=${encodeURIComponent(query as any)}`
-    );
-  }
-
-  function sendQuery(event) {
+  function sendQuery(event): void {
     event.preventDefault();
-
-    dispatch(queryTableland({ query: query as any, tabId }));
+    void dispatch(queryTableland({ query: query as any, tabId }));
   }
 
   return (
@@ -47,7 +38,7 @@ function ExecuteSqlActions(props) {
               );
               savedQueries = Array.isArray(savedQueries) ? savedQueries : [];
               savedQueries.push({
-                query: query,
+                query,
                 name: tabContent.name,
               });
               localStorage.setItem(

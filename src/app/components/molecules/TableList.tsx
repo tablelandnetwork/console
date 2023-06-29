@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { newQueryTab, queryTableland } from "../../store/tabsSlice";
-import { RootState, useAppDispatch } from "../../store/store";
+import { useSelector } from "react-redux";
 import { useAccount, useNetwork } from "wagmi";
-import { activateToast } from "../../store/toastsSlice";
 import { v4 as uuidv4 } from "uuid";
+import { newQueryTab, queryTableland } from "../../store/tabsSlice";
+import { type RootState, useAppDispatch } from "../../store/store";
+import { activateToast } from "../../store/toastsSlice";
 
-// TODO: Refactor components into seperate files
+// TODO: Refactor components into separate files
 
-function ColumnDetails(props) {
+function ColumnDetails(props: any): React.JSX.Element {
   const { tableName } = props;
 
   const table = useSelector((store: RootState) => {
@@ -17,9 +17,9 @@ function ColumnDetails(props) {
 
   return (
     <>
-      {(table as any).schema.columns.map((column) => {
+      {(table as any).schema.columns.map((column: any) => {
         return (
-          <li key={`${tableName}-${column.name}`}>
+          <li key={`${tableName as string}-${column.name as string}`}>
             <span>{column.name}</span>
             <span>{column.type}</span>
             <span>{column?.constraints?.join(" ")}</span>
@@ -30,7 +30,7 @@ function ColumnDetails(props) {
   );
 }
 
-function TableColumnDetails(props) {
+function TableColumnDetails(props: any): React.JSX.Element {
   const { open, tableName } = props;
   const controller = useAccount();
 
@@ -47,7 +47,7 @@ function TableColumnDetails(props) {
   );
 }
 
-function TableListItem(props) {
+function TableListItem(props: any): React.JSX.Element {
   const { tableName } = props;
 
   const dispatch = useAppDispatch();
@@ -56,23 +56,27 @@ function TableListItem(props) {
     return store.tables.list.find((table) => table.name === tableName);
   });
 
-  function populateQueryWithSelect() {
-    let q = `SELECT * FROM ${(table as any).name} LIMIT 50;`;
+  function populateQueryWithSelect(): void {
+    const q = `SELECT * FROM ${(table as any).name as string} LIMIT 50;`;
     const newTabId = uuidv4();
     dispatch(
       newQueryTab({
         query: q,
-        title: `Query: ${(table as any).name}`,
+        title: `Query: ${(table as any).name as string}`,
         tabId: newTabId,
       })
     );
-    dispatch(queryTableland({ query: q, tabId: newTabId }));
+    void dispatch(queryTableland({ query: q, tabId: newTabId }));
   }
 
   return (
     <li key={(table as any).name}>
       <span className={`${open ? "highlight" : ""} table-actions-bar`}>
-        <span onClick={() => setOpen(!open)}>
+        <span
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
           {open ? (
             <i className="fa-solid fa-caret-up"></i>
           ) : (
@@ -90,10 +94,10 @@ function TableListItem(props) {
           className="fa-regular fa-copy"
           title="Copy table name"
           onClick={() => {
-            navigator.clipboard.writeText((table as any).name);
+            void navigator.clipboard.writeText((table as any).name);
             dispatch(
               activateToast({
-                message: `Copied: ${(table as any).name}`,
+                message: `Copied: ${(table as any).name as string}`,
                 type: "success",
               })
             );
@@ -109,7 +113,7 @@ function TableListItem(props) {
   );
 }
 
-function TableList() {
+function TableList(): React.JSX.Element {
   const malformedTables = useSelector(
     (store: RootState) => store.pageState.malformedTables
   );
@@ -142,7 +146,9 @@ function TableList() {
             <br />
             <i
               className="fa fa-x exit"
-              onClick={() => setShowMalformed(!showMalformed)}
+              onClick={() => {
+                setShowMalformed(!showMalformed);
+              }}
             ></i>
           </div>
         </div>

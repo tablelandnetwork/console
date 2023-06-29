@@ -2,18 +2,17 @@ import * as React from "react";
 import { FlagsProvider } from "react-feature-flags";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import store from "../store/store";
-import GrandCentral from "./GrandCentral";
 
 import {
   getDefaultWallets,
   RainbowKitProvider,
   darkTheme,
-  Chain,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import * as chain from "wagmi/chains";
+import store from "../store/store";
+import GrandCentral from "./GrandCentral";
 
 const { chains, publicClient } = configureChains(
   [
@@ -43,7 +42,7 @@ const wagmiClient = createConfig({
   publicClient,
 });
 
-function Main() {
+function Main(): React.JSX.Element {
   return (
     <Provider store={store}>
       <FlagsProvider value={store.getState().flags}>

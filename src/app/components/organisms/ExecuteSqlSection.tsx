@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import { type RootState } from "../../store/store";
 import QueryPane from "../molecules/QueryPane";
 import ResultSetPane from "../molecules/ResultSetPane";
-import { useDispatch, useSelector } from "react-redux";
 import {
   closeTab,
   newQueryTab,
@@ -10,12 +12,10 @@ import {
   getTabIndexById,
 } from "../../store/tabsSlice";
 import CreateTable from "./CreateTable";
-import { RootState } from "../../store/store";
-import { v4 as uuidv4 } from "uuid";
 
-// TODO: Seperate files for components
+// TODO: Separate files for components
 
-function TabLabel(props) {
+function TabLabel(props: any): React.JSX.Element {
   const dispatch = useDispatch();
   const currentTab = useSelector((store: RootState) => store.tabs.active);
   const tab = useSelector(
@@ -23,11 +23,11 @@ function TabLabel(props) {
       store.tabs.list[getTabIndexById(store.tabs.list, props.tabId)]
   );
 
-  function switchToTab(key) {
+  function switchToTab(key: any): void {
     dispatch(activateTab(key));
   }
 
-  function closeThisTab(e) {
+  function closeThisTab(e: any): void {
     e.preventDefault();
     e.stopPropagation();
     dispatch(closeTab({ tabId: props.tabId }));
@@ -36,7 +36,7 @@ function TabLabel(props) {
   const ref = useRef();
 
   useEffect(() => {
-    if (ref && ref.current)
+    if (ref?.current)
       (ref?.current as any).scrollIntoView({
         behavior: "smooth",
         inline: "start",
@@ -47,7 +47,9 @@ function TabLabel(props) {
   return (
     <li
       className={props.tabId === currentTab ? "active" : "not-active"}
-      onClick={() => switchToTab(props.tabId)}
+      onClick={() => {
+        switchToTab(props.tabId);
+      }}
       ref={ref as any}
     >
       {tab.type === "create" ? (
@@ -73,12 +75,12 @@ function TabLabel(props) {
 }
 
 // TODO: Rename this component
-function ExecuteSqlSection() {
+function ExecuteSqlSection(): React.JSX.Element {
   const tabs = useSelector((store: RootState) => store.tabs.list);
   const currentTab = useSelector((store: RootState) => store.tabs.active);
   const dispatch = useDispatch();
 
-  function openQueryTab() {
+  function openQueryTab(): void {
     dispatch(newQueryTab({ tabId: uuidv4() }));
   }
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Cell from "./Cell";
-import { RootState } from "../../store/store";
+import { type RootState } from "../../store/store";
 import { getTabIndexById } from "../../store/tabsSlice";
+import Cell from "./Cell";
 
-function Row(props) {
+function Row(props: any): React.JSX.Element {
   const row = useSelector(
     (store: RootState) =>
       (
@@ -15,7 +15,7 @@ function Row(props) {
 
   return (
     <tr>
-      {row.map((column, columnKey) => {
+      {row.map((column: any, columnKey: any) => {
         return (
           <Cell
             key={columnKey}

@@ -1,9 +1,8 @@
-import React from 'react';
-export let globalWeb3modal = null; 
-import CustomConnectButton from '../atoms/CustomConnectButton';
+import React from "react";
+import CustomConnectButton from "../atoms/CustomConnectButton";
+export const globalWeb3modal = null;
 
-export function WalletConnect() {
-  
+export function WalletConnect(): React.JSX.Element {
   return (
     <li>
       <CustomConnectButton />
