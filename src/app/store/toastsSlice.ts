@@ -1,5 +1,4 @@
-import store from "./store";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 const toastsSlice = createSlice({
@@ -9,7 +8,7 @@ const toastsSlice = createSlice({
     activateToast(state, action) {
       action.payload.id = uuidv4();
       action.payload.active = true;
-      // @ts-ignore
+      // @ts-expect-error Toast slice payload
       state.push(action.payload);
     },
     removeToast(state, action) {

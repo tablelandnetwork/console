@@ -1,17 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  networksToShow: localStorage.getItem("networksToShow") || "mainnet",
+  networksToShow: localStorage.getItem("networksToShow") ?? "mainnet",
   customHost: localStorage.getItem("validator"),
-  connected: false
+  connected: false,
 };
 
 const walletConnectionSlice = createSlice({
-  name: 'walletConnection',
-  initialState, 
+  name: "walletConnection",
+  initialState,
   reducers: {
     changeValidatorHost(state, action) {
-      state.customHost = action.payload;      
+      state.customHost = action.payload;
     },
     changeNetworksToShow(state, action) {
       state.networksToShow = action.payload;
@@ -19,9 +19,10 @@ const walletConnectionSlice = createSlice({
     },
     setConnected(state, action) {
       state.connected = action.payload;
-    }
-  }
+    },
+  },
 });
 
-export const { changeValidatorHost, changeNetworksToShow, setConnected } = walletConnectionSlice.actions
-export default walletConnectionSlice.reducer
+export const { changeValidatorHost, changeNetworksToShow, setConnected } =
+  walletConnectionSlice.actions;
+export default walletConnectionSlice.reducer;

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { type Table } from "@tableland/sdk";
 import { getTablelandConnection } from "../database/connectToTableland";
 import { addMalformedTable } from "./pageStateSlice";
 import store from "./store";
@@ -21,12 +22,12 @@ export const getSchema = createAsyncThunk(
   }
 );
 
-function rateLimitedTableMetaFetch(
+async function rateLimitedTableMetaFetch(
   tables: Array<{ chainId: number; tableId: string }>
-): Promise<Array<TableMeta>> {
-  return new Promise((resolve, reject) => {
+): Promise<TableMeta[]> {
+  return await new Promise((resolve, reject) => {
     let i = 0;
-    const results: Array<any> = [];
+    const results: any[] = [];
 
     // WHY? Why set interval?
     // Answer: The validator rate limits requests.
@@ -42,8 +43,10 @@ function rateLimitedTableMetaFetch(
       }
       const ii = i;
       // perform the call with the current element of the array
-      const call = async () => {
-        return getTablelandConnection().validator.getTableById(tables[ii]);
+      const call = async (): Promise<Table> => {
+        return await getTablelandConnection().validator.getTableById(
+          tables[ii]
+        );
       };
 
       call()
@@ -51,6 +54,7 @@ function rateLimitedTableMetaFetch(
           results.push(result);
         })
         .catch((error) => {
+          console.error(error);
           store.dispatch(addMalformedTable(tables[ii].tableId));
         });
       i++;
@@ -73,13 +77,13 @@ export const refreshTables = createAsyncThunk(
 interface TableMeta {
   name: string;
   schema: {
-    constraints: Array<string>;
-    columns: Array<{ name: string; type: string; constraints: Array<string> }>;
+    constraints: string[];
+    columns: Array<{ name: string; type: string; constraints: string[] }>;
   };
 }
 
 interface Tables {
-  list: Array<TableMeta>;
+  list: TableMeta[];
   refreshing: boolean;
 }
 
@@ -105,5 +109,6 @@ const tablesSlice = createSlice({
     });
   },
 });
+// eslint-disable-next-line no-empty-pattern
 export const {} = tablesSlice.actions;
 export default tablesSlice.reducer;

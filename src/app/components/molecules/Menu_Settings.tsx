@@ -1,12 +1,11 @@
-import React from "react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Flags } from "react-feature-flags";
 import { useCloseOnClickOutside } from "../../hooks/clickOutside";
 import { toggleMenu } from "../../store/pageStateSlice";
-import { RootState } from "../../store/store";
-import { Flags } from "react-feature-flags";
+import { type RootState } from "../../store/store";
 
-function SettingsMenu() {
+function SettingsMenu(): React.JSX.Element {
   const settingsMenuOpen = useSelector(
     (store: RootState) => store.pageState.settingsMenu
   );

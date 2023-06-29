@@ -1,12 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router";
-import Homepage from "./pages/Homepage";
-import { startTableLand } from "../database/connectToTableland";
 import { useAccount, useNetwork } from "wagmi";
-import SplashPage from "./pages/SplashPage";
 import { useSigner } from "../hooks/useSigner";
+import { startTableLand } from "../database/connectToTableland";
+import Homepage from "./pages/Homepage";
+import SplashPage from "./pages/SplashPage";
 
-function GrandCentral() {
+function GrandCentral(): React.JSX.Element {
   const { isConnected } = useAccount();
   const network = useNetwork();
   const chainId = network?.chain?.id ? network.chain.id : 1;

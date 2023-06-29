@@ -1,6 +1,7 @@
 // TODO: Refactor components into seperate files
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNetwork } from "wagmi";
 import { sendCreateQuery, columnsSummary } from "../../store/createTableSlice";
 import {
   addColumn,
@@ -10,11 +11,10 @@ import {
   getTabIndexById,
 } from "../../store/tabsSlice";
 import Loading from "../atoms/Loading";
-import { RootState, useAppDispatch } from "../../store/store";
+import { type RootState, useAppDispatch } from "../../store/store";
 import StepProgressBar from "../atoms/StepProgressBar";
-import { useNetwork } from "wagmi";
 
-function CreateColumn(props) {
+function CreateColumn(props: any): React.JSX.Element {
   const dispatch = useDispatch();
   const column = useSelector(
     (store: RootState) =>
@@ -24,7 +24,7 @@ function CreateColumn(props) {
       )[props.slot]
   );
 
-  const setColumnProperty = function (e) {
+  const setColumnProperty = function (e: any): void {
     dispatch(
       updateColumnProperty({
         columnIndex: props.slot,
@@ -105,9 +105,9 @@ function CreateColumn(props) {
   );
 }
 
-function CreateTable(props) {
+function CreateTable(props: any): React.JSX.Element {
   const tabId = props.tabId;
-  const { commiting, createColumns, prefix, successMessage, error } =
+  const { committing, createColumns, prefix, successMessage, error } =
     useSelector(
       (store: RootState) =>
         store.tabs.list[getTabIndexById(store.tabs.list, tabId)]
@@ -116,9 +116,9 @@ function CreateTable(props) {
   const dispatch = useAppDispatch();
   useNetwork();
 
-  function createTableOnNetwork(e) {
+  function createTableOnNetwork(e: any): void {
     e.preventDefault();
-    dispatch(
+    void dispatch(
       sendCreateQuery({
         query: columnsSummary(createColumns),
         tabId,
@@ -138,11 +138,11 @@ function CreateTable(props) {
     );
   }
 
-  if (commiting) {
+  if (committing) {
     return (
       <>
         <StepProgressBar steps={3} step={2} />
-        Commiting table: <Loading show={true} />
+        committing table: <Loading show={true} />
       </>
     );
   }

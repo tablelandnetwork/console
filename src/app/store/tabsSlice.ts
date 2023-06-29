@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
+import { type Result } from "@tableland/sdk";
+import { getTablelandConnection } from "../database/connectToTableland";
 import { addPendingWrite, updatePendingWrite } from "./pendingWritesSlice";
 import store from "./store";
-import { getTablelandConnection } from "../database/connectToTableland";
-
-import { v4 as uuidv4 } from "uuid";
-import { Result } from "@tableland/sdk";
 
 interface TablelandQueryDispatch {
   query: string;
@@ -12,13 +11,11 @@ interface TablelandQueryDispatch {
   tabId: string;
 }
 
-interface InputRow {
-  [key: string]: any;
-}
+type InputRow = Record<string, any>;
 
 interface ResultSet {
   columns: Array<{ name: string }>;
-  rows: Array<Array<any>>;
+  rows: any[][];
 }
 
 export type UUID = string;
@@ -40,7 +37,7 @@ interface Tab {
   error?: string;
   status?: string;
   message?: string;
-  commiting: boolean;
+  committing: boolean;
   prefix?: string;
   createColumns?: CreateColumn[];
   successMessage?: string;
@@ -71,7 +68,7 @@ export const checkQueryType = createAsyncThunk(
   }
 );
 
-function transformTableData(obj: Array<InputRow>): ResultSet {
+function transformTableData(obj: InputRow[]): ResultSet {
   if (obj.length < 1) return { columns: [], rows: [] };
   const columns = Object.keys(obj[0]).map((key) => ({ name: key }));
   const rows = obj.map((row) => Object.values(row));
@@ -84,10 +81,8 @@ async function handleTablelandQuery(
   let error;
   const { query, tabId } = action;
   store.dispatch(setLoadingStatus({ tabId, loading: true }));
-
-  store.dispatch(updateMessage({ tabId: tabId, message: null }));
-
-  await getTablelandConnection();
+  store.dispatch(updateMessage({ tabId, message: null }));
+  getTablelandConnection();
 
   const { type } = await sqlparser.normalize(query);
 
@@ -95,14 +90,14 @@ async function handleTablelandQuery(
   if (type !== "read") {
     store.dispatch(
       addPendingWrite({
-        query: query,
+        query,
         status: "pending-wallet",
       })
     );
 
     store.dispatch(
       updatePendingWrite({
-        query: query,
+        query,
         status: "pending-network",
       })
     );
@@ -113,7 +108,7 @@ async function handleTablelandQuery(
       .then((r) => {
         store.dispatch(
           updatePendingWrite({
-            query: query,
+            query,
             status: "complete",
           })
         );
@@ -131,12 +126,15 @@ async function handleTablelandQuery(
         console.log(e);
         store.dispatch(
           updatePendingWrite({
-            query: query,
+            query,
             status: "cancelled",
           })
         );
         store.dispatch(
-          updateMessage({ tabId, error: `Query failed. ${e.message}` })
+          updateMessage({
+            tabId,
+            error: `Query failed. ${e.message as string}`,
+          })
         );
         store.dispatch(setLoadingStatus({ tabId, loading: false }));
       });
@@ -146,7 +144,7 @@ async function handleTablelandQuery(
     const abt = await (tx.meta.txn as any).wait();
 
     const newTableResults = await getTablelandConnection()
-      .database.prepare(`SELECT * FROM ${abt.name} LIMIT 50;`)
+      .database.prepare(`SELECT * FROM ${abt.name as string} LIMIT 50;`)
       .all();
 
     const { columns, rows } = transformTableData(
@@ -159,7 +157,7 @@ async function handleTablelandQuery(
       res = await getTablelandConnection().database.prepare(query).all();
     } catch (e) {
       res = {
-        error: `${e}`,
+        error: `${e as string}`,
       };
     }
   }
@@ -183,13 +181,13 @@ export const queryTableland = createAsyncThunk(
   handleTablelandQuery
 );
 
-const createTableTab = function () {
+const createTableTab = function (): Tab {
   return {
     tabId: uuidv4(),
     name: "Create Table",
     type: "create",
     prefix: "",
-    commiting: false,
+    committing: false,
     createColumns: [
       {
         name: "id",
@@ -200,7 +198,7 @@ const createTableTab = function () {
         default: null,
       },
     ],
-  } as Tab;
+  };
 };
 
 const initId = uuidv4();
@@ -221,7 +219,7 @@ const initialState = {
   active: initId,
 };
 
-export function getTabIndexById(tabList: Array<Tab>, id): number {
+export function getTabIndexById(tabList: Tab[], id: any): number {
   return tabList.findIndex((item) => item.tabId === id);
 }
 
@@ -248,7 +246,7 @@ const tabsSlice = createSlice({
       const tabIndex = getTabIndexById(store.list, action.payload.tabId);
 
       // If we're closing the active tab, set the active tab to the next tab
-      if (store.active == action.payload.tabId) {
+      if (store.active === action.payload.tabId) {
         store.active =
           store.list[tabIndex + 1]?.tabId || store.list[tabIndex - 1]?.tabId;
       }
@@ -269,7 +267,7 @@ const tabsSlice = createSlice({
         columns: [],
         rows: [],
         queryType: "",
-        commiting: false,
+        committing: false,
       });
       store.active = action.payload.tabId;
     },
@@ -280,11 +278,11 @@ const tabsSlice = createSlice({
     },
     startCommit(state, action) {
       const tab = getTabIndexById(state.list, action.payload.tabId);
-      state.list[tab].commiting = true;
+      state.list[tab].committing = true;
     },
     cancelCommit(state, action) {
       const tab = getTabIndexById(state.list, action.payload.tabId);
-      state.list[tab].commiting = false;
+      state.list[tab].committing = false;
     },
     completeCommit(state, action) {
       const tab = getTabIndexById(state.list, action.payload.tabId);
@@ -333,7 +331,6 @@ const tabsSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(
       queryTableland.fulfilled,
-      // @ts-ignore
       (state, { payload: { columns, rows, query, tabId, error } }) => {
         const tabIndex = getTabIndexById(state.list, tabId);
         state.list[tabIndex] = {
@@ -344,18 +341,20 @@ const tabsSlice = createSlice({
           error,
         };
       }
-    ),
-      builder.addCase(checkQueryType.fulfilled, (state, action) => {
-        const tab = getTabIndexById(state.list, action.payload.tabId);
-        state.list[tab].queryType = action.payload.type;
-      });
+    );
+    builder.addCase(checkQueryType.fulfilled, (state, action) => {
+      const tab = getTabIndexById(state.list, action.payload.tabId);
+      state.list[tab].queryType = action.payload.type;
+    });
     builder.addCase(queryTableland.rejected, (state, action: any) => {
       console.error(action.error);
       const tabIndex = getTabIndexById(state.list, action.meta.arg.tabId);
       state.list[tabIndex].loading = false;
       state.list[tabIndex].error =
-        action.error.message + (action.error.message != "obj is undefined")
-          ? `${action.error.message}: this may be because you are querying a network to which you aren't connected.`
+        action.error.message && action.error.message !== "obj is undefined"
+          ? `${
+              action.error.message as string
+            }: this may be because you are querying a network to which you aren't connected.`
           : "";
     });
   },

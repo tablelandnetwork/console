@@ -9,13 +9,13 @@ const initialState = {
 
 const pageStateSlice = createSlice({
   name: "pageState",
-  initialState: initialState,
+  initialState,
   reducers: {
     closeMenu(state, action) {
       state[action.payload] = false;
     },
     openMenu(state, action) {
-      for (let menu in state) {
+      for (const menu in state) {
         state[menu] = false;
       }
       state[action.payload] = true;
@@ -24,7 +24,7 @@ const pageStateSlice = createSlice({
       state[action.payload] = !state[action.payload];
     },
     addMalformedTable(state, action) {
-      // @ts-ignore
+      // @ts-expect-error Expect malformed table
       state.malformedTables.push(action.payload);
     },
   },

@@ -1,7 +1,7 @@
-import { Database, Registry, Validator } from '@tableland/sdk';
-import { Signer } from 'ethers';
+import { Database, Registry, Validator } from "@tableland/sdk";
+import { type Signer } from "ethers";
 
-var tablelandConnection: TablelandConnections;
+let tablelandConnection: TablelandConnections;
 
 interface TablelandConnections {
   database: Database;
@@ -9,21 +9,21 @@ interface TablelandConnections {
   registry?: Registry;
 }
 
-export function getTablelandConnection() {
+export function getTablelandConnection(): TablelandConnections {
   return tablelandConnection;
 }
 
-export function startTableLand(signer: Signer, chain: number): TablelandConnections {
+export function startTableLand(
+  signer: Signer,
+  chain: number
+): TablelandConnections {
   const database = new Database({
     signer,
-    baseUrl: localStorage.getItem("validator") || undefined
+    baseUrl: localStorage.getItem("validator") ?? undefined,
   });
-
   const validator = Validator.forChain(chain);
-
-  const registry = signer && new Registry({signer});
-
+  const registry = signer && new Registry({ signer });
   tablelandConnection = { database, validator, registry };
-  
+
   return tablelandConnection;
 }

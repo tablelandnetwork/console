@@ -1,22 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { type Result } from "@tableland/sdk";
 import { getTablelandConnection } from "../database/connectToTableland";
-import { addPendingWrite, updatePendingWrite } from "./pendingWritesSlice";
-import store from "./store";
 import {
   startCommit,
   cancelCommit,
   completeCommit,
   updateMessage,
 } from "../store/tabsSlice";
+import { addPendingWrite, updatePendingWrite } from "./pendingWritesSlice";
+import store from "./store";
 import { refreshTables } from "./tablesSlice";
-import { Result } from "@tableland/sdk";
 
 export const sendCreateQuery = createAsyncThunk(
   "/send",
   async (details: any) => {
     const { query, options, tabId } = details;
 
-    const fullQuery = `CREATE TABLE ${options.prefix} (${query});`;
+    const fullQuery = `CREATE TABLE ${options.prefix as string} (${
+      query as string
+    });`;
     store.dispatch(startCommit({ tabId }));
     store.dispatch(
       addPendingWrite({
@@ -59,31 +61,33 @@ export const sendCreateQuery = createAsyncThunk(
     );
 
     store.dispatch(
-      completeCommit({ tabId, message: `${receipt.name} created.` })
+      completeCommit({ tabId, message: `${receipt.name as string} created.` })
     );
-    // @ts-ignore
+    // @ts-expect-error Fathom analytics is not typed
     fathom.trackGoal("2QDPIHSR", 0);
 
-    store.dispatch(refreshTables());
+    await store.dispatch(refreshTables());
   }
 );
 
-export function columnsSummary(columns) {
-  let columnsArray = columns.map((column) => {
-    let columnText = `${column.name} ${column.type}`;
-    if (column["notNull"]) {
+export function columnsSummary(columns: any): string {
+  const columnsArray = columns.map((column: any) => {
+    let columnText = `${column.name as string} ${column.type as string}`;
+    console.log("create table slice");
+    console.log(column);
+    if (column.notNull) {
       columnText += " NOT NULL";
     }
-    if (column["primaryKey"]) {
+    if (column.primaryKey) {
       columnText += " PRIMARY KEY";
     }
-    if (column["unique"]) {
+    if (column.unique) {
       columnText += " UNIQUE";
     }
-    if (column["default"] && column.type === "integer") {
-      columnText += ` DEFAULT ${column["default"]}`;
-    } else if (column["default"]) {
-      columnText += ` DEFAULT '${column["default"]}'`;
+    if (column.default && column.type === "integer") {
+      columnText += ` DEFAULT ${column.default as string}`;
+    } else if (column.default) {
+      columnText += ` DEFAULT '${column.default as string}'`;
     }
     return columnText;
   });
@@ -92,7 +96,7 @@ export function columnsSummary(columns) {
 
 const initialState = {
   name: "untitled_table",
-  commiting: false,
+  committing: false,
   columns: [
     {
       name: "id",
@@ -110,7 +114,7 @@ const createTableSlice = createSlice({
   initialState,
   reducers: {
     startCommit(state, action) {
-      state.commiting = true;
+      state.committing = true;
     },
     setPrefix(state, action) {
       state.name = action.payload;
@@ -122,7 +126,7 @@ const createTableSlice = createSlice({
         notNull: false,
         primaryKey: false,
         unique: false,
-        // @ts-ignore
+        // @ts-expect-error Expect empty string
         default: "",
       });
     },
