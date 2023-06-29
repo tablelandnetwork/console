@@ -15,9 +15,9 @@ function PendingWrites(props: any): React.JSX.Element {
   return (
     // @ts-expect-error PendingWrites returns JSX
     <ul ref={ref} className={`submenu submenu--pending-writes ${openStatus}`}>
-      {pendingWrites.map((pendingWrite) => {
+      {pendingWrites.map((pendingWrite, idx) => {
         return (
-          <li className="pending-write" key={pendingWrite.query}>
+          <li className="pending-write" key={idx}>
             {pendingWrite.query}
             <br></br>
             Status: {pendingWrite.status}

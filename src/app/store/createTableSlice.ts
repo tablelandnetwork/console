@@ -73,8 +73,6 @@ export const sendCreateQuery = createAsyncThunk(
 export function columnsSummary(columns: any): string {
   const columnsArray = columns.map((column: any) => {
     let columnText = `${column.name as string} ${column.type as string}`;
-    console.log("create table slice");
-    console.log(column);
     if (column.notNull) {
       columnText += " NOT NULL";
     }
