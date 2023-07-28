@@ -42,7 +42,7 @@
     "react-simple-code-editor": "^0.13.1",
     "redux": "^4.2.0",
     "uuid": "^9.0.0",
-    "viem": "^1.1.7",
+    "viem": "^1.4.2",
     "wagmi": "~1.2.0"
   },
   "devDependencies": {
