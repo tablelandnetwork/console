@@ -14,8 +14,9 @@ table.tabula-rasa {
   overflow: hidden;
   overflow-x: scroll;
   position: relative;
-  
-  th, td {
+
+  th,
+  td {
     padding: 10px 16px 10px 10px;
     position: relative;
     color: var(--primary);
@@ -57,7 +58,6 @@ table.tabula-rasa {
       a {
         text-decoration: underline;
       }
-      
     }
     a {
       text-decoration: none;
@@ -72,7 +72,7 @@ table.tabula-rasa {
       }
     }
   }
-  tr:last-of-type>td {
+  tr:last-of-type > td {
     border-bottom: 0px;
   }
   input[type="checkbox"] {
@@ -87,8 +87,8 @@ table.tabula-rasa {
 }
 .creating-table {
   margin: 10px auto;
-  border-collapse:separate;
-  border-spacing:0 5px;
+  border-collapse: separate;
+  border-spacing: 0 5px;
   th {
     font-weight: 900;
     text-align: left;

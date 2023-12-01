@@ -12,21 +12,22 @@
 @import "toasts";
 @import "../../node_modules/@rainbow-me/rainbowkit/dist/index.css";
 
-html,body {
+html,
+body {
   background: var(--dark-primary);
 }
 html {
   background-color: var(--primary);
   --main-font: "AndaleMono", AndaleMono, monospace;
   --secondary-font: "Times New Roman", Times, serif;
-  font-family: var(--main-font);  
+  font-family: var(--main-font);
   --size-padding: 10px;
   --outer-border-radius: 8px;
   @media only screen and (max-width: 1020px) {
     --size-padding: 10px;
   }
   @media only screen and (max-width: 720px) {
-    --size-padding: 0;    
+    --size-padding: 0;
   }
 
   color: var(--primary);
@@ -36,12 +37,13 @@ html {
   --font-medium: clamp();
   --font-semi-large: clamp();
 }
-header, footer {
+header,
+footer {
   padding: 10px;
   background-color: var(--primary);
 }
 header {
-  grid-area: header;  
+  grid-area: header;
 }
 footer {
   grid-area: footer;
@@ -64,7 +66,6 @@ h2 {
   font-weight: 900;
   padding-bottom: 10px;
   margin: 16px 0px;
-
 }
 h3 {
   font-size: 1.3rem;
@@ -77,18 +78,16 @@ h3 {
   justify-content: space-between;
   min-height: 100vh;
   column-gap: 20px;
-  grid-template-rows: 
+  grid-template-rows:
     min-content
-    1fr 
-    min-content
-  ;
-  
+    1fr
+    min-content;
+
   grid-template-columns: 40% 1fr;
-  grid-template-areas: 
+  grid-template-areas:
     "navbar navbar"
     "sidebar main"
-    "footer footer"
-  ;
+    "footer footer";
 }
 
 main {
@@ -123,16 +122,12 @@ main {
   }
 }
 
-
 body {
   gap: 10px;
   display: grid;
   flex-direction: column;
   min-height: 100vh;
 }
-
-
-
 
 .cell-editor {
   display: grid;
@@ -161,11 +156,10 @@ body {
     position: absolute;
     top: 0px;
     right: 0px;
-    padding:10px;
+    padding: 10px;
     cursor: pointer;
   }
 }
-
 
 .form-input {
   border-radius: 5px;
@@ -173,7 +167,7 @@ body {
 }
 
 .tables-list {
-  padding: 10px; 
+  padding: 10px;
   color: var(--primary);
   border-radius: 3px;
   &--header {
@@ -183,7 +177,7 @@ body {
     h2 {
       padding-bottom: 0px;
     }
-    &>span {
+    & > span {
       font-size: 1.2rem;
     }
   }
@@ -197,9 +191,7 @@ body {
       color: var(--primary);
     }
   }
-
 }
-
 
 .action-icons-bar {
   width: 100%;
@@ -242,9 +234,8 @@ ul.flags-list {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-  }  
+  }
 }
-
 
 .create-column {
   margin-left: 20px;
@@ -324,7 +315,7 @@ ul.flags-list {
       border-bottom-color: var(--darkest-primary);
       left: 20px;
       top: -16px;
-      content: '';
+      content: "";
     }
   }
   &:hover span {
@@ -338,13 +329,11 @@ ul.flags-list {
   right: 6px;
   aspect-ratio: 1;
   border-radius: 100%;
-
 }
 
 .no-tables-message {
   padding: 10px;
   display: block;
-  
 }
 
 .remove-column-x {
@@ -352,7 +341,7 @@ ul.flags-list {
   color: var(--primary);
   display: block;
   &:hover {
-    opacity: .5;
+    opacity: 0.5;
   }
   &:active {
     opacity: 1;

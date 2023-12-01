@@ -4,11 +4,11 @@
   &--stop {
     display: flex;
     flex-grow: 0;
-    border: 2px solid var(--primary); 
+    border: 2px solid var(--primary);
     height: 10px;
     width: 10px;
     aspect-ratio: 1;
-    opacity: .3;
+    opacity: 0.3;
     &.active {
       opacity: 1;
       background-color: var(--primary);
@@ -22,14 +22,13 @@
     position: relative;
     top: -4.5px;
     border-bottom: 1px solid var(--primary);
-    opacity: .3;
-    transition: opacity .5s;
+    opacity: 0.3;
+    transition: opacity 0.5s;
     &.active {
       opacity: 1;
     }
   }
   &--wrapper {
     display: flex;
-
   }
 }

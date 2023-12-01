@@ -115,7 +115,7 @@ async function handleTablelandQuery(
         store.dispatch(
           updateMessage({
             tabId,
-            message: `Query successfully commited to network: ${query}`,
+            message: `Query successfully committed to network: ${query}`,
           })
         );
         store.dispatch(setLoadingStatus({ tabId, loading: false }));

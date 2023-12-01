@@ -1,4 +1,4 @@
-select:not(.reset), 
+select:not(.reset),
 .button,
 .button-default {
   cursor: pointer;
@@ -13,17 +13,16 @@ select:not(.reset),
   text-transform: uppercase;
   font-family: var(--main-font);
   border: 1px solid var(--primary);
-  transition: background-color .2s;
+  transition: background-color 0.2s;
   & + button {
     margin-left: 10px;
   }
   &:hover {
-    color: var(--primary);   
+    color: var(--primary);
     background-color: var(--hover-primary);
-
   }
   &:disabled {
-    opacity: .5;
+    opacity: 0.5;
   }
   &:active {
     color: white;
@@ -33,7 +32,7 @@ select:not(.reset),
 
 .refresh-icon {
   &:hover {
-    opacity: .6;
+    opacity: 0.6;
   }
   &:active {
     color: white;

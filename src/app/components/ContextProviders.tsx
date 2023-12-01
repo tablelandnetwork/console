@@ -2,7 +2,6 @@ import * as React from "react";
 import { FlagsProvider } from "react-feature-flags";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -20,10 +19,10 @@ const { chains, publicClient } = configureChains(
     chain.polygon,
     chain.optimism,
     chain.arbitrum,
-    chain.arbitrumGoerli,
     chain.sepolia,
     chain.polygonMumbai,
     chain.optimismGoerli,
+    chain.arbitrumSepolia,
     chain.filecoinCalibration,
     chain.hardhat,
   ],
